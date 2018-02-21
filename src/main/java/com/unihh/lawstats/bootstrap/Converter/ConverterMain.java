@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 /**
  * Created by tim on 21.02.2017.
@@ -268,11 +269,18 @@ public class ConverterMain {
             m = p.matcher(content);
 
             while(m.find()) {
+                try {
+                    String original = m.group(1);
 
-                String original = m.group(1);
-                String neu = original.replaceAll(m.group(2), " "  ) ;
+                    String neu = original.replaceAll(m.group(2), " ");
+                    content = content.replace(original, neu);
 
-                content = content.replace(original, neu);
+
+                //TODO Temporary solution to resolve program shutdown after a special case in verdict 17801 (java.util.regex.PatternSyntaxException: Dangling meta character '?' near index 0)
+                }catch(PatternSyntaxException pSE){
+                    pSE.printStackTrace();
+                    return;
+                }
 
             }
 
