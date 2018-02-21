@@ -8,7 +8,7 @@ public class PDFToTextConverter {
         try {
             // PDF in Text umwandeln
             // ProcessBuilder pb = new ProcessBuilder(System.getProperty("user.dir") + "\\helper\\pdftotext.exe", "-enc", "UTF-8", path);
-            ProcessBuilder pb = new ProcessBuilder("pdftotext", "-enc", "UTF-8", path);
+            ProcessBuilder pb = new ProcessBuilder("src/main/resources/preprocessing/pdftotext", "-enc", "UTF-8", path);
 
             Process p = pb.start();
             p.waitFor();

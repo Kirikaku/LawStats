@@ -9,7 +9,7 @@ import java.nio.file.StandardCopyOption;
 public class VerdictDownloader {
 
     public void downloadVerdicts() throws Exception{
-        int startIndex = 17756;
+        int startIndex = 24088;
         int endIndex = 80984;
 
 

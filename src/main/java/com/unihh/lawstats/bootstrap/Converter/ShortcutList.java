@@ -16,7 +16,7 @@ public class ShortcutList {
         String line = "";
 
         try {
-            InputStream is = ShortcutList.class.getResourceAsStream("/shortcuts.txt");
+            InputStream is = new FileInputStream("src/main/resources/preprocessing/shortcuts.txt");
 
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
