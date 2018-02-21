@@ -11,13 +11,16 @@ public class Verdict {
     private String docketNumber;
     private int revisionSuccess;
     private String senate;
-    private List<String> judgeList;
-    private Date dateVerdict;
+    private String[] judgeList;
+    private String dateVerdict;
     //Oberlandesgericht
-    private ForeDecision foreDecisionRAC;
+    private String foreDecisionRACCourt;
+    private String foreDecisionRACVerdictDate;
     //Landesgericht
-    private ForeDecision foreDecisionRC;
+    private String foreDecisionRCCourt;
+    private String foreDecisionRCVerdictDate;
     //Amtsgericht
-    private ForeDecision foreDecisionDC;
+    private String foreDecisionDCCourt;
+    private String foreDecisionDCVerdictDate;
 
 }
