@@ -8,16 +8,15 @@ import java.nio.file.StandardCopyOption;
 
 public class VerdictDownloader {
 
-    public void downloadVerdicts() throws Exception{
-        int startIndex = 70000;
-        int endIndex = 80984;
+    public void downloadVerdicts(int startIndex, int endIndex) throws Exception{
+
 
 
 
         for(int i = startIndex; i <= endIndex; i++) {
 
             String urlString = "http://juris.bundesgerichtshof.de/cgi-bin/rechtsprechung/document.py?Gericht=bgh&Art=en&Datum=Aktuell&nr="+i+"&Frame=4&.pdf";
-            String filePath = "C:\\Users\\Phillip\\Documents\\verdicts\\verdict"+i+".pdf";
+            String filePath = "C:\\Users\\Phillip\\Documents\\Studium\\Praktikum Sprachtechnologie\\VerdictPresentation\\verdict"+i+".pdf";//"C:\\Users\\Phillip\\Documents\\verdicts\\verdict"+i+".pdf";
 
             URL url = new URL(urlString);
             BufferedInputStream in = new BufferedInputStream(url.openStream());
