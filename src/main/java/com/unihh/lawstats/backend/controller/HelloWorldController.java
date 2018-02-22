@@ -19,7 +19,7 @@ public class HelloWorldController {
     @RequestMapping("/greeting")
     public String greeting() {
         final StringBuilder builder = new StringBuilder("Test");
-        verdictRepository.findByRevisionSuccess(0).forEach(verdict -> builder.append(verdict.getDocketNumber()));
+        verdictRepository.findAllByRevisionSuccess(0).forEach(verdict -> builder.append(verdict.getDocketNumber() + "\n"));
         return builder.toString();
     }
 }
