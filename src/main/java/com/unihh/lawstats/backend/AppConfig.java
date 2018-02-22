@@ -1,6 +1,5 @@
 package com.unihh.lawstats.backend;
 
-import com.unihh.lawstats.backend.repositories.VerdictRepository;
 import com.unihh.lawstats.core.config.SolrProperties;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
@@ -23,18 +22,18 @@ public class AppConfig {
     @Autowired
     Environment environment;
 
-    @Bean
-    public SolrClient solrClient() {
-        return new HttpSolrClient("http://localhost:8983/solr/verdict");
-    }
+//    @Bean
+//    public SolrClient solrClient() {
+//        return new HttpSolrClient("http://localhost:8983/solr/verdict");
+//    }
+//
+//    @Bean
+//    public SolrOperations solrTemplate() {
+//        return new SolrTemplate(solrClient());
+//    }
 
-    @Bean
-    public SolrOperations solrTemplate() {
-        return new SolrTemplate(solrClient());
-    }
-
-    @Bean
-    public ImportTestData importTestData(VerdictRepository verdictRepository) {
-        return new ImportTestData(verdictRepository);
-    }
+//    @Bean
+//    public ImportTestData importTestData(VerdictRepository verdictRepository) {
+//        return new ImportTestData(verdictRepository);
+//    }
 }

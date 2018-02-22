@@ -11,17 +11,11 @@ import javax.annotation.Resource;
 @Service
 public class HelloWorldController {
 
-    @Resource
-    private final VerdictRepository productRepository;
-
-    public HelloWorldController(VerdictRepository productRepository) {
-        this.productRepository = productRepository;
-    }
+    public HelloWorldController() {}
 
     @RequestMapping("/greeting")
     public String greeting() {
-        StringBuilder builder = new StringBuilder();
-        productRepository.findByRevisionSuccess(0).forEach(verdict -> builder.append(verdict.getDocketNumber()));
+        final StringBuilder builder = new StringBuilder("Test");
         return builder.toString();
     }
 }
