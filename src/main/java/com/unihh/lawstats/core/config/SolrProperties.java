@@ -20,5 +20,8 @@ public class SolrProperties {
 
     public void setSolrPort(String solrPort) {
         this.solrPort = solrPort;
+
     }
+
+
 }
