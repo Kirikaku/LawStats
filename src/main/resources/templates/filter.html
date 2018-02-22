@@ -5,30 +5,34 @@
 	html5up.net | @ajlkn
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
 	<title>No Sidebar - Helios by HTML5 UP</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<link rel="stylesheet" href="assets/css/main.css" />
 
+
 	<script type="text/javascript">
-        var tags;
-        var value;
-        function getTags() {
-            return document.getElementById("tag").value;
-        }
-        function getValue() {
-            return document.getElementById("value").value;
-        }
         function insert() {
-            tags = getTags();
-            value = getValue();
-            window.alert(tags);
-            document.getElementById("display").submit();
+
+            var table = document.getElementById("table");
+
+            var row= document.createElement("tr");
+            console.log(row);
+            var td1 = document.createElement("td");
+            var td2 = document.createElement("td");
+
+            td1.innerHTML = document.getElementById("class").value;
+            td2.innerHTML  = document.getElementById("tag").value;
+
+            row.appendChild(td1);
+            row.appendChild(td2);
+
+            table.children[0].appendChild(row);
+
 
         }
-
 
 	</script>
 </head>
@@ -70,16 +74,27 @@
 				</header>
 			</article>
 				<section class="6u 12u(mobile)">
-					<input type="text" placeholder="Schlagwort" name="Tags" id="tag" />
+					//Input und Hinzufügen
+					<input type="text" placeholder="Kategorie" name="class" id="class" />
+				<input id="tag" placeholder="Schlagwort" type="text" >
+				<input type="submit" value="Hinzufügen" onclick="insert()" />
 
-					<input type="text" placeholder="Value" name="Value" id="value" />
 				</section>
+			<section class="6u 12u(mobile)">
+			//SubmitButtom
+				<input type="submit" value="Submit" />
 
-			<section class="6u 12u(mobile)">
-					<button type="submit" name="submit" id="submit_tags" onclick=" insert() ">Submit</button>
-					</section>
-			<section class="6u 12u(mobile)">
-				<div id="display"></div>
+
+			</section>
+					<section class="6u 12u(mobile)">
+					<table id="table" border="1">
+						<tr>
+							<th>Kategorie</th>
+							<th>Schlagwort</th>
+							<th></th>
+						</tr>
+					</table>
+
                     </section>
 		</div>
 
@@ -88,53 +103,7 @@
 	<!-- Footer -->
 	<div id="footer">
 		<div class="container">
-			<div class="row">
-				<!-- Posts -->
-				<section class="4u 12u(mobile)">
-					<header>
-						<h2 class="icon fa-file circled"><span class="label">Posts</span></h2>
-					</header>
-					<ul class="divided">
-						<li>
-							<article class="post stub">
-								<header>
-									<h3><a href="#">Nisl fermentum integer</a></h3>
-								</header>
-								<span class="timestamp">3 hours ago</span>
-							</article>
-						</li>
-						<li>
-							<article class="post stub">
-								<header>
-									<h3><a href="#">Phasellus portitor lorem</a></h3>
-								</header>
-								<span class="timestamp">6 hours ago</span>
-							</article>
-						</li>
-						<li>
-							<article class="post stub">
-								<header>
-									<h3><a href="#">Magna tempus consequat</a></h3>
-								</header>
-								<span class="timestamp">Yesterday</span>
-							</article>
-						</li>
-						<li>
-							<article class="post stub">
-								<header>
-									<h3><a href="#">Feugiat lorem ipsum</a></h3>
-								</header>
-								<span class="timestamp">2 days ago</span>
-							</article>
-						</li>
-					</ul>
-				</section>
 
-				<!-- Photos -->
-
-
-			</div>
-			<hr />
 			<div class="row">
 				<div class="12u">
 
@@ -176,7 +145,6 @@
 <script src="assets/js/jquery.onvisible.min.js"></script>
 <script src="assets/js/skel.min.js"></script>
 <script src="assets/js/util.js"></script>
-<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
 <script src="assets/js/main.js"></script>
 
 </body>

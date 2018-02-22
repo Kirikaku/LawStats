@@ -11,9 +11,7 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="stylesheet" href="assets/css/main.css" />
-		<div th:if="${message}">
-			<h2 th:text="${message}"></h2>
-	</head>
+
 	<body class="no-sidebar">
 		<div id="page-wrapper">
 
@@ -39,7 +37,6 @@
 
 
 				</div>
-
 			<!-- Main -->
 				<div class="wrapper style1">
 
@@ -50,8 +47,9 @@
 								<p>
 									Hier neue können neue Revisionen hochgeladen werden und überprüft werden
 								</p>
+                            </header>
 								<footer>
-									<form  action="/" method="post" enctype="multipart/form-data">
+									<form method="POST" enctype="multipart/form-data" action="/">
 									<input type="file" name="file" accept="application/pdf/*">
 									<input type="submit" value="Upload"  />
 									</form>
@@ -61,45 +59,46 @@
 
 
 								</footer>
+                        </article>
 
-							</header>
 			<!-- Footer -->
-				<div id="footer">
-					<div class="container">
-						<div class="row">
+                            <div id="footer">
+                                <div class="container">
 
-						<div class="row">
-							<div class="12u">
+                                    <div class="row">
+                                        <div class="12u">
 
-								<!-- Contact -->
-									<section class="contact">
-										<header>
-											<h3>Nisl turpis nascetur interdum?</h3>
-										</header>
-										<p>Urna nisl non quis interdum mus ornare ridiculus egestas ridiculus lobortis vivamus tempor aliquet.</p>
-										<ul class="icons">
-											<li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
-											<li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
-											<li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
-											<li><a href="#" class="icon fa-pinterest"><span class="label">Pinterest</span></a></li>
-											<li><a href="#" class="icon fa-dribbble"><span class="label">Dribbble</span></a></li>
-											<li><a href="#" class="icon fa-linkedin"><span class="label">Linkedin</span></a></li>
-										</ul>
-									</section>
+                                            <!-- Contact -->
+                                            <section class="contact">
+                                                <header>
+                                                    <h3>Nisl turpis nascetur interdum?</h3>
+                                                </header>
+                                                <p>Urna nisl non quis interdum mus ornare ridiculus egestas ridiculus lobortis vivamus tempor aliquet.</p>
+                                                <ul class="icons">
+                                                    <li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+                                                    <li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
+                                                    <li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
+                                                    <li><a href="#" class="icon fa-pinterest"><span class="label">Pinterest</span></a></li>
+                                                    <li><a href="#" class="icon fa-dribbble"><span class="label">Dribbble</span></a></li>
+                                                    <li><a href="#" class="icon fa-linkedin"><span class="label">Linkedin</span></a></li>
+                                                </ul>
+                                            </section>
 
-								<!-- Copyright -->
-									<div class="copyright">
-										<ul class="menu">
-											<li>&copy; Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
-										</ul>
-									</div>
+                                            <!-- Copyright -->
+                                            <div class="copyright">
+                                                <ul class="menu">
+                                                    <li>&copy; Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+                                                </ul>
+                                            </div>
 
-							</div>
+                                        </div>
 
-						</div>
-					</div>
-				</div>
+                                    </div>
+                                </div>
+                            </div>
 
+                    </div>
+                </div>
 		</div>
 
 		<!-- Scripts -->
@@ -112,5 +111,5 @@
 			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
 			<script src="assets/js/main.js"></script>
 
-	</body class="no-sidebar">
+	</body>
 </html>

@@ -1,4 +1,4 @@
-package com.unihh.lawstats.backend;
+/* package com.unihh.lawstats.backend;
 
 import com.unihh.lawstats.backend.repositories.VerdictRepository;
 import com.unihh.lawstats.core.model.Verdict;
@@ -80,3 +80,4 @@ public class ImportTestData {
 
 
 }
+ */
