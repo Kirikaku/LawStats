@@ -1,27 +1,41 @@
 package com.unihh.lawstats.core.model;
 
-import java.util.Date;
-import java.util.Set;
+import org.apache.solr.client.solrj.beans.Field;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.solr.core.mapping.SolrDocument;
 
 /**
  * This class represents one document with the extracted date from watson
  */
+@SolrDocument(solrCoreName = "verdict")
 public class Verdict {
 
+    @Field
+    @Id
     private String docketNumber;
+    @Field
     private int revisionSuccess;
+    @Field
     private String senate;
-    private Set<String> judgeSet;
-    // TODO update Date Type
-    private Date dateVerdict;
+    @Field
+    private String[] judgeList;
+    @Field
+    private String dateVerdict;
     //Oberlandesgericht
-    private ForeDecision foreDecisionRAC;
+    @Field
+    private String foreDecisionRACCourt;
+    @Field
+    private String foreDecisionRACVerdictDate;
     //Landesgericht
-    private ForeDecision foreDecisionRC;
+    @Field
+    private String foreDecisionRCCourt;
+    @Field
+    private String foreDecisionRCVerdictDate;
     //Amtsgericht
-    private ForeDecision foreDecisionDC;
-
-
+    @Field
+    private String foreDecisionDCCourt;
+    @Field
+    private String foreDecisionDCVerdictDate;
 
     public String getDocketNumber() {
         return docketNumber;
@@ -47,43 +61,67 @@ public class Verdict {
         this.senate = senate;
     }
 
-    public Set<String> getJudgeSet() {
-        return judgeSet;
+    public String[] getJudgeList() {
+        return judgeList;
     }
 
-    public void setJudgeSet(Set<String> judgeSet) {
-        this.judgeSet = judgeSet;
+    public void setJudgeList(String[] judgeList) {
+        this.judgeList = judgeList;
     }
 
-    public Date getDateVerdict() {
+    public String getDateVerdict() {
         return dateVerdict;
     }
 
-    public void setDateVerdict(Date dateVerdict) {
+    public void setDateVerdict(String dateVerdict) {
         this.dateVerdict = dateVerdict;
     }
 
-    public ForeDecision getForeDecisionRAC() {
-        return foreDecisionRAC;
+    public String getForeDecisionRACCourt() {
+        return foreDecisionRACCourt;
     }
 
-    public void setForeDecisionRAC(ForeDecision foreDecisionRAC) {
-        this.foreDecisionRAC = foreDecisionRAC;
+    public void setForeDecisionRACCourt(String foreDecisionRACCourt) {
+        this.foreDecisionRACCourt = foreDecisionRACCourt;
     }
 
-    public ForeDecision getForeDecisionRC() {
-        return foreDecisionRC;
+    public String getForeDecisionRACVerdictDate() {
+        return foreDecisionRACVerdictDate;
     }
 
-    public void setForeDecisionRC(ForeDecision foreDecisionRC) {
-        this.foreDecisionRC = foreDecisionRC;
+    public void setForeDecisionRACVerdictDate(String foreDecisionRACVerdictDate) {
+        this.foreDecisionRACVerdictDate = foreDecisionRACVerdictDate;
     }
 
-    public ForeDecision getForeDecisionDC() {
-        return foreDecisionDC;
+    public String getForeDecisionRCCourt() {
+        return foreDecisionRCCourt;
     }
 
-    public void setForeDecisionDC(ForeDecision foreDecisionDC) {
-        this.foreDecisionDC = foreDecisionDC;
+    public void setForeDecisionRCCourt(String foreDecisionRCCourt) {
+        this.foreDecisionRCCourt = foreDecisionRCCourt;
+    }
+
+    public String getForeDecisionRCVerdictDate() {
+        return foreDecisionRCVerdictDate;
+    }
+
+    public void setForeDecisionRCVerdictDate(String foreDecisionRCVerdictDate) {
+        this.foreDecisionRCVerdictDate = foreDecisionRCVerdictDate;
+    }
+
+    public String getForeDecisionDCCourt() {
+        return foreDecisionDCCourt;
+    }
+
+    public void setForeDecisionDCCourt(String foreDecisionDCCourt) {
+        this.foreDecisionDCCourt = foreDecisionDCCourt;
+    }
+
+    public String getForeDecisionDCVerdictDate() {
+        return foreDecisionDCVerdictDate;
+    }
+
+    public void setForeDecisionDCVerdictDate(String foreDecisionDCVerdictDate) {
+        this.foreDecisionDCVerdictDate = foreDecisionDCVerdictDate;
     }
 }

@@ -1,7 +1,6 @@
 package com.unihh.lawstats.backend.controller;
 
-import com.unihh.lawstats.core.config.SolrProperties;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.unihh.lawstats.backend.repositories.VerdictRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,16 +9,17 @@ import org.springframework.web.bind.annotation.RestController;
 @Service
 public class HelloWorldController {
 
-    @Autowired
-    private final SolrProperties solrProperties;
+    private final VerdictRepository verdictRepository;
 
-    public HelloWorldController(SolrProperties solrProperties) {
+    public HelloWorldController(VerdictRepository verdictRepository) {
 
-        this.solrProperties = solrProperties;
+        this.verdictRepository = verdictRepository;
     }
 
     @RequestMapping("/greeting")
     public String greeting() {
-        return "Hello World";
+        final StringBuilder builder = new StringBuilder("Test");
+        verdictRepository.findAllByRevisionSuccess(0).forEach(verdict -> builder.append(verdict.getDocketNumber() + "\n"));
+        return builder.toString();
     }
 }
