@@ -1,0 +1,84 @@
+{
+  "language": "de",
+  "entities": [
+  	{
+      "type": "DocketNumber",
+      "count": 1,
+      "text": "5 StR 209/S00"
+    },
+    {
+      "type": "Senate",
+      "count": 1,
+      "text": "3. Senat"
+    },
+    {
+      "type": "Judges",
+      "count": 1,
+      "text": "Müller"
+    },
+    {
+      "type": "DateVerdict",
+      "count": 1,
+      "text": "22-06-2000"
+    },
+    {
+      "type": "ForeDecisionRACCourt",
+      "count": 1,
+      "text": "Oberlandesgericht"
+    },
+    {
+      "type": "ForeDecisionRACDateVerdict",
+      "count": 1,
+      "text": "22-12-1914"
+    },
+    {
+      "type": "ForeDecisionRCCourt",
+      "count": 1,
+      "text": "Landesgericht"
+    },
+    {
+      "type": "ForeDecisionRCDateVerdict",
+      "count": 1,
+      "text": "16-07-1999"
+    },
+    {
+      "type": "ForeDecisionDCCourt",
+      "count": 1,
+      "text": "Amtsgericht"
+    },
+    {
+      "type": "ForeDecisionDCDateVerdict",
+      "count": 1,
+      "text": "15-03-2000"
+    },{
+      "type": "DateVerdict",
+      "count": 1,
+      "text": "22-06-2001"
+    },
+    {
+      "type": "Judges",
+      "count": 1,
+      "text": "Meier"
+    },
+    {
+      "type": "Judges",
+      "count": 1,
+      "text": "Merkel"
+    },
+    {
+      "type": "ForeDecisionDCCourt",
+      "count": 1,
+      "text": "Amtsgerichtzwei"
+    },
+    {
+      "type": "ForeDecisionDCCourt",
+      "count": 1,
+      "text": "Amtsgericht"
+    },
+    {
+      "type": "Judges",
+      "count": 1,
+      "text": "Meier"
+    }
+  ]
+}
