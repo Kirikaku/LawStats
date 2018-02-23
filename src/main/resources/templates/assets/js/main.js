@@ -25,6 +25,33 @@
 		mobile: '(max-width: 736px)'
 	});
 
+    function insert() {
+
+        var table = document.getElementById("table");
+
+        var row = document.createElement("tr");
+        console.log(row);
+        var td1 = document.createElement("td");
+        var td2 = document.createElement("td");
+        var td3 = document.createElement("BUTTON");
+
+        td1.innerHTML = document.getElementById("class").value;
+        td2.innerHTML = document.getElementById("tag").value;
+
+        row.appendChild(td1);
+        row.appendChild(td2);
+        row.appendChild(td3);
+
+        table.children[0].appendChild(row);
+
+
+    }
+
+    function deleteRow(r) {
+        var i = r.parentNode.parentNode.rowIndex;
+        document.getElementById("myTable").deleteRow(i);
+    }
+
 	$(function() {
 
 		var	$window = $(window),
