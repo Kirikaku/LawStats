@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
-public class InputController {
+public class FilterController {
 
     @GetMapping("/input")
     public String inputForm(Model model) {

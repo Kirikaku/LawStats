@@ -25,10 +25,11 @@
             var td4 = document.createElement("td");
             var td5 = document.createElement("BUTTON");
 
-            td1.innerHTML = document.getElementById("category").value;
+            td1.innerHTML = document.getElementById("attribute").value;
             td2.innerHTML = document.getElementById("tag").value;
-            td3.innerHTML = document.getElementById("date1").value;
-            td4.innerHTML = document.getElementById("date2").value;
+            td3.innerHTML = document.getElementById("start").value;
+            td4.innerHTML = document.getElementById("end").value;
+            td5.onclick = deleteRow(this);
 
             row.appendChild(td1);
             row.appendChild(td2);
@@ -36,15 +37,25 @@
             row.appendChild(td4);
             row.appendChild(td5);
 
-
             table.children[0].appendChild(row);
-
 
         }
 
         function deleteRow(r) {
-            var i = r.parentNode.parentNode.rowIndex;
-            document.getElementById("myTable").deleteRow(i);
+            var row = upTo(r, 'tr');
+            if (row) row.parentNode.removeChild(row);
+        }
+
+        function upTo(el, tagName) {
+            tagName = tagName.toLowerCase();
+
+            while (el && el.parentNode) {
+                el = el.parentNode;
+                if (el.tagName && el.tagName.toLowerCase() == tagName) {
+                    return el;
+                }
+            }
+            return null;
         }
 
     </script>
@@ -86,23 +97,21 @@
                     </p>
                 </header>
             </article>
+
             <div class="inner">
-              <!--  <form  th:action="@{/input}" th:object="${input}" method="POST"> /!-->
+               <!-- <form action="#" th:action="@{/input}" th:object="${input}" method="post"> !-->
                     <div class="inner">
-                        <input type="text" id="category" placeholder="Kategorie" name="category"/>
-                        <input type="text" id="tag" placeholder="Schlagwort">
-                        <input type="date" id="date1" title="Startdatum"/>
-                        <input type="date"  id="date2" title="Enddatum"/>
-                        <input type="submit" value="Hinzufügen" onclick="insert()" />
+                        <input type="text" id="category" placeholder="Kategorie" name="attribute" />  <!-- th:field="*{attribute}" !-->
+                        <input type="text" id="tag" placeholder="Schlagwort" name="tag" />  <!-- th:field="*{tag}" !-->
+                        <input type="date" id="start" title="Startdatum" />  <!-- th:field="*{start}"!-->
+                        <input type="date" id="end" title="Enddatum" />  <!-- th:field="*{end}" !-->
+                        <input type="submit" value="Hinzufügen" onclick="insert()"/>
                     </div>
-              <!--  </form>  /!-->
-                <div class="inner">
-                    <input type="submit" value="Submit"/>
-                </div>
+                <!-- </form> !-->
+                    <div class="inner">
+                        <input type="submit" value="Submit"/>
+                    </div>
 
-            </div>
-
-            <div class="inner">
                 <table class="table.default" id="table" border="1">
                     <tr>
                         <th>Kategorie</th>
@@ -115,6 +124,7 @@
                 </table>
 
             </div>
+
         </div>
 
     </div>

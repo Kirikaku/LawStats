@@ -50,10 +50,14 @@
                         Hier neue können neue Revisionen hochgeladen werden und überprüft werden
                     </p>
                 </header>
+
             </article>
+            <div th:if="${message}">
+                <h2 th:text="${message}"></h2>
+            </div>
 
             <div class="container">
-                <form method="POST" enctype="multipart/form-data" th:action="/">
+                <form method="POST" enctype="multipart/form-data" th:action="/upload">
                     <input type="file" name="file" accept="application/pdf/*">
                     <input type="submit" value="Upload"/>
                 </form>
@@ -63,18 +67,18 @@
         </div>
     </div>
     <!-- Footer -->
-        <div id="footer">
-            <!-- Copyright -->
-            <div class="copyright">
-                <ul class="menu">
-                    <li>&copy; LawStats @ Uni Hamburg. All rights reserved.</li>
-                    <li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
-                </ul>
-            </div>
-
+    <div id="footer">
+        <!-- Copyright -->
+        <div class="copyright">
+            <ul class="menu">
+                <li>&copy; LawStats @ Uni Hamburg. All rights reserved.</li>
+                <li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+            </ul>
         </div>
 
     </div>
+
+</div>
 
 </div>
 

@@ -31,7 +31,7 @@ public class FileUploadController {
         this.storageService = storageService;
     }
 
-    @GetMapping("/")
+    @GetMapping("/upload")
     public String listUploadedFiles(Model model) {
 
         model.addAttribute("files", storageService.loadAll().map(
@@ -57,7 +57,7 @@ public class FileUploadController {
 
         storageService.store(file);
         redirectAttributes.addFlashAttribute("message",
-                "You successfully uploaded " + file.getOriginalFilename() + "!");
+                "Die Datei " + file.getOriginalFilename() + " wurde erfolgreich hochgeladen!");
 
         return "redirect:/";
     }

@@ -2,24 +2,48 @@ package com.unihh.lawstats.backend.controller;
 
 // just for testing purposes
 
+import java.util.Date;
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class Input {
 
-    private String senat;
-    private String[] judges;
+    private Attribute attribute;
+    private String tag;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date start;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date end;
 
-    public String getSenat() {
-        return senat;
+    public Attribute getAttribute() {
+        return attribute;
     }
 
-    public void setSenat(String senat) {
-        this.senat = senat;
+    public void setAttribute(Attribute attribute) {
+        this.attribute = attribute;
     }
 
-    public String[] getJudges() {
-        return judges;
+    public String getTag() {
+        return tag;
     }
 
-    public void setJudges(String[] judges) {
-        this.judges = judges;
+    public void setTag(String tag) {
+        this.tag = tag;
     }
+
+    public Date getStart() {
+        return start;
+    }
+
+    public void setStart(Date start) {
+        this.start = start;
+    }
+
+    public Date getEnd() {
+        return end;
+    }
+
+    public void setEnd(Date end) {
+        this.end = end;
+    }
+
 }
