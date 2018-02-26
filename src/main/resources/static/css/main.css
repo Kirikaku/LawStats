@@ -2091,7 +2091,7 @@
 	#header {
 		position: relative;
 		background-size: cover;
-		background: url("../../images/header.jpg") fixed center center;
+		background: url("../img/header.jpg") fixed center center;
 		color: #fff;
 		text-align: center;
 		padding: 7.5em 0 2em 0;
