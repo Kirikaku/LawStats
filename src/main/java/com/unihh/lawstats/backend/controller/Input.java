@@ -3,23 +3,25 @@ package com.unihh.lawstats.backend.controller;
 // just for testing purposes
 
 import java.util.Date;
+
+import com.unihh.lawstats.core.model.Attributes;
 import org.springframework.format.annotation.DateTimeFormat;
 
 public class Input {
 
-    private Attribute attribute;
+    private Attributes attributes;
     private String tag;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date start;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date end;
 
-    public Attribute getAttribute() {
-        return attribute;
+    public Attributes getAttribute() {
+        return attributes;
     }
 
-    public void setAttribute(Attribute attribute) {
-        this.attribute = attribute;
+    public void setAttribute(Attributes attributes) {
+        this.attributes = attributes;
     }
 
     public String getTag() {

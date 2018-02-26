@@ -29,7 +29,6 @@
             td2.innerHTML = document.getElementById("tag").value;
             td3.innerHTML = document.getElementById("start").value;
             td4.innerHTML = document.getElementById("end").value;
-            td5.onclick = deleteRow(this);
 
             row.appendChild(td1);
             row.appendChild(td2);
@@ -44,18 +43,6 @@
         function deleteRow(r) {
             var row = upTo(r, 'tr');
             if (row) row.parentNode.removeChild(row);
-        }
-
-        function upTo(el, tagName) {
-            tagName = tagName.toLowerCase();
-
-            while (el && el.parentNode) {
-                el = el.parentNode;
-                if (el.tagName && el.tagName.toLowerCase() == tagName) {
-                    return el;
-                }
-            }
-            return null;
         }
 
     </script>
@@ -101,7 +88,7 @@
             <div class="inner">
                <!-- <form action="#" th:action="@{/input}" th:object="${input}" method="post"> !-->
                     <div class="inner">
-                        <input type="text" id="category" placeholder="Kategorie" name="attribute" />  <!-- th:field="*{attribute}" !-->
+                        <input type="text" id="attribute" placeholder="Kategorie" name="attribute" />  <!-- th:field="*{attribute}" !-->
                         <input type="text" id="tag" placeholder="Schlagwort" name="tag" />  <!-- th:field="*{tag}" !-->
                         <input type="date" id="start" title="Startdatum" />  <!-- th:field="*{start}"!-->
                         <input type="date" id="end" title="Enddatum" />  <!-- th:field="*{end}" !-->
