@@ -57,7 +57,7 @@
             </div>
 
             <div class="container">
-                <form method="POST" enctype="multipart/form-data" th:action="/upload">
+                <form method="POST" enctype="multipart/form-data" th:action="@{/uploadFile}">
                     <input type="file" name="file" accept="application/pdf/*">
                     <input type="submit" value="Upload"/>
                 </form>

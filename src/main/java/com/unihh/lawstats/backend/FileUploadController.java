@@ -31,7 +31,7 @@ public class FileUploadController {
         this.storageService = storageService;
     }
 
-    @GetMapping("/upload")
+    @GetMapping("/uploadFile")
     public String listUploadedFiles(Model model) {
 
         model.addAttribute("files", storageService.loadAll().map(
