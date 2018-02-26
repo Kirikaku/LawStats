@@ -4,6 +4,7 @@ import org.apache.solr.client.solrj.beans.Field;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.solr.core.mapping.SolrDocument;
 
+import java.util.Date;
 import java.util.Set;
 
 /**
@@ -22,10 +23,8 @@ public class Verdict {
     @Field
 
     private String[] judgeList;
+
     @Field
-
-    private Set<String> judgeSet;
-
     private String dateVerdict;
     //Oberlandesgericht
     @Field
@@ -129,13 +128,5 @@ public class Verdict {
 
     public void setForeDecisionDCVerdictDate(String foreDecisionDCVerdictDate) {
         this.foreDecisionDCVerdictDate = foreDecisionDCVerdictDate;
-    }
-
-    public Set<String> getJudgeSet() {
-        return judgeSet;
-    }
-
-    public void setJudgeSet(Set<String> judgeSet) {
-        this.judgeSet = judgeSet;
     }
 }

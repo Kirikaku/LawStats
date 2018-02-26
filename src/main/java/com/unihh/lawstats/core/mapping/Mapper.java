@@ -1,12 +1,11 @@
 package com.unihh.lawstats.core.mapping;
 
 
-import com.unihh.lawstats.core.model.ForeDecision;
 import com.unihh.lawstats.core.model.Verdict;
 import org.apache.commons.io.IOUtils;
-import org.springframework.boot.configurationprocessor.json.JSONArray;
-import org.springframework.boot.configurationprocessor.json.JSONException;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.*;
 import java.util.*;
@@ -14,6 +13,7 @@ import java.util.*;
 public class Mapper {
 
 
+    //TODO main und zugehörige statics entfernen!
     public static void main(String[] args) throws JSONException, IOException {
 
         File testfile = new File("src/main/resources/testData/JsonMappingTestData.json");
@@ -44,80 +44,88 @@ public class Mapper {
                 //Abfrage des Inhalts | Einsortieren in die zugehörige Liste
                 switch (type) {
                     case "DocketNumber":
-                        docketnumberL.add(jsonObjectEntity.toString());
+                        docketnumberL.add(jsonObjectEntity.getString("text"));
                         break;
                     //TODO Revision Success Case
                     case "Senate":
-                        senateL.add(jsonObjectEntity.toString());
+                        senateL.add(jsonObjectEntity.getString("text"));
                         break;
                     case "Judges":
                         //judgeL.toArray(new String[judgeL.size()]);
-                        judgeL.add(jsonObjectEntity.toString());
+                        judgeL.add(jsonObjectEntity.getString("text"));
                         break;
                     case "DateVerdict":
-                        dateverdictL.add(jsonObjectEntity.toString());
+                        dateverdictL.add(jsonObjectEntity.getString("text"));
                         break;
                     case "ForeDecisionRACCourt":
-                        foreDecRACcL.add(jsonObjectEntity.toString());
+                        foreDecRACcL.add(jsonObjectEntity.getString("text"));
                         break;
                     case "ForeDecisionRACDateVerdict":
-                        foreDecRACdvL.add(jsonObjectEntity.toString());
+                        foreDecRACdvL.add(jsonObjectEntity.getString("text"));
                         break;
                     case "ForeDecisionRCCourt":
-                        foreDecRCcL.add(jsonObjectEntity.toString());
+                        foreDecRCcL.add(jsonObjectEntity.getString("text"));
                         break;
                     case "ForeDecisionRCDateVerdict":
-                        foreDecRCdvL.add(jsonObjectEntity.toString());
+                        foreDecRCdvL.add(jsonObjectEntity.getString("text"));
                         break;
                     case "ForeDecisionDCCourt":
-                        foreDecDCcL.add(jsonObjectEntity.toString());
+                        foreDecDCcL.add(jsonObjectEntity.getString("text"));
                         break;
                     case "ForeDecisionDCDateVerdict":
-                        foreDecDCdvL.add(jsonObjectEntity.toString());
+                        foreDecDCdvL.add(jsonObjectEntity.getString("text"));
                         break;
                 }
             }
             // Creating a new Verdict Object
-            // TODO Date Format klären für die Verdict Dates (commented) und s. u.
+            // Using Date for Date-Elements
             Verdict verdict = new Verdict();
+
+            //Docket Number
             verdict.setDocketNumber(mostCommon(docketnumberL));
+
             // TODO revisionSuccess
+
+            //Senate
             verdict.setSenate(mostCommon(senateL));
-            verdict.setJudgeSet(judgeL);
+
+            //Judges
+            String[] judgeList = judgeL.toArray(new String[judgeL.size()]);
+            verdict.setJudgeList(judgeList);
             //verdict.setDateVerdict(newestDate(dateverdictL));
 
-            // New ForeDecision Object for foreDecisionRAC - Oberlandesgericht
-            ForeDecision rac = new ForeDecision();
-            rac.setCourt(mostCommon(foreDecRACcL));
-            //rac.setDateVerdict(); - benötigt Date Type
-            verdict.setForeDecisionRAC(rac);
+            //TODO Date Verdict
 
-            // New Fore Decision Object for foreDecisionRC - Landesgericht
-            ForeDecision rc = new ForeDecision();
-            rc.setCourt(mostCommon(foreDecRCcL));
-            //rc.setDateVerdict();
-            verdict.setForeDecisionRC(rc);
+            //Oberlandesgericht
+            verdict.setForeDecisionRACCourt(mostCommon(foreDecRACcL));
+            //verdict.setForeDecisionRACVerdictDate();
 
-            // New Fore Decision Object for foreDecisionRC - Amtsgericht
-            ForeDecision dc = new ForeDecision();
-            dc.setCourt(mostCommon(foreDecDCcL));
-            //dc.setDateVerdict();
-            verdict.setForeDecisionDC(dc);
+            //Landesgericht
+            verdict.setForeDecisionRCCourt(mostCommon(foreDecRCcL));
+            //verdict.setForeDecisionRCVerdictDate();
+
+            //Amtsgericht
+            verdict.setForeDecisionDCCourt(mostCommon(foreDecDCcL));
+            //verdict.setForeDecisionDCVerdictDate();
+
+            //TODO sout entfernen - nur für debugger
             System.out.println("");
         }
     }
 
     //TODO benötigt finalen Datentyp Date oder Localedate
-    private static Date newestDate(List<String> dateverdict) {
+    /*private static Date newestDate(List<String> dateverdict) {
         return null;
     }
+    */
 
 
     private static String mostCommon(List<String> typelist) {
         Map<String, Integer> map = new HashMap<>();
-        for (String i : typelist) {
-            Integer val = map.get(i);
-            map.put(i, val == null ? 0 : val + 1);
+        for (String string : typelist) {
+            string = normalizeString(string);
+            Integer val = map.get(string);
+            map.put(string, val == null ? 0 : val + 1);
         }
         Map.Entry<String, Integer> max = null;
 
@@ -126,7 +134,13 @@ public class Mapper {
                 max = e;
             }
         }
+
         return max.getKey();
+    }
+
+    private static String normalizeString(String string) {
+        string = string.trim();
+        return string.toLowerCase();
     }
 
 
