@@ -48,21 +48,21 @@ public class SpringWebConfig extends WebMvcConfigurerAdapter implements Applicat
 
 
     /* **************************************************************** */
-/* THYMELEAF-SPECIFIC ARTIFACTS */
-/* TemplateResolver <- TemplateEngine <- ViewResolver */
-/* **************************************************************** */
+    /* THYMELEAF-SPECIFIC ARTIFACTS */
+    /* TemplateResolver <- TemplateEngine <- ViewResolver */
+    /* **************************************************************** */
     @Bean
     public SpringResourceTemplateResolver templateResolver() {
-// SpringResourceTemplateResolver automatically integrates with Spring's own
-// resource resolution infrastructure, which is highly recommended.
+        // SpringResourceTemplateResolver automatically integrates with Spring's own
+        // resource resolution infrastructure, which is highly recommended.
         SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
         templateResolver.setApplicationContext(this.applicationContext);
-        templateResolver.setPrefix("src/resources/templates/");
+        templateResolver.setPrefix("/WEB-INF/templates/");
         templateResolver.setSuffix(".html");
-// HTML is the default value, added here for the sake of clarity.
+        // HTML is the default value, added here for the sake of clarity.
         templateResolver.setTemplateMode(TemplateMode.HTML);
-// Template cache is true by default. Set to false if you want
-// templates to be automatically updated when modified.
+        // Template cache is true by default. Set to false if you want
+        // templates to be automatically updated when modified.
         templateResolver.setCacheable(true);
         return templateResolver;
     }
