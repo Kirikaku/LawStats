@@ -61,6 +61,24 @@ public class Formatter {
 
     public static void formatText(String textPath, String cleanPath) {
 
+
+        String outFile = cleanPath;
+        String content = formatText(textPath);
+
+
+        try{
+            FileOutputStream fos = new FileOutputStream(outFile);
+            IOUtils.write(content, fos , "UTF-8");
+
+
+            fos.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static String formatText(String textPath){
         monate.put("Januar", 1);
         monate.put("Februar", 2);
         monate.put("März", 3);
@@ -75,17 +93,17 @@ public class Formatter {
         monate.put("Dezember", 12);
 
         String inFile = null;
-        String outFile = null;
+        String content = null;
 
         inFile = textPath;
-        outFile = cleanPath;
+
 
 
         List<String> shortcuts = (new ShortcutList()).getShortcuts();
 
         try {
             FileInputStream fis = new FileInputStream(inFile);
-            String content = IOUtils.toString(fis,"UTF-8");
+            content = IOUtils.toString(fis,"UTF-8");
 
 
             // Leerzeichen
@@ -276,23 +294,21 @@ public class Formatter {
                     content = content.replace(original, neu);
 
 
-                //TODO Temporary solution to resolve program shutdown after a special case in verdict 17801 (java.util.regex.PatternSyntaxException: Dangling meta character '?' near index 0)
+                    //TODO Temporary solution to resolve program shutdown after a special case in verdict 17801 (java.util.regex.PatternSyntaxException: Dangling meta character '?' near index 0)
                 }catch(PatternSyntaxException pSE){
                     pSE.printStackTrace();
-                    return;
+                    return "";
                 }
 
             }
 
 
-            FileOutputStream fos = new FileOutputStream(outFile);
-            IOUtils.write(content, fos , "UTF-8");
 
-            fis.close();
-            fos.close();
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        return content;
     }
 }

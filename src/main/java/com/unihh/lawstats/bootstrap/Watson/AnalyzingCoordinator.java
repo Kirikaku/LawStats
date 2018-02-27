@@ -1,7 +1,10 @@
 package com.unihh.lawstats.bootstrap.Watson;
 
+import com.unihh.lawstats.bootstrap.Converter.Formatter;
 import com.unihh.lawstats.bootstrap.Converter.PDFToTextConverter;
+import com.unihh.lawstats.core.mapping.Mapper;
 import com.unihh.lawstats.core.model.Verdict;
+
 
 import java.io.File;
 import java.util.Date;
@@ -17,9 +20,31 @@ public class AnalyzingCoordinator {
         verdict.setDateVerdict(new Date(2015, 04, 12));
 
         PDFToTextConverter pdfToTextConverter = new PDFToTextConverter();
-       // Formatter
+        LawEntityExtractor lawEntityExtractor = new LawEntityExtractor();
+        Mapper verdictMapper = new Mapper();
+
+
+        String documentText = null;
+        String jsonNLUResponse = null;
 
         String path = fileToAnalyze.getPath();
+        String pathTxt = path.replace(".pdf",".txt");
+
+
+        pdfToTextConverter.convertPDFToText(path);
+        documentText = Formatter.formatText(path);
+        jsonNLUResponse = lawEntityExtractor.extractEntities("modelid", documentText); //TODO model id von config holen
+        //TODO mapper aufrufen und jsonNLUResponse zu verdict objekt konvertieren
+
+        //TODO hier kommt es drauf an ob Watson oder TU Darm. Classifier benutzt wird
+
+
+
+        String jsonClassifierResponse = "";
+
+        //
+
+
 
 
 
