@@ -21,7 +21,7 @@ public class FilterController {
 
     private Set<Verdict> selectedVerdicts = new HashSet<>();
 
-    private List<Attributes> dataModelAttributesList = Collections.singletonList(TableAttributes.RevisionSuccess);
+    private List<String> dataModelAttributesList = Collections.singletonList(TableAttributes.RevisionSuccess.getDisplayName());
 
     @Autowired
     VerdictRepository verdictRepository;
