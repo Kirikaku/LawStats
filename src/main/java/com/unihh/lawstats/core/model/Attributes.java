@@ -7,10 +7,10 @@ public enum Attributes {
     Judges("Richter"),
     DateVerdict("Entscheidungsdatum"),
     ForeDecisionRACCourt("Oberlandesgericht"),
-    ForeDecisionRACDateVerdict("Entscheidungsdatum Oberlandesgericht"),
     ForeDecisionRCCourt("Landesgericht"),
-    ForeDecisionRCDateVerdict("Entscheidungsdatum Landsgericht"),
     ForeDecisionDCCourt("Amtsgericht"),
+    ForeDecisionRACDateVerdict("Entscheidungsdatum Oberlandesgericht"),
+    ForeDecisionRCDateVerdict("Entscheidungsdatum Landsgericht"),
     ForeDecisionDCDateVerdict("Entscheidungsdatum Amtsgericht");
 
     private final String displayName;

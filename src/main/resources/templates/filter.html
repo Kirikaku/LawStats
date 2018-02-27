@@ -86,29 +86,39 @@
             </article>
 
             <div class="inner">
-               <!-- <form action="#" th:action="@{/input}" th:object="${input}" method="post"> !-->
-                    <div class="inner">
-                        <input type="text" id="attribute" placeholder="Kategorie" name="attribute" />  <!-- th:field="*{attribute}" !-->
-                        <input type="text" id="tag" placeholder="Schlagwort" name="tag" />  <!-- th:field="*{tag}" !-->
-                        <input type="date" id="start" title="Startdatum" />  <!-- th:field="*{start}"!-->
-                        <input type="date" id="end" title="Enddatum" />  <!-- th:field="*{end}" !-->
-                        <input type="submit" value="Hinzufügen" onclick="insert()"/>
-                    </div>
+                <!-- <form action="#" th:action="@{/input}" th:object="${input}" method="post"> !-->
+                <div class="inner">
+                    <select title="Attribut">
+                        <option value="" disabled selected>Attribut auswählen</option>
+                        <option id="attribute"
+                                th:each="attribute : ${T(com.unihh.lawstats.core.model.Attributes).values()}"
+                                th:value="${attribute}"
+                                th:text="${attribute.displayName}"
+                                name="attribute">
+                        </option>
+                    </select>
+                    <input type="text" id="tag" placeholder="Schlagwort" name="tag"/>
+                    <!-- th:field="*{tag}" !-->
+                    <input type="date" id="start" title="Startdatum"/>  <!-- th:field="*{start}"!-->
+                    <input type="date" id="end" title="Enddatum"/>  <!-- th:field="*{end}" !-->
+                    <input type="submit" value="Hinzufügen" onclick="insert()"/>
+                </div>
                 <!-- </form> !-->
-                    <div class="inner">
-                        <input type="submit" value="Submit"/>
-                    </div>
+                <div class="inner">
+                    <input type="submit" value="Submit"/>
+                </div>
+                <div class="inner">
+                    <table class="table.default" id="table" border="1">
+                        <tr>
+                            <th>Kategorie</th>
+                            <th>Schlagwort</th>
+                            <th>Startdatum</th>
+                            <th>Enddatum</th>
+                            <th>Löschen</th>
 
-                <table class="table.default" id="table" border="1">
-                    <tr>
-                        <th>Kategorie</th>
-                        <th>Schlagwort</th>
-                        <th>Startdatum</th>
-                        <th>Enddatum</th>
-                        <th>Löschen</th>
-
-                    </tr>
-                </table>
+                        </tr>
+                    </table>
+                </div>
 
             </div>
 
