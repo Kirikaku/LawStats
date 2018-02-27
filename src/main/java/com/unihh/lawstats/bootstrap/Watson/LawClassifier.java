@@ -8,42 +8,74 @@ import com.ibm.watson.developer_cloud.natural_language_classifier.v1.model.Class
 import java.io.File;
 
 public class LawClassifier {
-    NaturalLanguageClassifier _service = new NaturalLanguageClassifier();
+    NaturalLanguageClassifier _service;
 
     public static void main(String[] args) {
+        LawClassifier lawClassifier = new LawClassifier();
+        String classifierId = "77d867x10-nlc-2";
 
+        /*
+        Classifier.Status classifierStatus = lawClassifier.retrieveStatus(classifierId);
+        System.out.println(classifierStatus.toString());
+*/
 
-        //LawClassifier lawClassifier = new LawClassifier();
-        LawEntityExtractor lawEntityExtractor = new LawEntityExtractor();
         //lawClassifier.trainClassifier();
-        lawEntityExtractor.extractEntities("dude", "ein text");
+
+
+
+        Long startTime = System.currentTimeMillis();
+        System.out.println(startTime);
+
+
+        for(int i = 0; i<10; i++) {
+            Classification classification;
+            classification = lawClassifier.classifySentence("Is it rainy today?", classifierId);
+            System.out.println(classification);
+            classification = lawClassifier.classifySentence("How hot is it?", classifierId);
+            System.out.println(classification);
+            classification = lawClassifier.classifySentence("Are you stupid?", classifierId);
+            System.out.println(classification);
+
+        }
+
+
+        Long endTime = System.currentTimeMillis();
+        Double timeDifference = (endTime - startTime)/1000.0;
+        System.out.println(endTime);
+        System.out.println("Time difference in seconds" + timeDifference);
+
     }
 
     public LawClassifier() {
-        this._service.setUsernameAndPassword("056d44aa-83e3-4adf-9c57-c6f006164a2b", "5EaHAYwFVLEc");
+        _service = new NaturalLanguageClassifier();
+        _service.setEndPoint("https://gateway-fra.watsonplatform.net/natural-language-classifier/api");
+        this._service.setUsernameAndPassword("5c91eced-33b4-4c62-b138-1a7018f2c580", "ry2vejcJG7dK");
+
+
     }
 
     public void trainClassifier() {
-        try {
-            Thread.sleep(10000L);
-        } catch (InterruptedException var2) {
-            var2.printStackTrace();
-        }
-
-        System.out.println("jetzt gehts looos");
-        Classifier classifier = (Classifier) this._service.createClassifier("PerformanceTestClassifier", "de", new File("C:\\Users\\Phillip\\Documents\\Studium\\Praktikum Sprachtechnologie\\IBM Classifier\\weather_data_train.csv")).execute();
+        Classifier classifier = (Classifier) this._service.createClassifier("PerformanceTestClassifier", "en", new File("C:\\Users\\Phillip\\Praktikum Sprachtechnologie\\weather_data_train.csv")).execute();
+        String classifierId = classifier.getId();
+        System.out.println(classifierId);
+        //classifier.setUrl("https://gateway-fra.watsonplatform.net/natural-language-classifier/api");   ///v1/classifiers/"+classifierId);
         System.out.println(classifier);
     }
 
+    public Classifier.Status retrieveStatus(String classifierId){
+        Classifier classifier =  _service.getClassifier(classifierId).execute();
 
-
-    public void classifySentence(String classifierId, String sentence){
-        Classification classification = _service.classify(classifierId, sentence).execute();
-
-
+        return classifier.getStatus();
     }
 
 
-
-
+    public Classification classifySentence(String sentence, String classifierId){
+        Classification classification = _service.classify(classifierId, sentence).execute();
+        return classification;
+    }
 }
+
+
+
+
+
