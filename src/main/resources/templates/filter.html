@@ -15,7 +15,7 @@
     <script type="text/javascript">
         function insert() {
 
-            var table = document.getElementById("table");
+            var table = document.getElementById("attributeTable");
 
             var row = document.createElement("tr");
             console.log(row);
@@ -91,7 +91,7 @@
                     <select title="Attribut">
                         <option value="" disabled selected>Attribut auswählen</option>
                         <option id="attribute"
-                                th:each="attribute : ${T(com.unihh.lawstats.core.model.Attributes).values()}"
+                                th:each="attribute : ${T(com.unihh.lawstats.core.model.DataModelAttributes).values()}"
                                 th:value="${attribute}"
                                 th:text="${attribute.displayName}"
                                 name="attribute">
@@ -108,7 +108,7 @@
                     <input type="submit" value="Submit"/>
                 </div>
                 <div class="inner">
-                    <table class="table.default" id="table" border="1">
+                    <table class="table.default" id="attributeTable" border="1">
                         <tr>
                             <th>Kategorie</th>
                             <th>Schlagwort</th>
@@ -120,6 +120,15 @@
                     </table>
                 </div>
 
+            </div>
+
+            <div>
+                <table class="table.default" id="verdictTable" border="1">
+                    <thead>
+                    <tr>
+                    </tr>
+                    </thead>
+                </table>
             </div>
 
         </div>
