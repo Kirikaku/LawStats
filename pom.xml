@@ -66,6 +66,11 @@
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
         </dependency>
+        <dependency>
+            <groupId>com.github.uhh-lt</groupId>
+            <artifactId>LT-ABSAt</artifactId>
+            <version>-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <properties>
@@ -95,6 +100,12 @@
             <id>spring-releases</id>
             <url>https://repo.spring.io/libs-release</url>
         </repository>
+
+            <repository>
+                <id>jitpack.io</id>
+                <url>https://jitpack.io</url>
+            </repository>
+
     </repositories>
 
     <pluginRepositories>
