@@ -20,7 +20,6 @@ public class PDFToTextConverter {
             //pb = new ProcessBuilder("java", "-jar", System.getProperty("user.dir")+"\\helper\\converter.jar", textPath, cleanPath, System.getProperty("user.dir")+"\\helper\\shortcuts.txt");
             //p = pb.start();
             //p.waitFor();
-            ConverterMain.formatText(textPath, cleanPath);
 
 
         } catch (IOException e) {

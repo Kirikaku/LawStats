@@ -11,7 +11,7 @@ public class LawEntityExtractor {
     static String passwordNLU = "PtIenHyRZxzG";
 
 
-    public String extractEntities(String modelid) {
+    public String extractEntities(String modelid, String text) {
         NaturalLanguageUnderstanding service = new NaturalLanguageUnderstanding(
                 NaturalLanguageUnderstanding.VERSION_DATE_2017_02_27,
                 usernameNLU,
@@ -20,7 +20,7 @@ public class LawEntityExtractor {
         service.setEndPoint("https://gateway-fra.watsonplatform.net/natural-language-understanding/api");
         service.setUsernameAndPassword(usernameNLU, passwordNLU);
 
-        String text = "IBM is an American multinational technology " +
+        text = "IBM is an American multinational technology " +
                 "company headquartered in Armonk, New York, " +
                 "United States, with operations in over 170 countries.";
 
@@ -44,6 +44,7 @@ public class LawEntityExtractor {
         AnalysisResults response = service
                 .analyze(parameters)
                 .execute();
+
 
         System.out.println(response);
 
