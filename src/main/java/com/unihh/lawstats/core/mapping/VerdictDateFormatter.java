@@ -6,7 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Pattern;
 
-public class DateVerdictFormatter {
+public class VerdictDateFormatter {
 
 
     //TODO siehe Mapper -> main und statics löschen! -> Ticket in Trello
