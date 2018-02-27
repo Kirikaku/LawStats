@@ -14,6 +14,8 @@ import org.springframework.data.solr.core.SolrOperations;
 import org.springframework.data.solr.core.SolrTemplate;
 import org.springframework.data.solr.repository.config.EnableSolrRepositories;
 
+import java.text.ParseException;
+
 @Configuration
 @PropertySource("classpath:config/solr.properties")
 @EnableSolrRepositories
@@ -34,7 +36,7 @@ public class AppConfig {
     }
 
     @Bean
-    public ImportTestData importTestData(VerdictRepository verdictRepository) {
+    public ImportTestData importTestData(VerdictRepository verdictRepository) throws ParseException {
         return new ImportTestData(verdictRepository);
     }
 }

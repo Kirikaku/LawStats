@@ -25,22 +25,22 @@ public class Verdict {
     private String[] judgeList;
 
     @Field
-    private String dateVerdict;
+    private Date dateVerdict;
     //Oberlandesgericht
     @Field
     private String foreDecisionRACCourt;
     @Field
-    private String foreDecisionRACVerdictDate;
+    private Date foreDecisionRACVerdictDate;
     //Landesgericht
     @Field
     private String foreDecisionRCCourt;
     @Field
-    private String foreDecisionRCVerdictDate;
+    private Date foreDecisionRCVerdictDate;
     //Amtsgericht
     @Field
     private String foreDecisionDCCourt;
     @Field
-    private String foreDecisionDCVerdictDate;
+    private Date foreDecisionDCVerdictDate;
 
     public String getDocketNumber() {
         return docketNumber;
@@ -74,11 +74,11 @@ public class Verdict {
         this.judgeList = judgeList;
     }
 
-    public String getDateVerdict() {
+    public Date getDateVerdict() {
         return dateVerdict;
     }
 
-    public void setDateVerdict(String dateVerdict) {
+    public void setDateVerdict(Date dateVerdict) {
         this.dateVerdict = dateVerdict;
     }
 
@@ -90,11 +90,11 @@ public class Verdict {
         this.foreDecisionRACCourt = foreDecisionRACCourt;
     }
 
-    public String getForeDecisionRACVerdictDate() {
+    public Date getForeDecisionRACVerdictDate() {
         return foreDecisionRACVerdictDate;
     }
 
-    public void setForeDecisionRACVerdictDate(String foreDecisionRACVerdictDate) {
+    public void setForeDecisionRACVerdictDate(Date foreDecisionRACVerdictDate) {
         this.foreDecisionRACVerdictDate = foreDecisionRACVerdictDate;
     }
 
@@ -106,11 +106,11 @@ public class Verdict {
         this.foreDecisionRCCourt = foreDecisionRCCourt;
     }
 
-    public String getForeDecisionRCVerdictDate() {
+    public Date getForeDecisionRCVerdictDate() {
         return foreDecisionRCVerdictDate;
     }
 
-    public void setForeDecisionRCVerdictDate(String foreDecisionRCVerdictDate) {
+    public void setForeDecisionRCVerdictDate(Date foreDecisionRCVerdictDate) {
         this.foreDecisionRCVerdictDate = foreDecisionRCVerdictDate;
     }
 
@@ -122,11 +122,11 @@ public class Verdict {
         this.foreDecisionDCCourt = foreDecisionDCCourt;
     }
 
-    public String getForeDecisionDCVerdictDate() {
+    public Date getForeDecisionDCVerdictDate() {
         return foreDecisionDCVerdictDate;
     }
 
-    public void setForeDecisionDCVerdictDate(String foreDecisionDCVerdictDate) {
+    public void setForeDecisionDCVerdictDate(Date foreDecisionDCVerdictDate) {
         this.foreDecisionDCVerdictDate = foreDecisionDCVerdictDate;
     }
 }

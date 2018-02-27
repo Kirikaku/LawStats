@@ -8,13 +8,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.*;
+import java.text.ParseException;
 import java.util.*;
 
 public class Mapper {
 
 
-    //TODO main und zugehörige statics entfernen!
-    public static void main(String[] args) throws JSONException, IOException {
+    //TODO main und zugehörige statics entfernen! -> Ticket in Trello
+    public static void main(String[] args) throws JSONException, IOException, ParseException {
 
         File testfile = new File("src/main/resources/testData/JsonMappingTestData.json");
         if (testfile.exists()) {
@@ -26,6 +27,7 @@ public class Mapper {
             // Listen für die einzelnen Entities
             List<String> docketnumberL = new ArrayList<>();
             // TODO List Revision Success
+
             List<String> senateL = new ArrayList<>();
             Set<String> judgeL = new HashSet<>();
             List<String> dateverdictL = new ArrayList<>();
@@ -92,50 +94,48 @@ public class Mapper {
             //Judges
             String[] judgeList = judgeL.toArray(new String[judgeL.size()]);
             verdict.setJudgeList(judgeList);
-            //verdict.setDateVerdict(newestDate(dateverdictL));
 
-            //TODO Date Verdict
+            //Date Verdict
+            verdict.setDateVerdict(filterNewestDate(dateverdictL));
 
-            //Oberlandesgericht
+            //Oberlandesgericht - RAC
             verdict.setForeDecisionRACCourt(mostCommon(foreDecRACcL));
-            //verdict.setForeDecisionRACVerdictDate();
+            verdict.setForeDecisionRACVerdictDate((filterNewestDate(foreDecRACdvL)));
 
-            //Landesgericht
+            //Landesgericht - RC
             verdict.setForeDecisionRCCourt(mostCommon(foreDecRCcL));
-            //verdict.setForeDecisionRCVerdictDate();
+            verdict.setForeDecisionRCVerdictDate(filterNewestDate(foreDecRCdvL));
 
-            //Amtsgericht
+            //Amtsgericht - DC
             verdict.setForeDecisionDCCourt(mostCommon(foreDecDCcL));
-            //verdict.setForeDecisionDCVerdictDate();
+            verdict.setForeDecisionDCVerdictDate(filterNewestDate((foreDecDCdvL)));
 
             //TODO sout entfernen - nur für debugger
             System.out.println("");
         }
     }
 
-    //TODO benötigt finalen Datentyp Date oder Localedate
-    /*private static Date newestDate(List<String> dateverdict) {
-        return null;
-    }
-    */
-
-
     private static String mostCommon(List<String> typelist) {
-        Map<String, Integer> map = new HashMap<>();
-        for (String string : typelist) {
-            string = normalizeString(string);
-            Integer val = map.get(string);
-            map.put(string, val == null ? 0 : val + 1);
-        }
-        Map.Entry<String, Integer> max = null;
-
-        for (Map.Entry<String, Integer> e : map.entrySet()) {
-            if (max == null || e.getValue() > max.getValue()) {
-                max = e;
+        if (!typelist.isEmpty()) {
+            Map<String, Integer> map = new HashMap<>();
+            for (String string : typelist) {
+                string = normalizeString(string);
+                Integer val = map.get(string);
+                map.put(string, val == null ? 0 : val + 1);
             }
+            Map.Entry<String, Integer> max = null;
+
+            for (Map.Entry<String, Integer> e : map.entrySet()) {
+                if (max == null || e.getValue() > max.getValue()) {
+                    max = e;
+                }
+            }
+            return max.getKey();
+        }
+        else {
+            return null;
         }
 
-        return max.getKey();
     }
 
     private static String normalizeString(String string) {
@@ -143,8 +143,14 @@ public class Mapper {
         return string.toLowerCase();
     }
 
+    private static Date filterNewestDate(List<String> stringL) throws ParseException {
+        // Empfängt eine Liste und gibt dabei das neueste Datum zurück.
+        List<Date> dateVerdicts;
+        dateVerdicts = DateVerdictFormatter.formatDateVerdictList(stringL);
+        return Collections.max(dateVerdicts);
+
+
+
+    }
 
 }
-
-
-

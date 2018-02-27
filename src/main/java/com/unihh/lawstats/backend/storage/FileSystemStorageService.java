@@ -8,6 +8,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.stream.Stream;
 
+import com.unihh.lawstats.backend.MyClassService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -20,10 +21,13 @@ import org.springframework.web.multipart.MultipartFile;
 public class FileSystemStorageService implements StorageService {
 
     private final Path rootLocation;
+    private MyClassService myClassService;
 
     @Autowired
-    public FileSystemStorageService(StorageProperties properties) {
+    public FileSystemStorageService(StorageProperties properties,
+                                    MyClassService myClassService) {
         this.rootLocation = Paths.get(properties.getLocation());
+        this.myClassService = myClassService;
     }
 
     @Override
@@ -38,6 +42,7 @@ public class FileSystemStorageService implements StorageService {
                         "Cannot store file with relative path outside current directory "
                                 + filename);
             }
+            //TODO
             Files.copy(file.getInputStream(), this.rootLocation.resolve(filename),
                     StandardCopyOption.REPLACE_EXISTING);
         }

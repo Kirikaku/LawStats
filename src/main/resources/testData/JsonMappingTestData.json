@@ -1,7 +1,7 @@
 {
   "language": "de",
   "entities": [
-  	{
+    {
       "type": "DocketNumber",
       "count": 1,
       "text": "5 StR 209/S00"
@@ -29,7 +29,7 @@
     {
       "type": "ForeDecisionRACDateVerdict",
       "count": 1,
-      "text": "22-12-1914"
+      "text": "22-12-19124"
     },
     {
       "type": "ForeDecisionRCCourt",
@@ -42,6 +42,11 @@
       "text": "16-07-1999"
     },
     {
+      "type": "ForeDecisionRCDateVerdict",
+      "count": 1,
+      "text": "16-11-1999"
+    },
+    {
       "type": "ForeDecisionDCCourt",
       "count": 1,
       "text": "Amtsgericht"
@@ -50,7 +55,8 @@
       "type": "ForeDecisionDCDateVerdict",
       "count": 1,
       "text": "15-03-2000"
-    },{
+    },
+    {
       "type": "DateVerdict",
       "count": 1,
       "text": "22-06-2001"
@@ -79,6 +85,21 @@
       "type": "Judges",
       "count": 1,
       "text": "Meier"
+    },
+    {
+      "type": "DateVerdict",
+      "count": 1,
+      "text": "2-6-2012"
+    },
+    {
+      "type": "DateVerdict",
+      "count": 1,
+      "text": "22-5-2010"
+    },
+    {
+      "type": "DateVerdict",
+      "count": 1,
+      "text": "4-6-2015"
     }
   ]
 }
