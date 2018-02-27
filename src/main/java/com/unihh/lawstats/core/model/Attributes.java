@@ -2,17 +2,16 @@ package com.unihh.lawstats.core.model;
 
 public enum Attributes {
 
-    DocketNumber(""),
-    RevisionSuccess(""),
+    DocketNumber("Aktenzeichen"),
     Senate("Senat"),
     Judges("Richter"),
-    DateVerdict(""),
-    ForeDecisionRACCourt(""),
-    ForeDecisionRACDateVerdict(""),
-    ForeDecisionRCCourt(""),
-    ForeDecisionRCDateVerdict(""),
-    ForeDecisionDCCourt(""),
-    ForeDecisionDCDateVerdict("");
+    DateVerdict("Entscheidungsdatum"),
+    ForeDecisionRACCourt("Oberlandesgericht"),
+    ForeDecisionRACDateVerdict("Entscheidungsdatum Oberlandesgericht"),
+    ForeDecisionRCCourt("Landesgericht"),
+    ForeDecisionRCDateVerdict("Entscheidungsdatum Landsgericht"),
+    ForeDecisionDCCourt("Amtsgericht"),
+    ForeDecisionDCDateVerdict("Entscheidungsdatum Amtsgericht");
 
     private final String displayName;
 
