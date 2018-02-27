@@ -82,10 +82,11 @@ public class ImportTestData {
     }
 
     private Date convertToDate(String string) throws ParseException {
+        VerdictDateFormatter verdictDateFormatter = new VerdictDateFormatter();
         if(string.isEmpty()){
             return null;
         }
-        return VerdictDateFormatter.formatDateVerdict(string);
+        return verdictDateFormatter.formatDateVerdict(string);
     }
 
 

@@ -144,9 +144,10 @@ public class Mapper {
     }
 
     private static Date filterNewestDate(List<String> stringL) throws ParseException {
+        VerdictDateFormatter verdictDateFormatter = new VerdictDateFormatter();
         // Empfängt eine Liste und gibt dabei das neueste Datum zurück.
         List<Date> dateVerdicts;
-        dateVerdicts = VerdictDateFormatter.formatDateVerdictList(stringL);
+        dateVerdicts = verdictDateFormatter.formatDateVerdictList(stringL);
         return Collections.max(dateVerdicts);
 
 
