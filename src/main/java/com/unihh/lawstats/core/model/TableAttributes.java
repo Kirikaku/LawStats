@@ -1,5 +1,8 @@
 package com.unihh.lawstats.core.model;
 
+/**
+ * This enum contains additional properties for the verdict object
+ */
 public enum TableAttributes implements Attributes {
 
     RevisionSuccess("Revision erfolgreich");

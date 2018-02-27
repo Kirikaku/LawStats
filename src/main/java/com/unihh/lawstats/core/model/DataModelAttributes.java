@@ -1,5 +1,8 @@
 package com.unihh.lawstats.core.model;
 
+/**
+ * This enum contains all searchable properties in solr for the verdict object
+ */
 public enum DataModelAttributes implements Attributes {
 
     DocketNumber("Aktenzeichen"),
