@@ -1,6 +1,5 @@
 package com.unihh.lawstats.bootstrap.Watson;
 
-import com.unihh.lawstats.bootstrap.Converter.ConverterMain;
 import com.unihh.lawstats.bootstrap.Converter.PDFToTextConverter;
 import com.unihh.lawstats.core.model.Verdict;
 
@@ -18,7 +17,7 @@ public class AnalyzingCoordinator {
         verdict.setDateVerdict(new Date(2015, 04, 12));
 
         PDFToTextConverter pdfToTextConverter = new PDFToTextConverter();
-       // ConverterMain
+       // Formatter
 
         String path = fileToAnalyze.getPath();
 

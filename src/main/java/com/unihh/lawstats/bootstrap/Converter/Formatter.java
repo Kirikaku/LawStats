@@ -15,7 +15,7 @@ import java.util.regex.PatternSyntaxException;
 /**
  * Created by tim on 21.02.2017.
  */
-public class ConverterMain {
+public class Formatter {
 
     public static Replace[] replacements = {
 
