@@ -1,6 +1,7 @@
 package com.unihh.lawstats.backend;
 
 import com.unihh.lawstats.backend.repositories.VerdictRepository;
+import com.unihh.lawstats.core.mapping.VerdictDateFormatter;
 import com.unihh.lawstats.core.model.Verdict;
 
 import java.text.DateFormat;
@@ -81,8 +82,10 @@ public class ImportTestData {
     }
 
     private Date convertToDate(String string) throws ParseException {
-        DateFormat df = new SimpleDateFormat("dd-mm-yyyy", Locale.GERMAN );
-        return df.parse(string);
+        if(string.isEmpty()){
+            return null;
+        }
+        return VerdictDateFormatter.formatDateVerdict(string);
     }
 
 
