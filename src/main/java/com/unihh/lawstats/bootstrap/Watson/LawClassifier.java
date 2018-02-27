@@ -16,7 +16,7 @@ public class LawClassifier {
         //LawClassifier lawClassifier = new LawClassifier();
         LawEntityExtractor lawEntityExtractor = new LawEntityExtractor();
         //lawClassifier.trainClassifier();
-        lawEntityExtractor.extractEntities("dude");
+        lawEntityExtractor.extractEntities("dude", "ein text");
     }
 
     public LawClassifier() {

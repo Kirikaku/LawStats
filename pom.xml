@@ -66,11 +66,7 @@
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
         </dependency>
-        <dependency>
-            <groupId>com.github.uhh-lt</groupId>
-            <artifactId>LT-ABSAt</artifactId>
-            <version>-SNAPSHOT</version>
-        </dependency>
+
     </dependencies>
 
     <properties>

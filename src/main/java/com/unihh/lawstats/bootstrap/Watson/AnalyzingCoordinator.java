@@ -1,5 +1,7 @@
 package com.unihh.lawstats.bootstrap.Watson;
 
+import com.unihh.lawstats.bootstrap.Converter.ConverterMain;
+import com.unihh.lawstats.bootstrap.Converter.PDFToTextConverter;
 import com.unihh.lawstats.core.model.Verdict;
 
 import java.io.File;
@@ -14,6 +16,15 @@ public class AnalyzingCoordinator {
         verdict.setDocketNumber("12345");
         verdict.setForeDecisionRCCourt("Oberlandesgericht Ulm");
         verdict.setDateVerdict(new Date(2015, 04, 12));
+
+        PDFToTextConverter pdfToTextConverter = new PDFToTextConverter();
+       // ConverterMain
+
+        String path = fileToAnalyze.getPath();
+
+
+
+
 
 
         return verdict;
