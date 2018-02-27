@@ -39,7 +39,7 @@ public class FileUploadController {
                         "serveFile", path.getFileName().toString()).build().toString())
                 .collect(Collectors.toList()));
 
-        return "upload";
+        return "uploadFile";
     }
 
     @GetMapping("/files/{filename:.+}")
@@ -51,7 +51,7 @@ public class FileUploadController {
                 "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }
 
-    @PostMapping("/")
+    @PostMapping("/uploadFile")
     public String handleFileUpload(@RequestParam("file") MultipartFile file,
                                    RedirectAttributes redirectAttributes) {
 
@@ -59,7 +59,7 @@ public class FileUploadController {
         redirectAttributes.addFlashAttribute("message",
                 "Die Datei " + file.getOriginalFilename() + " wurde erfolgreich hochgeladen!");
 
-        return "redirect:/";
+        return "redirect:/upload";
     }
 
     @ExceptionHandler(StorageFileNotFoundException.class)
