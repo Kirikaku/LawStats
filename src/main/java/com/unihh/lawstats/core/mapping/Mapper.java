@@ -7,7 +7,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.ParseException;
 import java.util.*;
 
@@ -131,8 +134,7 @@ public class Mapper {
                 }
             }
             return max.getKey();
-        }
-        else {
+        } else {
             return null;
         }
 
@@ -143,13 +145,12 @@ public class Mapper {
         return string.toLowerCase();
     }
 
-    private static Date filterNewestDate(List<String> stringL) throws ParseException {
+    private static Long filterNewestDate(List<String> stringL) throws ParseException {
         VerdictDateFormatter verdictDateFormatter = new VerdictDateFormatter();
         // Empfängt eine Liste und gibt dabei das neueste Datum zurück.
-        List<Date> dateVerdicts;
-        dateVerdicts = verdictDateFormatter.formatDateVerdictList(stringL);
+        List<Long> dateVerdicts;
+        dateVerdicts = verdictDateFormatter.formateStringDateToLongList(stringL);
         return Collections.max(dateVerdicts);
-
 
 
     }
