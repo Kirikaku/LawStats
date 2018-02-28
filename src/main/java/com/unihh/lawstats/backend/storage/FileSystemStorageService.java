@@ -1,7 +1,9 @@
 package com.unihh.lawstats.backend.storage;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -43,18 +45,27 @@ public class FileSystemStorageService implements StorageService {
                     "Cannot store file with relative path outside current directory "
                             + filename);
         }
-        // gets File, from Upload
-        //Testfile "myfile"
-        File myfile = new File("src/main/resources/testData/VerdictUploadTestFile.pdf");
-        FileProcessService fps = new FileProcessService();
-        fps.setFile(myfile);
-        if (fps.checkPDF()) {
-            fps.start();
-        } else {
-            myfile.delete();
+
+        File uploadedFile = null;
+        try {
+            uploadedFile = File.createTempFile(file.getOriginalFilename().split("\\.")[0], "."+file.getOriginalFilename().split("\\.")[1]);
+            OutputStream outputStream = new FileOutputStream(uploadedFile);
+            outputStream.write(file.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        //TODO delete - nur wegen debugger
-        System.out.println("");
+
+        if (uploadedFile != null) {
+            FileProcessService fps = new FileProcessService();
+            fps.setFile(uploadedFile);
+            if (fps.checkPDF()) {
+                fps.start();
+            } else {
+                uploadedFile.delete();
+            }
+            //TODO delete - nur wegen debugger
+            System.out.println("");
+        }
     }
 
     @Override
