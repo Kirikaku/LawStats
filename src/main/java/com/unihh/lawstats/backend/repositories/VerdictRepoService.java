@@ -17,34 +17,34 @@ public class VerdictRepoService {
         for (Input input: value) {
             switch (key) {
                 case DocketNumber:
-                    verdictSetForAttribute.addAll(verdictRepository.findAllByDocketNumber(((StringInput)input).getValue()));
+                    verdictSetForAttribute.addAll(verdictRepository.findAllByDocketNumberContainingIgnoreCase(((StringInput)input).getValue()));
                     break;
                 case Senate:
-                    verdictSetForAttribute.addAll(verdictRepository.findAllBySenate(((StringInput)input).getValue()));
+                    verdictSetForAttribute.addAll(verdictRepository.findAllBySenateContainingIgnoreCase(((StringInput)input).getValue()));
                     break;
                 case Judges:
-                    verdictSetForAttribute.addAll(verdictRepository.findAllByJudgeList(((StringInput)input).getValue()));
+                    verdictSetForAttribute.addAll(verdictRepository.findByJudgeListContainingIgnoreCase(((StringInput)input).getValue()));
                     break;
                 case DateVerdict:
                     DateInput dateInput = (DateInput) input;
                     verdictSetForAttribute.addAll(verdictRepository.findAllByDateVerdictBetween(dateInput.getStart(), dateInput.getEnd()));
                     break;
                 case ForeDecisionRACCourt:
-                    verdictSetForAttribute.addAll(verdictRepository.findAllByForeDecisionRACCourt(((StringInput)input).getValue()));
+                    verdictSetForAttribute.addAll(verdictRepository.findAllByForeDecisionRACCourtContainingIgnoreCase(((StringInput)input).getValue()));
                     break;
                 case ForeDecisionRACDateVerdict:
                     DateInput dateInputRAC = (DateInput) input;
                     verdictSetForAttribute.addAll(verdictRepository.findAllByForeDecisionRACVerdictDateBetween(dateInputRAC.getStart(), dateInputRAC.getEnd()));
                     break;
                 case ForeDecisionRCCourt:
-                    verdictSetForAttribute.addAll(verdictRepository.findAllByForeDecisionRCCourt(((StringInput)input).getValue()));
+                    verdictSetForAttribute.addAll(verdictRepository.findAllByForeDecisionRCCourtContainingIgnoreCase(((StringInput)input).getValue()));
                     break;
                 case ForeDecisionRCDateVerdict:
                     DateInput dateInputRC = (DateInput) input;
                     verdictSetForAttribute.addAll(verdictRepository.findAllByForeDecisionRCVerdictDateBetween(dateInputRC.getStart(), dateInputRC.getEnd()));
                     break;
                 case ForeDecisionDCCourt:
-                    verdictSetForAttribute.addAll(verdictRepository.findAllByForeDecisionDCCourt(((StringInput)input).getValue()));
+                    verdictSetForAttribute.addAll(verdictRepository.findAllByForeDecisionDCCourtContainingIgnoreCase(((StringInput)input).getValue()));
                     break;
                 case ForeDecisionDCDateVerdict:
                     DateInput dateInputDC = (DateInput) input;

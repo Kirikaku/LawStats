@@ -55,10 +55,9 @@
             <div class="inner">
                 <!-- <form action="#" th:action="@{/input}" th:object="${input}" method="post"> !-->
                 <div class="inner">
-                    <select title="Attribut">
+                    <select title="Attribut" id="attribute">
                         <option value="" disabled selected>Attribut auswählen</option>
-                        <option id="attribute"
-                                th:each="attribute : ${T(com.unihh.lawstats.core.model.DataModelAttributes).values()}"
+                        <option th:each="attribute : ${T(com.unihh.lawstats.core.model.DataModelAttributes).values()}"
                                 th:value="${attribute}"
                                 th:text="${attribute.displayName}"
                                 name="attribute">
@@ -75,6 +74,9 @@
                     <input type="submit" value="Submit" onclick="getQueriedVerdicts()"/>
                 </div>
                 <div class="inner">
+                    <input type="submit" value="Reset" onclick="reset()"/>
+                </div>
+                <div class="inner">
                     <table class="table.default" id="attributeTable" border="1">
                         <thead>
                         <tr>
@@ -82,7 +84,6 @@
                             <th>Schlagwort</th>
                             <th>Startdatum</th>
                             <th>Enddatum</th>
-                            <th>Löschen</th>
                         </tr>
                         </thead>
                         <tbody>

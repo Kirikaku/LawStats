@@ -7,7 +7,54 @@ function getQueriedVerdicts() {
     $("#verdictTableBlock").load(url);
 }
 
+function reset(){
+    var table = document.getElementById("attributeTable").children[0];
+    while(table.firstElementChild) {
+        table.removeChild(table.firstElementChild);
+        console.log(table.firstChild);
+    }
+
+    var row = document.createElement("tr");
+    console.log(row);
+    var td1 = document.createElement("td");
+    var td2 = document.createElement("td");
+    var td3 = document.createElement("td");
+    var td4 = document.createElement("td");
+
+    td1.innerHTML = "Kategorie";
+    td2.innerHTML = "Schlagwort";
+    td3.innerHTML = "Startdatum";
+    td4.innerHTML = "Enddatum";
+
+    row.appendChild(td1);
+    row.appendChild(td2);
+    row.appendChild(td3);
+    row.appendChild(td4);
+
+    table.appendChild(row);
+
+    var xhttpp = new XMLHttpRequest();
+    xhttpp.open("PUT", "/filter/reset", true);
+    xhttpp.send('')
+}
+
 function insert() {
+    var attribute = document.getElementById("attribute").value;
+    var value = document.getElementById("tag").value;
+    var dateStart = document.getElementById("start").value;
+    var dateEnd = document.getElementById("end").value;
+
+    console.log("Value is:"+value);
+
+    if(attribute.indexOf("date") !== -1){
+        var xhttpp = new XMLHttpRequest();
+        xhttpp.open("PUT", "/input/date/"+attribute+"/"+dateStart+"/to/"+dateEnd, true);
+        xhttpp.send('')
+    } else {
+        var xhttp = new XMLHttpRequest();
+        xhttp.open("PUT", "/input/string/"+attribute+"/"+value.replace('.', '__'), true);
+        xhttp.send('')
+    }
 
     var table = document.getElementById("attributeTable");
 
@@ -17,13 +64,18 @@ function insert() {
     var td2 = document.createElement("td");
     var td3 = document.createElement("td");
     var td4 = document.createElement("td");
-    var td5 = document.createElement("BUTTON");
 
     td1.innerHTML = document.getElementById("attribute").value;
     td2.innerHTML = document.getElementById("tag").value;
     td3.innerHTML = document.getElementById("start").value;
     td4.innerHTML = document.getElementById("end").value;
     td5.setAttribute("onclick","deleteRow(this); return false");
+    console.info(attribute);
+
+    td1.innerHTML = attribute;
+    td2.innerHTML = value;
+    td3.innerHTML = dateStart;
+    td4.innerHTML = dateEnd;
 
     row.appendChild(td1);
     row.appendChild(td2);

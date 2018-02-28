@@ -9,25 +9,25 @@ import java.util.List;
 
 public interface VerdictRepository extends SolrCrudRepository<Verdict, String> {
 
-    List<Verdict> findAllByDocketNumber(String docketNumberList);
+    List<Verdict> findAllByDocketNumberContainingIgnoreCase(String docketNumberList);
 
     List<Verdict> findAllByRevisionSuccess(int revisionSuccess);
 
-    List<Verdict> findAllBySenate(String senate);
+    List<Verdict> findAllBySenateContainingIgnoreCase(String senate);
 
-    List<Verdict> findAllByJudgeList(String judges);
+    List<Verdict> findByJudgeListContainingIgnoreCase(String judges);
 
     List<Verdict> findAllByDateVerdictBetween(Long date1, Long date2);
 
-    List<Verdict> findAllByForeDecisionRACCourt(String court);
+    List<Verdict> findAllByForeDecisionRACCourtContainingIgnoreCase(String court);
 
     List<Verdict> findAllByForeDecisionRACVerdictDateBetween(Long date1, Long date2);
 
-    List<Verdict> findAllByForeDecisionRCCourt(String court);
+    List<Verdict> findAllByForeDecisionRCCourtContainingIgnoreCase(String court);
 
     List<Verdict> findAllByForeDecisionRCVerdictDateBetween(Long date1, Long date2);
 
-    List<Verdict> findAllByForeDecisionDCCourt(String court);
+    List<Verdict> findAllByForeDecisionDCCourtContainingIgnoreCase(String court);
 
     List<Verdict> findAllByForeDecisionDCVerdictDate(Long date1, Long date2);
 }

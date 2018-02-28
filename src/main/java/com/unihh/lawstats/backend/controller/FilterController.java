@@ -6,11 +6,7 @@ import com.unihh.lawstats.core.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
@@ -28,10 +24,7 @@ public class FilterController {
     private List<SearchVerdict> searchVerdict = new ArrayList<>();
 
     // A list of all attribute displaynames
-    private List<String> attributeList = Arrays.asList(TableAttributes.RevisionSuccess.getDisplayName(),
-            TableAttributes.RevisionNotSuccess.getDisplayName(),
-            TableAttributes.RevisionAPartOfSuccess.getDisplayName(),
-            DataModelAttributes.Judges.getDisplayName());
+    private List<String> attributeList = new ArrayList<>();
 
     @Autowired
     DataAttributeVerdictService dataAttributeVerdictService;
@@ -39,14 +32,57 @@ public class FilterController {
     @Autowired
     VerdictRepoService verdictRepoService;
 
-    @GetMapping("/input")
-    public String inputForm(Model model) {
-        return "input";
+    public FilterController(){
+        attributeList.add(TableAttributes.RevisionSuccess.getDisplayName());
+        attributeList.add(TableAttributes.RevisionNotSuccess.getDisplayName());
+        attributeList.add(TableAttributes.RevisionAPartOfSuccess.getDisplayName());
     }
 
-    @PostMapping("/input")
-    public String inputSubmit(@ModelAttribute Input input) {
-        return "result";
+    @RequestMapping(value = "/filter/reset")
+    public void resetAll(){
+        selectedAttributesMap = new HashMap<>();
+        attributeList = new ArrayList<>();
+        attributeList.add(TableAttributes.RevisionSuccess.getDisplayName());
+        attributeList.add(TableAttributes.RevisionNotSuccess.getDisplayName());
+        attributeList.add(TableAttributes.RevisionAPartOfSuccess.getDisplayName());
+        searchVerdict = new ArrayList<>();
+        verdictsInUse = new HashSet<>();
+    }
+
+    @PutMapping(value = "/input/string/{attribute}/{value}")
+    public void inputString(@PathVariable String attribute, @PathVariable String value) {
+        value = value.replace("__", ".");
+        DataModelAttributes dataModelAttributes = DataModelAttributes.valueOf(attribute);
+        StringInput stringInput = new StringInput();
+        stringInput.setValue(value);
+        stringInput.setAttribute(dataModelAttributes);
+        addInputToMap(stringInput, dataModelAttributes);
+    }
+
+    @RequestMapping("/input/date/{attribute}/{dateStart}/to/{dateEnd}")
+    public void inputDate(@PathVariable String attribute, @PathVariable long dateStart, @PathVariable long dateEnd) {
+        DataModelAttributes dataModelAttributes = DataModelAttributes.valueOf(attribute);
+        DateInput dateInput = new DateInput();
+        dateInput.setStart(dateStart);
+        dateInput.setEnd(dateEnd);
+        dateInput.setAttribute(dataModelAttributes);
+        addInputToMap(dateInput, dataModelAttributes);
+    }
+
+    private void addInputToMap(Input input, DataModelAttributes dataModelAttributes) {
+        if (selectedAttributesMap.containsKey(dataModelAttributes)) {
+            List<Input> inputList = selectedAttributesMap.get(dataModelAttributes);
+            inputList.add(input);
+            selectedAttributesMap.put(dataModelAttributes, inputList);
+        } else {
+            List<Input> inputList = new ArrayList<>();
+            inputList.add(input);
+            selectedAttributesMap.put(dataModelAttributes, inputList);
+        }
+
+        if(!attributeList.contains(dataModelAttributes.getDisplayName())){
+            attributeList.add(dataModelAttributes.getDisplayName());
+        }
     }
 
     /**
@@ -69,10 +105,6 @@ public class FilterController {
      */
     @RequestMapping("/filter/searchVerdicts")
     public String startSearch() {
-        StringInput input = new StringInput();
-        input.setAttribute(DataModelAttributes.Judges);
-        input.setValue("Gschwander");
-        selectedAttributesMap.put(DataModelAttributes.Judges, Arrays.asList(input));
 
         verdictsInUse = getQueriedVerdicts();
 
