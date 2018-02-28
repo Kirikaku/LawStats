@@ -17,6 +17,18 @@ import java.util.regex.PatternSyntaxException;
  */
 public class Formatter {
 
+    FormattingManager _formattingManager;
+    int _endIndex;
+
+
+    public Formatter(FormattingManager formattingManager, int endIndex){
+        _formattingManager = formattingManager;
+        _endIndex = endIndex;
+
+    }
+
+
+
     public static Replace[] replacements = {
 
             new Replace(" a\\. ", " am "),
@@ -54,7 +66,8 @@ public class Formatter {
             new Replace("Dr\\.", "Doktor"),
             new Replace("bzw\\.", "beziehungsweise"),
             new Replace("Buchst\\.", "Buchstabe"),
-            new Replace("\f", "")
+            new Replace("\f", ""),
+            new Replace("Az\\.", "Aktenzeichen")
     };
 
     public static Map<String, Integer> monate = new HashMap<String, Integer>();
@@ -65,16 +78,18 @@ public class Formatter {
         String outFile = cleanPath;
         String content = formatText(textPath);
 
+        if(!content.equals("")) {
+            try {
+                FileOutputStream fos = new FileOutputStream(outFile);
+                IOUtils.write(content, fos, "UTF-8");
 
-        try{
-            FileOutputStream fos = new FileOutputStream(outFile);
-            IOUtils.write(content, fos , "UTF-8");
 
+                fos.close();
 
-            fos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
 
-        } catch (IOException e) {
-            e.printStackTrace();
+            }
         }
     }
 
@@ -177,7 +192,7 @@ public class Formatter {
 
                 content = content.replace(original, neu);
 
-                System.out.println("Seitenzahl: "+ original);
+               // System.out.println("Seitenzahl: "+ original);
             }
 
 
@@ -191,7 +206,7 @@ public class Formatter {
 
             while(m.find()) {
 
-                System.out.println("Datum: "+m.group(1));
+                //System.out.println("Datum: "+m.group(1));
                 String original = m.group(1);
                 String neu = m.group(2) + "-" + monate.get(m.group(4)) + "-" + m.group(5);
 
@@ -211,8 +226,8 @@ public class Formatter {
 
                 content = content.replace(original, neu);
 
-                System.out.println("Datum: "+m.group(1));
-                System.out.println("DatumNeu: "+neu);
+               // System.out.println("Datum: "+m.group(1));
+              //  System.out.println("DatumNeu: "+neu);
             }
 
 
@@ -231,14 +246,14 @@ public class Formatter {
 
                 content = content.replace(original, neu);
 
-                System.out.println("Geldbetrag: "+ original);
+              //  System.out.println("Geldbetrag: "+ original);
             }
 
 
 
-
+            //hier war ein Fehler
             // 30. -> 30
-            String pattern4 = "(\\s\\d\\d+\\.\\s)";
+            String pattern4 = "(\\d+\\.\\D+)";
 
             p = Pattern.compile(pattern4);
             m = p.matcher(content);
@@ -246,11 +261,11 @@ public class Formatter {
             while(m.find()) {
 
                 String original = m.group(1);
-                String neu = original.replaceAll("\\.", "");
+                String neu = original.replaceAll("\\.", "_");
 
                 content = content.replace(original, neu);
 
-                System.out.println("Zahl: "+ original);
+               // System.out.println("Zahl: "+ original);
             }
 
 
@@ -276,7 +291,7 @@ public class Formatter {
 
                 content = content.replace(original, neu);
 
-                System.out.println("Wortunterbrechung: "+ original);
+              //  System.out.println("Wortunterbrechung: "+ original);
             }
 
 
@@ -297,6 +312,7 @@ public class Formatter {
                     //TODO Temporary solution to resolve program shutdown after a special case in verdict 17801 (java.util.regex.PatternSyntaxException: Dangling meta character '?' near index 0)
                 }catch(PatternSyntaxException pSE){
                     pSE.printStackTrace();
+
                     return "";
                 }
 
@@ -311,4 +327,19 @@ public class Formatter {
 
         return content;
     }
+
+
+
+    public void run(){
+        int counter = _formattingManager.getAndIncrementCounter();
+        PDFToTextConverter pdfToTextConverter = new PDFToTextConverter();
+       String basePath = "C:\\Users\\Phillip\\Documents\\verdicts";
+
+        while(counter<=_endIndex){
+            pdfToTextConverter.convertPDFToText(basePath+"\\verdict"+counter+".pdf");
+            Formatter.formatText(basePath+"\\verdict"+counter+".txt", basePath+"\\verdict"+counter+"_CLEAN.txt");
+            counter = _formattingManager.getAndIncrementCounter();
+        }
+    }
+
 }

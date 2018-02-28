@@ -4,6 +4,7 @@ package com.unihh.lawstats.bootstrap.Watson;
 import com.ibm.watson.developer_cloud.natural_language_classifier.v1.NaturalLanguageClassifier;
 import com.ibm.watson.developer_cloud.natural_language_classifier.v1.model.Classification;
 import com.ibm.watson.developer_cloud.natural_language_classifier.v1.model.Classifier;
+import uhh_lt.ABSA.ABSentiment.AbSentiment;
 
 import java.io.File;
 
@@ -72,6 +73,12 @@ public class LawClassifier {
     public Classification classifySentence(String sentence, String classifierId){
         Classification classification = _service.classify(classifierId, sentence).execute();
         return classification;
+    }
+
+
+    public void useTUClassifier(){
+        //AbSentiment analyzer = new AbSentiment();
+
     }
 }
 

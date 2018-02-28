@@ -1,40 +1,34 @@
 package com.unihh.lawstats.bootstrap.Watson;
 
+import com.unihh.lawstats.core.model.Verdict;
+
+import java.io.File;
 import java.util.Map;
 
 public class TestMain {
 
+
+
     public static void main(String[] args){
         WatsonLawUtilities watsonLawUtilities = new WatsonLawUtilities();
         Map<String, String> sentenceMap;
+        /*
+        AnalyzingCoordinator analyzingCoordinator = new AnalyzingCoordinator();
 
-        sentenceMap = watsonLawUtilities.splitDocumentIntoSentences("BUNDESGERICHTSHOF 2 StR 281/00 BESCHLUSS vom 23-8-2000 in der Strafsache gegen wegen Totschlags Der 2_ Strafsenat des Bundesgerichtshofs hat nach Anhörung des Beschwerdeführers und des Generalbundesanwalts - zu Ziffer 3 auf dessen Antrag - am 23-8-2000 gemäß § 349 Abs_ 2 und 4 StPO einstimmig beschlossen:\n" +
-                "1. Auf die Revision des Angeklagten wird das Urteil des Landgerichts Wiesbaden vom 1-3-2000 im Strafausspruch mit den Feststellungen aufgehoben.\n" +
-                "2. Im Umfang der Aufhebung wird die Sache zu neuer Verhandlung und Entscheidung, auch über die Kosten des Rechtsmittels, an eine andere als Schwurgericht zuständige Strafkammer des Landgerichts zurückverwiesen.\n" +
-                "3. Die weitergehende Revision wird verworfen.\n" +
-                "Gründe: Das Landgericht hat den Angeklagten wegen Totschlags zu einer Freiheitsstrafe von acht Jahren verurteilt. Mit seiner Revision rügt der Angeklagte die Verletzung formellen und materiellen Rechts. Die Sachrüge führt zur Aufhebung des Strafausspruchs; das weitergehende Rechtsmittel ist unbegründet im Sinne von § 349 Abs_ 2 StPO. 1_ Nach den Feststellungen des Landgerichts nahm der Angeklagte am Tattag an einer Geburtstagsfeier seiner Schwester in einem Gemeindezentrum teil. Gegen 3.00 Uhr verschaffte sich eine Gruppe von Personen, zu welcher auch das spätere Tatopfer gehörte und die kurz zuvor von der Schwester des Angeklagten aus dem Gemeindezentrum verwiesen worden waren, gewaltsam erneut Zutritt und drang in den Vorraum des Gebäudes ein. Dort kam es deshalb zwischen Mitgliedern der beiden Gruppen zu einer tätlichen Auseinandersetzung, in deren Verlauf der Lebensgefährte der Schwester des Angeklagten \"zu Boden ging\". Während diese sich um ihren am Boden liegenden Lebensgefährten kümmerte, stieß der Angeklagte einem der Eindringlinge ein sogenanntes \"Überlebensmesser\" mit einer Klingenlänge von 22 cm mit bedingtem Tötungsvorsatz wuchtig in den Bauch; das Opfer verstarb alsbald an den Folgen des Stichs. Der Angeklagte wies zur Tatzeit eine Blutalkoholkonzentration von 1,95 %o auf; im Laufe des Abends hatte er einmal Amphetamin (\"Speed\") und mindestens einmal Heroin injiziert.\n" +
-                "2. Das Landgericht hat eine uneingeschränkte Schuldfähigkeit des Angeklagten angenommen. Hierbei hat es sich auf das Gutachten eines in der Hauptverhandlung vernommenen Sachverständigen gestützt; dieser hat ausgeführt, es seien keine Hinweise für eine Zerstörung der Sinnkontinuität oder für eine Persönlichkeitsfremdheit der Tat erkennbar. Der Angeklagte sei minder begabt, aber nicht schwachsinnig. Er habe nach der Tat folgerichtig gehandelt, indem er das Messer versteckte; er habe sich unauffällig verhalten und keine Ausfallserscheinungen gezeigt. Die Wirkung des Alkohols sei durch das zusätzlich konsumierte Rauschgift nicht erhöht worden; dieses habe vielmehr dämpfend gewirkt. Das Nachtatverhalten des Angeklagten spreche dagegen, daß er vor der Tat mehr als einmal Heroin gespritzt habe.\n" +
-                "Das Landgericht hat sich diesen im Urteil wiedergegebenen Darlegungen des Sachverständigen angeschlossen; ihre Würdigung durch das Gericht beschränkt sich auf die Bemerkung, sie seien überzeugend. Dies läßt besorgen, daß das Landgericht die ihm obliegende umfassende eigene rechtliche Prüfung der Schuldfähigkeit des Angeklagten nur unzureichend vorgenommen und seine Beurteilung isoliert auf die vom Sachverständigen angesprochenen Gesichtspunkte gestützt hat.\n" +
-                "a) Die im Urteil wiedergegebenen Ausführungen des Sachverständigen sind schon für sich nicht bedenkenfrei, soweit eine erhebliche Beeinträchtigung der Steuerungsfähigkeit - die im Urteil als solche nicht angesprochen ist - ausgeschlossen wird. Diese setzt weder eine Zerstörung der Sinnkontinuität noch eine Persönlichkeitsfremdheit der Tat voraus; auch dem Umstand, daß der Angeklagte sich an die Ereignisse des Tattages erinnert hat, kommt insoweit nur geringes Gewicht zu. Die Erwägung, das zusätzlich injizierte Rauschgift habe die Alkoholwirkung gedämpft, ist hinsichtlich der Injektion von Amphetamin nicht naheliegend; die Annahme, das Nachtatverhalten spreche gegen die vom Angeklagten behauptete zweimalige Injektion von Heroin, ist mit den Ausführungen zur dämpfenden Wirkung nicht ohne weiteres vereinbar. Daß der Angeklagte die Tat gegenüber den am Tatort eintreffenden Polizeibeamten zunächst einräumte, kurz darauf aber leugnete, trägt die Wertung eines \"folgerichtigen\" Nachtatverhaltens nicht. Die Frage einer Wechselwirkung zwischen Alkohol, Heroin und Amphetamin ist nur unzureichend behandelt; eine mögliche Ernüchterung durch die Tat, welche das als folgerichtig und ruhig geschilderte Nachtatverhalten erklären könnte, ist nicht erörtert.\n" +
-                "b) Auf eine umfassende eigene Würdigung durch das Gericht konnte hier auch im Hinblick auf den zur Tat führenden Geschehensablauf nicht verzichtet werden. Zwar hat das Landgericht die vom Angeklagten behauptete Nothilfe zugunsten seiner Schwester im Ergebnis zu Recht abgelehnt. Dies hat es jedoch nicht darauf gestützt, daß der vom Angeklagten behauptete NothilfeWille den unvermittelten Einsatz des Messers mit Tötungsvorsatz gegen die unbewaffneten Angreifer nicht hätte rechtfertigen können, sondern auf die mit den Feststellungen kaum vereinbare Erwägung, die \"Rangeleien\" seien \"von beiden Seiten ausgegangen\" und zum Tatzeitpunkt \"längst beendet\" gewesen (UA S_ 13). Aus welchen Gründen das Landgericht der Einlassung des Angeklagten nicht gefolgt ist, kurz vor Einsatz des Messers sei seine Schwester von einer der eingedrungenen Personen geschlagen und getreten worden, ergibt sich aus den Urteilsgründen nicht.\n" +
-                "Die nachfolgenden knappen und formelhaften Erwägungen, mit denen das Landgericht das Vorliegen eines sonstigen minder schweren Falles im Sinne von § 213, 2_ Alternative StGB ablehnt, führen zwar aus, weder die Enthemmung des Angeklagten durch Alkohol, noch sein Zorn über das Verhalten der Mitglieder der anderen Gruppe rechtfertigten die Annahme eines minder schweren Falles; sie verhalten sich aber weder zur ersten Alternative des § 213 StGB noch enthalten sie eine vom Revisionsgericht nachprüfbare Gesamtwürdigung.\n" +
-                "c) Der Senat kann angesichts der unzureichenden Darlegungen und des Fehlens einer Auseinandersetzung mit den im einzelnen bedenklichen Ausführungen des Sachverständigen nicht ausschließen, daß das Landgericht bei der Verneinung einer erheblichen Einschränkung der Steuerungsfähigkeit des Angeklagten von unzutreffenden Erwägungen ausgegangen ist. Der Rechtsfolgenausspruch war daher aufzuheben.\n" +
-                "\n" +
-                "\n" +
-                "\n" +
-                "3. Nach den Feststellungen des Landgerichts konsumiert der zur Tatzeit 30 Jahre alte Angeklagte seit seinem 16 Lebensjahr Haschisch, seit seinem 25 Lebensjahr Amphetamine und Heroin, das er injiziert. Der neue Tatrichter wird Gelegenheit haben, sich unter dem Gesichtspunkt des § 64 StGB auch hiermit auseinanderzusetzen.\n" +
-                "\n" +
-                "Jähnke RiBGH Niemöller ist wegen Eintritts in den Ruhestand verhindert, seine Unterschrift beizufügen.\n" +
-                "\n" +
-                "Ri'inBGH Dr_ Otten ist infolge Urlaubs verhindert, ihre Unterschrift beizufügen.\n" +
-                "\n" +
-                "Jähnke Jähnke Rothfuß Fischer\n" +
-                "\n");
+        Verdict verdict = analyzingCoordinator.analyzeDocument(new File("C:\\Users\\Phillip\\Documents\\Studium\\Praktikum Sprachtechnologie\\Firsttest\\verdict70001.pdf"));
+
+        System.out.println(verdict);
+        */
+
+        DownloadManager downloadManager = new DownloadManager();
+        downloadManager.downloadMultithread(10, 52566, 70000);
 
 
-        //sentenceMap = watsonLawUtilities.splitDocumentIntoSentences("Hallo ich bin der Phillip. ich probier einfach mal aus obs funktioniert. Am besten erstmal mit nem ganz normalen text.");
-        System.out.println(sentenceMap);
+
     }
+
+
+
 
 
 }

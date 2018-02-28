@@ -4,7 +4,7 @@ import com.unihh.lawstats.bootstrap.Converter.PDFToTextConverter;
 import com.unihh.lawstats.bootstrap.VerdictDownloader;
 
 public class Main {
-
+/*
     public static void main(String[] args){
         VerdictDownloader verdictDownloader = new VerdictDownloader();
         PDFToTextConverter pdfToTextConverter = new PDFToTextConverter();
@@ -25,4 +25,5 @@ public class Main {
             e.printStackTrace();
         }
     }
+    */
 }
