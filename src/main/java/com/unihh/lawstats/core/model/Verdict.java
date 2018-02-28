@@ -5,7 +5,9 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.solr.core.mapping.SolrDocument;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.net.URL;
 import java.util.Date;
+import java.util.List;
 
 /**
  * This class represents one document with the extracted date from watson
@@ -41,6 +43,10 @@ public class Verdict {
     private String foreDecisionDCCourt;
     @Field
     private Long foreDecisionDCVerdictDate;
+
+    private List<String> decisionSentences;
+
+    private int documentNumber;
 
     public String getDocketNumber() {
         return docketNumber;
@@ -138,5 +144,21 @@ public class Verdict {
     @Override
     public int hashCode() {
         return this.getDocketNumber().hashCode();
+    }
+
+    public List<String> getDecisionSentences() {
+        return decisionSentences;
+    }
+
+    public void setDecisionSentences(List<String> decisionSentences) {
+        this.decisionSentences = decisionSentences;
+    }
+
+    public int getDocumentNumber() {
+        return documentNumber;
+    }
+
+    public void setDocumentNumber(int documentNumber) {
+        this.documentNumber = documentNumber;
     }
 }

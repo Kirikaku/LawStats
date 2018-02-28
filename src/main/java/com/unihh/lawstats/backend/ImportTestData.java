@@ -5,6 +5,7 @@ import com.unihh.lawstats.core.mapping.VerdictDateFormatter;
 import com.unihh.lawstats.core.model.Verdict;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -27,6 +28,12 @@ public class ImportTestData {
     private final List<String> dcCourtList = Arrays.asList("Amtsgericht Hamburg", "AG Suelzhausen", "Amtsgericht Neukoeln",
             "AG Lummel", "Amtsgericht Bucerius", "AG Pikachu");
 
+    private final List<String> decSentencesList = Arrays.asList("Ich bin der erste Entscheidungssatz", "Ich bin der zweite Entscheidungssatz",
+            "Ich bin der dritte Entscheidungssatz", "Ich bin der vierte Entscheidungssatz",
+            "Wenn ich groß bin, will ich der fünfte Entscheidungssatz sein.", "Ich bin der letzte ES!");
+
+    private final List<Integer> documentNumberList = Arrays.asList(74242, 70010, 78001, 70453, 75632, 76543, 71234);
+
     public ImportTestData(VerdictRepository verdictRepository) throws ParseException {
         this.verdictRepository = verdictRepository;
         createTestData();
@@ -43,6 +50,8 @@ public class ImportTestData {
             //Date dv = (convertToDateLong(dateVerdicts.get(rand.nextInt(dateVerdicts.size())));
             verdict.setDateVerdict(convertToDateLong(dateVerdicts.get(rand.nextInt(dateVerdicts.size()))));
             verdict.setForeDecisionRACCourt(racCourtList.get(rand.nextInt(racCourtList.size())));
+            verdict.setDecisionSentences(pickRandomSentences());
+            verdict.setDocumentNumber(documentNumberList.get(rand.nextInt(documentNumberList.size())));
             if (verdict.getForeDecisionRACCourt().isEmpty()) {
                 verdict.setForeDecisionRACVerdictDate(convertToDateLong(""));
                 verdict.setForeDecisionRCCourt("");
@@ -80,6 +89,16 @@ public class ImportTestData {
 
         return judgeArray;
     }
+
+     private List<String> pickRandomSentences() {
+        Random rand = new Random();
+        List<String> strL = new ArrayList<>();
+        for (int i=0; i > 3; i++) {
+            decSentencesList.get(rand.nextInt(decSentencesList.size()));
+            strL.add(decSentencesList.get(rand.nextInt(decSentencesList.size())));
+        }
+        return strL;
+     }
 
     private Long convertToDateLong(String string) throws ParseException {
         VerdictDateFormatter verdictDateFormatter = new VerdictDateFormatter();

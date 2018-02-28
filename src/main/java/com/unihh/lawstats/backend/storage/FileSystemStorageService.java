@@ -43,7 +43,8 @@ public class FileSystemStorageService implements StorageService {
                     "Cannot store file with relative path outside current directory "
                             + filename);
         }
-
+        // gets File, from Upload
+        //Testfile "myfile"
         File myfile = new File("src/main/resources/testData/VerdictUploadTestFile.pdf");
         FileProcessService fps = new FileProcessService();
         fps.setFile(myfile);
@@ -54,9 +55,7 @@ public class FileSystemStorageService implements StorageService {
         }
         //TODO delete - nur wegen debugger
         System.out.println("");
-
-
-}
+    }
 
     @Override
     public Stream<Path> loadAll() {

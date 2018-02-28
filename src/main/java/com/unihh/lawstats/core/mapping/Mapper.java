@@ -18,7 +18,7 @@ public class Mapper {
 
 
     /*
-    //TODO main und zugehörige statics entfernen! -> Ticket in Trello
+    //to do: main und zugehörige statics entfernen! -> Ticket in Trello
     public static void main(String[] args) throws JSONException, IOException, ParseException {
 
         File testfile = new File("src/main/resources/testData/JsonMappingTestData.json");
@@ -122,6 +122,13 @@ public class Mapper {
 
     */
 
+    /**
+     * Überführt einen String, welcher mit JSON Daten gefüllt ist in ein Verdict Objekt
+     *
+     * @param jsonText - String, welcher die von Watson ermittelten Entities etc. enthält
+     * @return ein Verdict Object, mit den parameterisierten Daten der Entities
+     * @throws ParseException - ja, kann passieren
+     */
     public Verdict mapJSONStringToVerdicObject(String jsonText) throws ParseException {
         JSONObject json = new JSONObject(jsonText);
         JSONArray jsonArray = json.getJSONArray("entities");
@@ -218,6 +225,13 @@ public class Mapper {
     }
 
 
+    /**
+     * Hilfsmethode, sucht das Element einer Stringliste, welches am häufigsten vorkommt.
+     * Bei gleicher Kardinalität: Das letzte Element (entspricht random auswahl)
+     *
+     * @param typelist - Liste von Strings
+     * @return - das häugiste Element
+     */
     private String mostCommon(List<String> typelist) {
         if (!typelist.isEmpty()) {
             Map<String, Integer> map = new HashMap<>();
@@ -240,11 +254,25 @@ public class Mapper {
 
     }
 
+    /**
+     * Trimmt und setzt einen String auf lower case
+     *
+     * @param string
+     * @return
+     */
     private String normalizeString(String string) {
         string = string.trim();
         return string.toLowerCase();
     }
 
+
+    /**
+     * Filtert aus einer Stringliste das am kuerzesten zurückliegende/ jüngste Datum
+     *
+     * @param stringL Stringliste
+     * @return
+     * @throws ParseException
+     */
     private Long filterNewestDate(List<String> stringL) throws ParseException {
         VerdictDateFormatter verdictDateFormatter = new VerdictDateFormatter();
         // Empfängt eine Liste und gibt dabei das neueste Datum zurück.
