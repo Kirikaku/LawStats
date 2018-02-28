@@ -3,9 +3,9 @@ package com.unihh.lawstats.core.model;
 import org.apache.solr.client.solrj.beans.Field;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.solr.core.mapping.SolrDocument;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
-import java.util.Set;
 
 /**
  * This class represents one document with the extracted date from watson
@@ -25,22 +25,22 @@ public class Verdict {
     private String[] judgeList;
 
     @Field
-    private Date dateVerdict;
+    private Long dateVerdict;
     //Oberlandesgericht
     @Field
     private String foreDecisionRACCourt;
     @Field
-    private Date foreDecisionRACVerdictDate;
+    private Long foreDecisionRACVerdictDate;
     //Landesgericht
     @Field
     private String foreDecisionRCCourt;
     @Field
-    private Date foreDecisionRCVerdictDate;
+    private Long foreDecisionRCVerdictDate;
     //Amtsgericht
     @Field
     private String foreDecisionDCCourt;
     @Field
-    private Date foreDecisionDCVerdictDate;
+    private Long foreDecisionDCVerdictDate;
 
     public String getDocketNumber() {
         return docketNumber;
@@ -74,11 +74,11 @@ public class Verdict {
         this.judgeList = judgeList;
     }
 
-    public Date getDateVerdict() {
+    public Long getDateVerdict() {
         return dateVerdict;
     }
 
-    public void setDateVerdict(Date dateVerdict) {
+    public void setDateVerdict(Long dateVerdict) {
         this.dateVerdict = dateVerdict;
     }
 
@@ -90,11 +90,11 @@ public class Verdict {
         this.foreDecisionRACCourt = foreDecisionRACCourt;
     }
 
-    public Date getForeDecisionRACVerdictDate() {
+    public Long getForeDecisionRACVerdictDate() {
         return foreDecisionRACVerdictDate;
     }
 
-    public void setForeDecisionRACVerdictDate(Date foreDecisionRACVerdictDate) {
+    public void setForeDecisionRACVerdictDate(Long foreDecisionRACVerdictDate) {
         this.foreDecisionRACVerdictDate = foreDecisionRACVerdictDate;
     }
 
@@ -106,11 +106,11 @@ public class Verdict {
         this.foreDecisionRCCourt = foreDecisionRCCourt;
     }
 
-    public Date getForeDecisionRCVerdictDate() {
+    public Long getForeDecisionRCVerdictDate() {
         return foreDecisionRCVerdictDate;
     }
 
-    public void setForeDecisionRCVerdictDate(Date foreDecisionRCVerdictDate) {
+    public void setForeDecisionRCVerdictDate(Long foreDecisionRCVerdictDate) {
         this.foreDecisionRCVerdictDate = foreDecisionRCVerdictDate;
     }
 
@@ -122,11 +122,11 @@ public class Verdict {
         this.foreDecisionDCCourt = foreDecisionDCCourt;
     }
 
-    public Date getForeDecisionDCVerdictDate() {
+    public Long getForeDecisionDCVerdictDate() {
         return foreDecisionDCVerdictDate;
     }
 
-    public void setForeDecisionDCVerdictDate(Date foreDecisionDCVerdictDate) {
+    public void setForeDecisionDCVerdictDate(Long foreDecisionDCVerdictDate) {
         this.foreDecisionDCVerdictDate = foreDecisionDCVerdictDate;
     }
 }

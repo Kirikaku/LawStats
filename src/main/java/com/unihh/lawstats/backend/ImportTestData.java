@@ -4,16 +4,16 @@ import com.unihh.lawstats.backend.repositories.VerdictRepository;
 import com.unihh.lawstats.core.mapping.VerdictDateFormatter;
 import com.unihh.lawstats.core.model.Verdict;
 
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 
 public class ImportTestData {
 
     private final VerdictRepository verdictRepository;
 
-    private final List<Integer> revisionSuccessList = Arrays.asList(0,1,2);
+    private final List<Integer> revisionSuccessList = Arrays.asList(0, 1, 2);
     private final List<String> senateList = Arrays.asList("1. Senat", "2. Senat", "3. Senat", "4. Senat");
     private final List<String> judgeList = Arrays.asList("Mueller", "Koblen", "Gschwander", "Meier", "Schulz", "Lampert",
             "Kircher", "Schulz", "Schmidt", "Schneider", "Fischer", "Albrecht", "Bauer", "Baumann", "Beck");
@@ -24,7 +24,7 @@ public class ImportTestData {
             "OLG Koblenz", "Oberlandesgericht Koeln", "Oberlandesgericht Muenchen", "OLG Wiesbaden", "");
     private final List<String> rcCourtList = Arrays.asList("LG Karlsruhe", "Landesgericht Dresden", "Landesgericht Cottbus",
             "LG Kiel", "Landesgericht Flensburg", "LG Stuttgart", "");
-    private final List<String>  dcCourtList = Arrays.asList("Amtsgericht Hamburg", "AG Suelzhausen", "Amtsgericht Neukoeln",
+    private final List<String> dcCourtList = Arrays.asList("Amtsgericht Hamburg", "AG Suelzhausen", "Amtsgericht Neukoeln",
             "AG Lummel", "Amtsgericht Bucerius", "AG Pikachu");
 
     public ImportTestData(VerdictRepository verdictRepository) throws ParseException {
@@ -33,36 +33,36 @@ public class ImportTestData {
     }
 
     private void createTestData() throws ParseException {
-        for(int i = 0; i < 10; i++){
+        for (int i = 0; i < 10; i++) {
             Verdict verdict = new Verdict();
             Random rand = new Random();
             verdict.setDocketNumber(String.valueOf(rand.nextInt()));
             verdict.setRevisionSuccess(revisionSuccessList.get(rand.nextInt(revisionSuccessList.size())));
             verdict.setSenate(senateList.get(rand.nextInt(senateList.size())));
             verdict.setJudgeList(createJudgeArray());
-            //Date dv = (convertToDate(dateVerdicts.get(rand.nextInt(dateVerdicts.size())));
-            verdict.setDateVerdict(convertToDate(dateVerdicts.get(rand.nextInt(dateVerdicts.size()))));
+            //Date dv = (convertToDateLong(dateVerdicts.get(rand.nextInt(dateVerdicts.size())));
+            verdict.setDateVerdict(convertToDateLong(dateVerdicts.get(rand.nextInt(dateVerdicts.size()))));
             verdict.setForeDecisionRACCourt(racCourtList.get(rand.nextInt(racCourtList.size())));
-            if(verdict.getForeDecisionRACCourt().isEmpty()){
-                verdict.setForeDecisionRACVerdictDate(convertToDate(""));
+            if (verdict.getForeDecisionRACCourt().isEmpty()) {
+                verdict.setForeDecisionRACVerdictDate(convertToDateLong(""));
                 verdict.setForeDecisionRCCourt("");
-                verdict.setForeDecisionRCVerdictDate(convertToDate(""));
+                verdict.setForeDecisionRCVerdictDate(convertToDateLong(""));
                 verdict.setForeDecisionDCCourt("");
-                verdict.setForeDecisionDCVerdictDate(convertToDate(""));
+                verdict.setForeDecisionDCVerdictDate(convertToDateLong(""));
             } else {
-                verdict.setForeDecisionRACVerdictDate(convertToDate(dateVerdicts.get(rand.nextInt(dateVerdicts.size()))));
+                verdict.setForeDecisionRACVerdictDate(convertToDateLong(dateVerdicts.get(rand.nextInt(dateVerdicts.size()))));
                 verdict.setForeDecisionRCCourt(rcCourtList.get(rand.nextInt(rcCourtList.size())));
-                if(verdict.getForeDecisionRCCourt().isEmpty()){
-                    verdict.setForeDecisionRCVerdictDate(convertToDate(""));
+                if (verdict.getForeDecisionRCCourt().isEmpty()) {
+                    verdict.setForeDecisionRCVerdictDate(convertToDateLong(""));
                     verdict.setForeDecisionDCCourt("");
-                    verdict.setForeDecisionDCVerdictDate(convertToDate(""));
+                    verdict.setForeDecisionDCVerdictDate(convertToDateLong(""));
                 } else {
-                    verdict.setForeDecisionRCVerdictDate(convertToDate(dateVerdicts.get(rand.nextInt(dateVerdicts.size()))));
+                    verdict.setForeDecisionRCVerdictDate(convertToDateLong(dateVerdicts.get(rand.nextInt(dateVerdicts.size()))));
                     verdict.setForeDecisionDCCourt(dcCourtList.get(rand.nextInt(dcCourtList.size())));
-                    if(verdict.getForeDecisionDCCourt().isEmpty()){
-                        verdict.setForeDecisionDCVerdictDate(convertToDate(""));
+                    if (verdict.getForeDecisionDCCourt().isEmpty()) {
+                        verdict.setForeDecisionDCVerdictDate(convertToDateLong(""));
                     } else {
-                        verdict.setForeDecisionDCVerdictDate(convertToDate(dateVerdicts.get(rand.nextInt(dateVerdicts.size()))));
+                        verdict.setForeDecisionDCVerdictDate(convertToDateLong(dateVerdicts.get(rand.nextInt(dateVerdicts.size()))));
                     }
                 }
             }
@@ -74,20 +74,18 @@ public class ImportTestData {
         Random rand = new Random();
         final int bound = rand.nextInt(6);
         String[] judgeArray = new String[5];
-        for(int i = 0; i < bound; i++){
+        for (int i = 0; i < bound; i++) {
             judgeArray[i] = this.judgeList.get(rand.nextInt(this.judgeList.size()));
         }
 
         return judgeArray;
     }
 
-    private Date convertToDate(String string) throws ParseException {
+    private Long convertToDateLong(String string) throws ParseException {
         VerdictDateFormatter verdictDateFormatter = new VerdictDateFormatter();
-        if(string.isEmpty()){
+        if (string.isEmpty()) {
             return null;
         }
-        return verdictDateFormatter.formatDateVerdict(string);
+        return verdictDateFormatter.formateStringToLong(string);
     }
-
-
 }

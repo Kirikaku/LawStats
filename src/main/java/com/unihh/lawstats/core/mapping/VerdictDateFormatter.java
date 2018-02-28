@@ -16,7 +16,7 @@ public class VerdictDateFormatter {
     private DateFormat df_tod = new SimpleDateFormat("dd-M-yyyy", Locale.GERMAN);
 
 
-    public Date formatDateVerdict(String string) {
+    public Long formateStringToLong(String string) {
 
         Date date;
         try {
@@ -31,19 +31,18 @@ public class VerdictDateFormatter {
             } else {
                 date = new Date(0000, 00, 00);
             }
-        } catch (ParseException e){
+        } catch (ParseException e) {
             e.printStackTrace();
-            return new Date();
+            return new Date().getTime();
         }
-        return date;
+        return date.getTime();
     }
 
-    public List<Date> formatDateVerdictList(List<String> stringL) throws ParseException {
+    public List<Long> formateStringDateToLongList(List<String> stringL) throws ParseException {
         // Empfängt eine Liste und gibt dabei das neueste Datum zurück.
-        List<Date> dateVerdictList = new ArrayList<>();
+        List<Long> dateVerdictList = new ArrayList<>();
         for (String string : stringL) {
-            Date date;
-            date = formatDateVerdict(string);
+            Long date = formateStringToLong(string);
             dateVerdictList.add(date);
         }
         return dateVerdictList;
@@ -56,7 +55,7 @@ public class VerdictDateFormatter {
      * @param verdictDate the date which we want to format
      * @return the formattet date in a string
      */
-    public String formatVerdictDateToString(final Date verdictDate) {
+    public String formatVerdictDateToString(final Long verdictDate) {
         DateFormat formatter = new SimpleDateFormat("dd:MM:yyyy");
         return formatter.format(verdictDate);
     }

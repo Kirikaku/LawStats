@@ -17,7 +17,7 @@ public class AnalyzingCoordinator {
         verdict.setForeDecisionDCCourt("Landgericht Erfurt");
         verdict.setDocketNumber("12345");
         verdict.setForeDecisionRCCourt("Oberlandesgericht Ulm");
-        verdict.setDateVerdict(new Date(2015, 04, 12));
+        verdict.setDateVerdict(new Date(2015, 04, 12).getTime());
 
         PDFToTextConverter pdfToTextConverter = new PDFToTextConverter();
         LawEntityExtractor lawEntityExtractor = new LawEntityExtractor();
