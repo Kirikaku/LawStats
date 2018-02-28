@@ -23,7 +23,7 @@ function insert() {
     td2.innerHTML = document.getElementById("tag").value;
     td3.innerHTML = document.getElementById("start").value;
     td4.innerHTML = document.getElementById("end").value;
-    // td5.onclick(deleteRow(this));
+    td5.setAttribute("onclick","deleteRow(this); return false");
 
     row.appendChild(td1);
     row.appendChild(td2);
