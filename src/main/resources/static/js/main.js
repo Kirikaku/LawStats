@@ -69,7 +69,6 @@ function insert() {
     td2.innerHTML = document.getElementById("tag").value;
     td3.innerHTML = document.getElementById("start").value;
     td4.innerHTML = document.getElementById("end").value;
-    td5.setAttribute("onclick","deleteRow(this); return false");
     console.info(attribute);
 
     td1.innerHTML = attribute;
@@ -81,17 +80,10 @@ function insert() {
     row.appendChild(td2);
     row.appendChild(td3);
     row.appendChild(td4);
-    row.appendChild(td5);
 
     table.children[0].appendChild(row);
 
 }
-
-function deleteRow(r) {
-    var i = r.parentNode.parentNode.rowIndex;
-    document.getElementById("attributeTable").deleteRow(i);
-}
-
 
 (function ($) {
 

@@ -124,7 +124,8 @@ public class FilterController {
                 boolean isRelated = true;
                 for (DataModelAttributes attribute : searchVerdict.getCombinationMap().keySet()) {
                     StringInput stringInput = (StringInput) searchVerdict.getValueForKey(attribute);
-                    if (!dataAttributeVerdictService.dataAttributeToVerdictValue(attribute, verdict).contains(stringInput.getValue())) {
+                    if (dataAttributeVerdictService.dataAttributeToVerdictValue(attribute, verdict).stream().noneMatch(s -> s.contains(stringInput.getValue())))
+                    {
                         isRelated = false;
                     }
                 }

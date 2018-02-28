@@ -6,8 +6,10 @@ import org.springframework.data.solr.core.mapping.SolrDocument;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.net.URL;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * This class represents one document with the extracted date from watson
@@ -53,7 +55,7 @@ public class Verdict {
     }
 
     public void setDocketNumber(String docketNumber) {
-        this.docketNumber = docketNumber;
+        this.docketNumber = docketNumber.toLowerCase();
     }
 
     public int getRevisionSuccess() {
@@ -69,7 +71,7 @@ public class Verdict {
     }
 
     public void setSenate(String senate) {
-        this.senate = senate;
+        this.senate = senate.toLowerCase();
     }
 
     public String[] getJudgeList() {
@@ -77,7 +79,7 @@ public class Verdict {
     }
 
     public void setJudgeList(String[] judgeList) {
-        this.judgeList = judgeList;
+        this.judgeList = Arrays.stream(judgeList).filter(Objects::nonNull).map(String::toLowerCase).toArray(String[]::new);
     }
 
     public Long getDateVerdict() {
@@ -93,7 +95,7 @@ public class Verdict {
     }
 
     public void setForeDecisionRACCourt(String foreDecisionRACCourt) {
-        this.foreDecisionRACCourt = foreDecisionRACCourt;
+        this.foreDecisionRACCourt = foreDecisionRACCourt.toLowerCase();
     }
 
     public Long getForeDecisionRACVerdictDate() {
@@ -109,7 +111,7 @@ public class Verdict {
     }
 
     public void setForeDecisionRCCourt(String foreDecisionRCCourt) {
-        this.foreDecisionRCCourt = foreDecisionRCCourt;
+        this.foreDecisionRCCourt = foreDecisionRCCourt.toLowerCase();
     }
 
     public Long getForeDecisionRCVerdictDate() {
@@ -125,7 +127,7 @@ public class Verdict {
     }
 
     public void setForeDecisionDCCourt(String foreDecisionDCCourt) {
-        this.foreDecisionDCCourt = foreDecisionDCCourt;
+        this.foreDecisionDCCourt = foreDecisionDCCourt.toLowerCase();
     }
 
     public Long getForeDecisionDCVerdictDate() {
