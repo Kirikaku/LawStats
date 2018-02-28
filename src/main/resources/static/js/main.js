@@ -1,4 +1,12 @@
 
+function getQueriedVerdicts() {
+    var url = '/filter/searchVerdicts';
+
+    console.info('In GetQueriedVerdicts');
+
+    $("#verdictTableBlock").load(url);
+}
+
 function insert() {
 
     var table = document.getElementById("attributeTable");

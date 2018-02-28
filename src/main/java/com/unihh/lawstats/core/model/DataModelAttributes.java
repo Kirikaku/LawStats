@@ -25,4 +25,13 @@ public enum DataModelAttributes implements Attributes {
     public String getDisplayName() {
         return displayName;
     }
+
+    public static DataModelAttributes valueOfDisplayName(String displayName) {
+        for(DataModelAttributes attributes : DataModelAttributes.values()){
+            if(attributes.displayName.equals(displayName)){
+                return attributes;
+            }
+        }
+        return null;
+    }
 }

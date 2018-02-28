@@ -129,4 +129,14 @@ public class Verdict {
     public void setForeDecisionDCVerdictDate(Long foreDecisionDCVerdictDate) {
         this.foreDecisionDCVerdictDate = foreDecisionDCVerdictDate;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof Verdict && this.getDocketNumber().equals(((Verdict) obj).getDocketNumber());
+    }
+
+    @Override
+    public int hashCode() {
+        return this.getDocketNumber().hashCode();
+    }
 }

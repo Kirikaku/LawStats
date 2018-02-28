@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <title>No Sidebar - Helios by HTML5 UP</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="css/main.css"/>
+</head>
+
+<body>
+<div th:fragment="verdictTableBlock">
+    <table class="table.default" id="verdictTable" border="1">
+        <thead>
+        <tr>
+            <th th:each="attribute : ${@FilterController.getAttributesDisplayname()}"
+                th:text="${attribute}">
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="verdict : ${@FilterController.getSearchVerdictList()}">
+            <td th:each="attribute : ${@FilterController.getAttributesDisplayname()}">
+                <span th:text="${@FilterController.getValueForAttributeAndVerdict(verdict, attribute)}"></span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
