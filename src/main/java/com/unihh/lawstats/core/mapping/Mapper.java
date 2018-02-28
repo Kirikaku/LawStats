@@ -17,6 +17,7 @@ import java.util.*;
 public class Mapper {
 
 
+    /*
     //TODO main und zugehörige statics entfernen! -> Ticket in Trello
     public static void main(String[] args) throws JSONException, IOException, ParseException {
 
@@ -24,6 +25,7 @@ public class Mapper {
         if (testfile.exists()) {
             InputStream is = new FileInputStream(testfile);
             String jsonTxt = IOUtils.toString(is, "UTF-8");
+            
             JSONObject json = new JSONObject(jsonTxt);
             JSONArray jsonArray = json.getJSONArray("entities");
 
@@ -113,12 +115,110 @@ public class Mapper {
             verdict.setForeDecisionDCCourt(mostCommon(foreDecDCcL));
             verdict.setForeDecisionDCVerdictDate(filterNewestDate((foreDecDCdvL)));
 
-            //TODO sout entfernen - nur für debugger
-            System.out.println("");
+            //sout nur für debugger benötigt
+            //System.out.println("");
         }
     }
 
-    private static String mostCommon(List<String> typelist) {
+    */
+
+    public Verdict mapJSONStringToVerdicObject(String jsonText) throws ParseException {
+        JSONObject json = new JSONObject(jsonText);
+        JSONArray jsonArray = json.getJSONArray("entities");
+
+        // Listen für die einzelnen Entities
+        List<String> docketnumberL = new ArrayList<>();
+        // TODO List Revision Success
+
+        List<String> senateL = new ArrayList<>();
+        Set<String> judgeL = new HashSet<>();
+        List<String> dateverdictL = new ArrayList<>();
+        List<String> foreDecRACcL = new ArrayList<>();
+        List<String> foreDecRACdvL = new ArrayList<>();
+        List<String> foreDecRCcL = new ArrayList<>();
+        List<String> foreDecRCdvL = new ArrayList<>();
+        List<String> foreDecDCcL = new ArrayList<>();
+        List<String> foreDecDCdvL = new ArrayList<>();
+
+        // Iterieren durch das JSON Array
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject jsonObjectEntity = jsonArray.getJSONObject(i);
+            String type = jsonObjectEntity.getString("type");
+
+            //Abfrage des Inhalts | Einsortieren in die zugehörige Liste
+            switch (type) {
+                case "DocketNumber":
+                    docketnumberL.add(jsonObjectEntity.getString("text"));
+                    break;
+                //TODO Revision Success Case
+                case "Senate":
+                    senateL.add(jsonObjectEntity.getString("text"));
+                    break;
+                case "Judges":
+                    //judgeL.toArray(new String[judgeL.size()]);
+                    judgeL.add(jsonObjectEntity.getString("text"));
+                    break;
+                case "DateVerdict":
+                    dateverdictL.add(jsonObjectEntity.getString("text"));
+                    break;
+                case "ForeDecisionRACCourt":
+                    foreDecRACcL.add(jsonObjectEntity.getString("text"));
+                    break;
+                case "ForeDecisionRACDateVerdict":
+                    foreDecRACdvL.add(jsonObjectEntity.getString("text"));
+                    break;
+                case "ForeDecisionRCCourt":
+                    foreDecRCcL.add(jsonObjectEntity.getString("text"));
+                    break;
+                case "ForeDecisionRCDateVerdict":
+                    foreDecRCdvL.add(jsonObjectEntity.getString("text"));
+                    break;
+                case "ForeDecisionDCCourt":
+                    foreDecDCcL.add(jsonObjectEntity.getString("text"));
+                    break;
+                case "ForeDecisionDCDateVerdict":
+                    foreDecDCdvL.add(jsonObjectEntity.getString("text"));
+                    break;
+            }
+        }
+        // Creating a new Verdict Object
+        // Using Date for Date-Elements
+        Verdict verdict = new Verdict();
+
+        //Docket Number
+        verdict.setDocketNumber(mostCommon(docketnumberL));
+
+        // TODO revisionSuccess
+
+        //Senate
+        verdict.setSenate(mostCommon(senateL));
+
+        //Judges
+        String[] judgeList = judgeL.toArray(new String[judgeL.size()]);
+        verdict.setJudgeList(judgeList);
+
+        //Date Verdict
+        verdict.setDateVerdict(filterNewestDate(dateverdictL));
+
+        //Oberlandesgericht - RAC
+        verdict.setForeDecisionRACCourt(mostCommon(foreDecRACcL));
+        verdict.setForeDecisionRACVerdictDate((filterNewestDate(foreDecRACdvL)));
+
+        //Landesgericht - RC
+        verdict.setForeDecisionRCCourt(mostCommon(foreDecRCcL));
+        verdict.setForeDecisionRCVerdictDate(filterNewestDate(foreDecRCdvL));
+
+        //Amtsgericht - DC
+        verdict.setForeDecisionDCCourt(mostCommon(foreDecDCcL));
+        verdict.setForeDecisionDCVerdictDate(filterNewestDate((foreDecDCdvL)));
+
+        //sout nur für debugger benötigt
+        //System.out.println("");
+        return verdict;
+    }
+
+
+    private String mostCommon(List<String> typelist) {
         if (!typelist.isEmpty()) {
             Map<String, Integer> map = new HashMap<>();
             for (String string : typelist) {
@@ -140,12 +240,12 @@ public class Mapper {
 
     }
 
-    private static String normalizeString(String string) {
+    private String normalizeString(String string) {
         string = string.trim();
         return string.toLowerCase();
     }
 
-    private static Long filterNewestDate(List<String> stringL) throws ParseException {
+    private Long filterNewestDate(List<String> stringL) throws ParseException {
         VerdictDateFormatter verdictDateFormatter = new VerdictDateFormatter();
         // Empfängt eine Liste und gibt dabei das neueste Datum zurück.
         List<Long> dateVerdicts;

@@ -12,7 +12,7 @@ import java.util.Date;
 public class AnalyzingCoordinator {
 
 
-    public Verdict analyzeDocument(File fileToAnalyze){
+    public Verdict analyzeDocument(File fileToAnalyze) {
         Verdict verdict = new Verdict();
         verdict.setForeDecisionDCCourt("Landgericht Erfurt");
         verdict.setDocketNumber("12345");

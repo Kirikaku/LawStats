@@ -1,5 +1,6 @@
 package com.unihh.lawstats.backend.storage;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
@@ -8,7 +9,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.stream.Stream;
 
-import com.unihh.lawstats.backend.MyClassService;
+import com.unihh.lawstats.backend.FileProcessService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -21,35 +22,52 @@ import org.springframework.web.multipart.MultipartFile;
 public class FileSystemStorageService implements StorageService {
 
     private final Path rootLocation;
-    private MyClassService myClassService;
+    private FileProcessService fileProcessService;
 
     @Autowired
     public FileSystemStorageService(StorageProperties properties,
-                                    MyClassService myClassService) {
+                                    FileProcessService myClassService) {
         this.rootLocation = Paths.get(properties.getLocation());
-        this.myClassService = myClassService;
+        this.fileProcessService = fileProcessService;
     }
+
 
     @Override
     public void store(MultipartFile file) {
         String filename = StringUtils.cleanPath(file.getOriginalFilename());
-        try {
-            if (file.isEmpty()) {
-                throw new StorageException("Failed to store empty file " + filename);
-            }
-            if (filename.contains("..")) {
-                throw new StorageException(
-                        "Cannot store file with relative path outside current directory "
-                                + filename);
-            }
-            //TODO
-            Files.copy(file.getInputStream(), this.rootLocation.resolve(filename),
-                    StandardCopyOption.REPLACE_EXISTING);
+//        try {
+        if (file.isEmpty()) {
+            throw new StorageException("Failed to store empty file " + filename);
         }
-        catch (IOException e) {
-            throw new StorageException("Failed to store file " + filename, e);
+        if (filename.contains("..")) {
+            throw new StorageException(
+                    "Cannot store file with relative path outside current directory "
+                            + filename);
         }
-    }
+        //TODO Removen und in eigenen Service (FileProcessService) umleiten
+//            Files.copy(file.getInputStream(), this.rootLocation.resolve(filename),
+//                    StandardCopyOption.REPLACE_EXISTING);
+
+        File myfile = new File("src/main/resources/testData/VerdictUploadTestFile.pdf");
+        FileProcessService fps = new FileProcessService();
+        fps.setFile(myfile);
+        if (fps.checkPDF()) {
+            fps.start();
+        } else {
+            myfile.delete();
+        }
+        //TODO delete nur wegen debugger
+        System.out.println("");
+
+//    } catch(
+//    IOException e)
+//
+//    {
+//        throw new StorageException("Failed to store file " + filename, e);
+//    }
+
+
+}
 
     @Override
     public Stream<Path> loadAll() {
@@ -57,8 +75,7 @@ public class FileSystemStorageService implements StorageService {
             return Files.walk(this.rootLocation, 1)
                     .filter(path -> !path.equals(this.rootLocation))
                     .map(this.rootLocation::relativize);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new StorageException("Failed to read stored files", e);
         }
 
@@ -76,14 +93,12 @@ public class FileSystemStorageService implements StorageService {
             Resource resource = new UrlResource(file.toUri());
             if (resource.exists() || resource.isReadable()) {
                 return resource;
-            }
-            else {
+            } else {
                 throw new StorageFileNotFoundException(
                         "Could not read file: " + filename);
 
             }
-        }
-        catch (MalformedURLException e) {
+        } catch (MalformedURLException e) {
             throw new StorageFileNotFoundException("Could not read file: " + filename, e);
         }
     }
@@ -97,8 +112,7 @@ public class FileSystemStorageService implements StorageService {
     public void init() {
         try {
             Files.createDirectories(rootLocation);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new StorageException("Could not initialize storage", e);
         }
     }
