@@ -43,27 +43,28 @@
     <div class="wrapper style1">
 
         <div class="container">
-            <article id="main" class="special">
-                <header>
+            <header>
+                <article id="main" class="special">
+
                     <h2>Revisionen hochladen</h2>
                     <p>
                         Hier neue können neue Revisionen hochgeladen werden und überprüft werden
                     </p>
-                </header>
 
-            </article>
-            <div th:if="${message}">
-                <h2 th:text="${message}"></h2>
-            </div>
 
-            <div class="container">
-                <form method="POST" enctype="multipart/form-data" th:action="@{/uploadFile}">
-                    <input type="file" name="file" accept="application/pdf/*">
-                    <input type="submit" value="Upload"/>
-                </form>
-                <footer></footer>
-            </div>
+                </article>
+                <div th:if="${message}">
+                    <p th:text="${message}"></p>
+                </div>
 
+                <div class="container">
+                    <form method="POST" enctype="multipart/form-data" th:action="@{/uploadFile}">
+                        <input type="file" name="file" accept="application/pdf/*">
+                        <input type="submit" value="Upload"/>
+                    </form>
+                    <footer></footer>
+                </div>
+            </header>
         </div>
     </div>
     <!-- Footer -->
