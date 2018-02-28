@@ -35,7 +35,6 @@ public class FileSystemStorageService implements StorageService {
     @Override
     public void store(MultipartFile file) {
         String filename = StringUtils.cleanPath(file.getOriginalFilename());
-//        try {
         if (file.isEmpty()) {
             throw new StorageException("Failed to store empty file " + filename);
         }
@@ -44,9 +43,6 @@ public class FileSystemStorageService implements StorageService {
                     "Cannot store file with relative path outside current directory "
                             + filename);
         }
-        //TODO Removen und in eigenen Service (FileProcessService) umleiten
-//            Files.copy(file.getInputStream(), this.rootLocation.resolve(filename),
-//                    StandardCopyOption.REPLACE_EXISTING);
 
         File myfile = new File("src/main/resources/testData/VerdictUploadTestFile.pdf");
         FileProcessService fps = new FileProcessService();
@@ -56,15 +52,8 @@ public class FileSystemStorageService implements StorageService {
         } else {
             myfile.delete();
         }
-        //TODO delete nur wegen debugger
+        //TODO delete - nur wegen debugger
         System.out.println("");
-
-//    } catch(
-//    IOException e)
-//
-//    {
-//        throw new StorageException("Failed to store file " + filename, e);
-//    }
 
 
 }

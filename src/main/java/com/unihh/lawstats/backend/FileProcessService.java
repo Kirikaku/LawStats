@@ -27,9 +27,7 @@ public class FileProcessService extends Thread {
 
     public void run() {
         //TODO wait for methods
-
-
-
+        // Methods handle, converting, Watson communication and Mapping
 
         //verdictRepository.save(object);
     }
