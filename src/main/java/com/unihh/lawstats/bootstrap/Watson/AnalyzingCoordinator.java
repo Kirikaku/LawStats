@@ -7,6 +7,7 @@ import com.unihh.lawstats.core.model.Verdict;
 
 
 import java.io.File;
+import java.text.ParseException;
 import java.util.Date;
 
 public class AnalyzingCoordinator {
@@ -28,27 +29,28 @@ public class AnalyzingCoordinator {
         String jsonNLUResponse = null;
 
         String path = fileToAnalyze.getPath();
-        String pathTxt = path.replace(".pdf",".txt");
+        String pathTxt = path.replace(".pdf", ".txt");
 
 
         pdfToTextConverter.convertPDFToText(path);
         documentText = Formatter.formatText(path);
         jsonNLUResponse = lawEntityExtractor.extractEntities("modelid", documentText); //TODO model id von config holen
-        //TODO mapper aufrufen und jsonNLUResponse zu verdict objekt konvertieren
+
+        try {
+            verdict = verdictMapper.mapJSONStringToVerdicObject(jsonNLUResponse);
+        } catch (ParseException pE) {
+            System.out.println("Der JSON String konnte nicht auf ein Verdict Objekt gemappt werden.");
+            //TODO hier sollte vernünftig geloggt werden
+            pE.printStackTrace();
+        }
+
 
         //TODO hier kommt es drauf an ob Watson oder TU Darm. Classifier benutzt wird
-
-
+        verdict.setRevisionSuccess(1);
 
         String jsonClassifierResponse = "";
 
         //
-
-
-
-
-
-
 
 
         return verdict;
