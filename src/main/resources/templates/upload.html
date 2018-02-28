@@ -7,13 +7,13 @@
 -->
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Lawstats</title>
+    <title>Lawstats - Upload</title>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link rel="stylesheet" href="css/main.css"/>
 
-<body class="no-sidebar">
 
+<body class="no-sidebar" style="text-align: center">
 <div id="page-wrapper">
 
 
@@ -47,22 +47,24 @@
                 <article id="main" class="special">
 
                     <h2>Revisionen hochladen</h2>
-                    <p>
+                    <div class="container">
                         Hier neue können neue Revisionen hochgeladen werden und überprüft werden
-                    </p>
+                    </div>
 
 
                 </article>
-                <div th:if="${message}">
-                    <p th:text="${message}"></p>
-                </div>
+
 
                 <div class="container">
                     <form method="POST" enctype="multipart/form-data" th:action="@{/uploadFile}">
                         <input type="file" name="file" accept="application/pdf/*">
                         <input type="submit" value="Upload"/>
                     </form>
-                    <footer></footer>
+                    <footer>
+                        <div class="container" th:if="${message}">
+                            <p th:text="${message}"></p>
+                        </div>
+                    </footer>
                 </div>
             </header>
         </div>

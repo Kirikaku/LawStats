@@ -1649,7 +1649,7 @@
 	}
 
 	p {
-		text-align: justify;
+		text-align: center;
 	}
 
 	br.clear {
@@ -1717,7 +1717,7 @@
 			font-size: 1.5em;
 			margin: 1em 0 2em 0;
 			line-height: 1.5em;
-			text-align: inherit;
+			text-align: center;
 		}
 
 	footer {
@@ -1958,7 +1958,6 @@
 				}
 
 			table.default td {
-                text-align: center;
 				padding: 0.5em 1em 0.5em 1em;
 			}
 

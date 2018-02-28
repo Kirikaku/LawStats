@@ -1,25 +1,26 @@
 package com.unihh.lawstats.backend.controller;
 
 import com.unihh.lawstats.backend.repositories.VerdictRepository;
-import com.unihh.lawstats.core.model.Attributes;
-import com.unihh.lawstats.core.model.DataModelAttributes;
-import com.unihh.lawstats.core.model.TableAttributes;
-import com.unihh.lawstats.core.model.Verdict;
+import com.unihh.lawstats.core.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
+import static com.unihh.lawstats.core.model.DataModelAttributes.*;
+
+/*
 @Controller
 public class FilterController {
 
-    private Map<DataModelAttributes, List<String>> selectedAttributesMap = new HashMap<DataModelAttributes, List<String>>();
+    private Map<DataModelAttributes, List<Input>> selectedAttributesMap = new HashMap<>();
 
     private Set<Verdict> selectedVerdicts = new HashSet<>();
+
+    private ArrayList<Input> inputList = new ArrayList<>();
 
     private List<String> dataModelAttributesList = Collections.singletonList(TableAttributes.RevisionSuccess.getDisplayName());
 
@@ -28,8 +29,30 @@ public class FilterController {
 
     @GetMapping("/input")
     public String inputForm(Model model) {
-        model.addAttribute("input", new Input());
+        if (input.getAttribute() == DateVerdict | ForeDecisionRACDateVerdict |  ForeDecisionRCDateVerdict | ForeDecisionDCDateVerdict )
+        {
+            model.addAttribute("input", new DateInput());
+        }
+        else
+            model.addAttribute("input", new StringInput());
+            {
+        }
         return "input";
+    }
+
+    @RequestMapping(value = "/input", method = RequestMethod.POST)
+    public String submit(@ModelAttribute("input") final Input input, final ModelMap model) {
+        model.addAttribute("attribute", input.getAttribute());
+        if (input instanceof DateInput) {
+            model.addAttribute("start", input.getStart());
+            model.addAttribute("end", input.getEnd());
+        }
+        else {
+            model.addAttribute("value", input.getValue());
+        }
+        inputList.add(input);
+        selectedAttributesMap.put(input.getAttribute(),inputList);
+        return "redirect:/";
     }
 
     @PostMapping("/input")
@@ -42,7 +65,7 @@ public class FilterController {
         Map.Entry<DataModelAttributes, List<String>> entry = selectedAttributesMap.entrySet().iterator().next();
         selectedVerdicts.addAll(getVerdictListForAttribute(entry.getKey(), entry.getValue()));
 
-        //Second for every attrbute add the verdicts to the set and create the intersection.
+        //Second for every attribute add the verdicts to the set and create the intersection.
         //We connect the attributes with an AND
         selectedAttributesMap.forEach((dataModelAttributes, strings) -> selectedVerdicts.retainAll(getVerdictListForAttribute(dataModelAttributes, strings)));
 
@@ -50,7 +73,7 @@ public class FilterController {
     }
 
     private Collection<? extends Verdict> getVerdictListForAttribute(DataModelAttributes key, List<String> value) {
-        switch (key){
+        switch (key) {
             case DocketNumber:
                 return verdictRepository.findAllByDocketNumber(value);
             case Senate:
@@ -68,3 +91,4 @@ public class FilterController {
         }
     }
 }
+*/

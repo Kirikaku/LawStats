@@ -15,7 +15,7 @@ function insert() {
     td2.innerHTML = document.getElementById("tag").value;
     td3.innerHTML = document.getElementById("start").value;
     td4.innerHTML = document.getElementById("end").value;
-    button.onclick(deleteRow(this));
+    // td5.onclick(deleteRow(this));
 
     row.appendChild(td1);
     row.appendChild(td2);
