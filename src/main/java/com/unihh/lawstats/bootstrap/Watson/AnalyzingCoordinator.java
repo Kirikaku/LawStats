@@ -33,7 +33,8 @@ public class AnalyzingCoordinator {
 
 
         pdfToTextConverter.convertPDFToText(path);
-        //documentText = Formatter.formatText(path);
+        documentText = Formatter.formatText(pathTxt);
+        /*
         documentText = "BUNDESGERICHTSHOF XI ZR 392/12 BESCHLUSS vom 9-12-2014 in dem Rechtsstreit Der XI_ Zivilsenat des Bundesgerichtshofs hat am 9-12-2014 durch den Richter Dr_ Ellenberger als Vorsitzenden, die Richter Dr_ Grüneberg und Maihold sowie die Richterinnen Dr_ Menges und Dr_ Derstadt beschlossen:\n" +
                 "Auf die Nichtzulassungsbeschwerde des Klägers wird der Beschluss des 6_ Zivilsenats des Oberlandesgerichts Frankfurt am Main vom 11-9-2012 aufgehoben. Die Sache wird zur neuen Verhandlung und Entscheidung, auch über die Kosten des Beschwerdeverfahrens, an das Berufungsgericht zurückverwiesen. Streitwert: 191000 €.\n" +
                 "\n" +
@@ -93,6 +94,7 @@ public class AnalyzingCoordinator {
                 "\n" +
                 "Ellenberger Menges Grüneberg Derstadt Maihold Vorinstanzen: LG Gießen, Entscheidung vom 21-09-2011 - 2 O 501/10 OLG Frankfurt am Main, Entscheidung vom 11-09-2012 - 6 U 192/11 -\n" +
                 "\n";
+                */
         jsonNLUResponse = lawEntityExtractor.extractEntities("10:864de4a5-5bab-495e-8080-2f1185d1b38d", documentText); //TODO model id von config holen
 
         try {
