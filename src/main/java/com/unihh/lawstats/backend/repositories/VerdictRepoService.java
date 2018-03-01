@@ -1,6 +1,9 @@
 package com.unihh.lawstats.backend.repositories;
 
 import com.unihh.lawstats.core.model.*;
+import com.unihh.lawstats.core.model.input.DateInput;
+import com.unihh.lawstats.core.model.input.Input;
+import com.unihh.lawstats.core.model.input.StringInput;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +15,7 @@ public class VerdictRepoService {
     @Autowired
     VerdictRepository verdictRepository;
 
-    public Collection<? extends Verdict> getVerdictsForAttribute(DataModelAttributes key, List<Input> value) {
+    public Collection<? extends Verdict> getVerdictsForAttribute(DataModelAttributes key, Set<Input> value) {
         Set<Verdict> verdictSetForAttribute = new HashSet<>();
         for (Input input: value) {
             switch (key) {
@@ -30,21 +33,21 @@ public class VerdictRepoService {
                     verdictSetForAttribute.addAll(verdictRepository.findAllByDateVerdictBetween(dateInput.getStart(), dateInput.getEnd()));
                     break;
                 case ForeDecisionRACCourt:
-                    verdictSetForAttribute.addAll(verdictRepository.findAllByForeDecisionRACCourtContainingIgnoreCase(((StringInput)input).getValue().toLowerCase()));
+                    verdictSetForAttribute.addAll(verdictRepository.findAllByForeDecisionRACCourtStartingWith(((StringInput)input).getValue().toLowerCase().split(" ")));
                     break;
                 case ForeDecisionRACDateVerdict:
                     DateInput dateInputRAC = (DateInput) input;
                     verdictSetForAttribute.addAll(verdictRepository.findAllByForeDecisionRACVerdictDateBetween(dateInputRAC.getStart(), dateInputRAC.getEnd()));
                     break;
                 case ForeDecisionRCCourt:
-                    verdictSetForAttribute.addAll(verdictRepository.findAllByForeDecisionRCCourtContainingIgnoreCase(((StringInput)input).getValue().toLowerCase()));
+                    verdictSetForAttribute.addAll(verdictRepository.findAllByForeDecisionRCCourtStartingWith(((StringInput)input).getValue().toLowerCase().split(" ")));
                     break;
                 case ForeDecisionRCDateVerdict:
                     DateInput dateInputRC = (DateInput) input;
                     verdictSetForAttribute.addAll(verdictRepository.findAllByForeDecisionRCVerdictDateBetween(dateInputRC.getStart(), dateInputRC.getEnd()));
                     break;
                 case ForeDecisionDCCourt:
-                    verdictSetForAttribute.addAll(verdictRepository.findAllByForeDecisionDCCourtContainingIgnoreCase(((StringInput)input).getValue().toLowerCase()));
+                    verdictSetForAttribute.addAll(verdictRepository.findAllByForeDecisionDCCourtStartingWith(((StringInput)input).getValue().toLowerCase().split(" ")));
                     break;
                 case ForeDecisionDCDateVerdict:
                     DateInput dateInputDC = (DateInput) input;
@@ -57,63 +60,7 @@ public class VerdictRepoService {
         return verdictSetForAttribute;
     }
 
-    /**
-     * This method will create a list with all SearchVerdict objects, which the user is looking for
-     *
-     * @return all serachVerdict objects which are involved
-     */
-    public List<SearchVerdict> getAllCombinationsOfSearchVerdicts(Map<DataModelAttributes, List<Input>> selectedAttributesMap) {
-        List<Map<DataModelAttributes, Input>> allCombinationList = new ArrayList<>();
-        createMapWithAllCombinations(selectedAttributesMap,
-                new LinkedList<>(selectedAttributesMap.keySet()).listIterator(),
-                new HashMap<>(),
-                allCombinationList);
 
-        return createSearchVerdictsOfAllCombinations(allCombinationList);
-    }
 
-    /**
-     * This method takes the map with all combinations and put them into the SearchVerdict object
-     *
-     * @param allCombinationList the List with all combinations
-     * @return a list with created SearchVerdict
-     */
-    private List<SearchVerdict> createSearchVerdictsOfAllCombinations(List<Map<DataModelAttributes, Input>> allCombinationList) {
-        List<SearchVerdict> searchVerdictList = new ArrayList<>();
 
-        allCombinationList.forEach(attributesStringMap -> {
-            SearchVerdict sv = new SearchVerdict();
-            sv.setCombinationMap(attributesStringMap);
-            searchVerdictList.add(sv);
-        });
-
-        return searchVerdictList;
-    }
-
-    private void createMapWithAllCombinations(Map<DataModelAttributes, List<Input>> hashMap,
-                                              ListIterator<DataModelAttributes> listIterator,
-                                              Map<DataModelAttributes, Input> solutionMap,
-                                              List<Map<DataModelAttributes, Input>> allCombinationlist) {
-        if (!listIterator.hasNext()) {
-            Map<DataModelAttributes, Input> entry = new HashMap<>();
-
-            for (DataModelAttributes key : solutionMap.keySet()) {
-                entry.put(key, solutionMap.get(key));
-            }
-
-            allCombinationlist.add(entry);
-        } else {
-            DataModelAttributes key = listIterator.next();
-
-            List<Input> list = hashMap.get(key);
-
-            for (Input value : list) {
-                solutionMap.put(key, value);
-                createMapWithAllCombinations(hashMap, listIterator, solutionMap, allCombinationlist);
-                solutionMap.remove(key);
-            }
-
-            listIterator.previous();
-        }
-    }
 }

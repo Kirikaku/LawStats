@@ -50,6 +50,12 @@ function insert() {
         var xhttpp = new XMLHttpRequest();
         var dateStartLong = new Date(dateStart).getTime();
         var dateEndLong = new Date(dateEnd).getTime();
+        if(!dateStartLong){
+            dateStartLong = 0;
+        }
+        if(!dateEndLong){
+            dateEndLong = 8640000000000000;
+        }
         console.log("ist ein Date");
         xhttpp.open("PUT", "/input/date/"+attribute+"/"+dateStartLong+"/to/"+dateEndLong, true);
         xhttpp.send('')

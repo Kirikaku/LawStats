@@ -3,7 +3,14 @@ package com.unihh.lawstats.backend.controller;
 import com.unihh.lawstats.backend.repositories.VerdictRepoService;
 import com.unihh.lawstats.backend.service.DataAttributeVerdictService;
 import com.unihh.lawstats.core.mapping.VerdictDateFormatter;
-import com.unihh.lawstats.core.model.*;
+import com.unihh.lawstats.core.model.DataModelAttributes;
+import com.unihh.lawstats.core.model.SearchVerdict;
+import com.unihh.lawstats.core.model.TableAttributes;
+import com.unihh.lawstats.core.model.Verdict;
+import com.unihh.lawstats.core.model.input.DateInput;
+import com.unihh.lawstats.core.model.input.Input;
+import com.unihh.lawstats.core.model.input.InputType;
+import com.unihh.lawstats.core.model.input.StringInput;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
@@ -17,24 +24,22 @@ import java.util.*;
 @Service("FilterController")
 public class FilterController {
 
+    @Autowired
+    DataAttributeVerdictService dataAttributeVerdictService;
+    @Autowired
+    VerdictRepoService verdictRepoService;
     // Out Map with all from user selected attributes
-    private Map<DataModelAttributes, List<Input>> selectedAttributesMap = new HashMap<>();
-
+    private Map<DataModelAttributes, Set<Input>> selectedAttributesMap = new HashMap<>();
     // All verdicts which are related to our selection
     private Set<Verdict> verdictsInUse = new HashSet<>();
-
     // All combinations of attributes
     private List<SearchVerdict> searchVerdict = new ArrayList<>();
-
     // A list of all attribute displaynames
     private List<String> attributeList = new ArrayList<>();
 
-    @Autowired
-    DataAttributeVerdictService dataAttributeVerdictService;
-
-    @Autowired
-    VerdictRepoService verdictRepoService;
-
+    /**
+     * Have to set the definitive columns in our table
+     */
     public FilterController() {
         attributeList.add(TableAttributes.RevisionSuccess.getDisplayName());
         attributeList.add(TableAttributes.RevisionNotSuccess.getDisplayName());
@@ -52,9 +57,12 @@ public class FilterController {
         verdictsInUse = new HashSet<>();
     }
 
+    /**
+     * This method will create a stringinput, its represents the search attribute of the user
+     */
     @PutMapping(value = "/input/string/{attribute}/{value}")
     public void inputString(@PathVariable String attribute, @PathVariable String value) {
-        value = value.replace("__", ".");
+        value = value.replace("__", "."); //a point in the url is not possible, so we replaced them with underscore
         DataModelAttributes dataModelAttributes = DataModelAttributes.valueOf(attribute);
         StringInput stringInput = new StringInput();
         stringInput.setValue(value);
@@ -62,6 +70,18 @@ public class FilterController {
         addInputToMap(stringInput, dataModelAttributes);
     }
 
+    /**
+     * This method will create a stringinput, but without the value.
+     * This means all combinations are wanted
+     */
+    @RequestMapping(value = "/input/string/{attribute}")
+    public void inputStringWithoutValue(@PathVariable String attribute) {
+        inputString(attribute, "");
+    }
+
+    /**
+     * This method will create a dateinput, its represents the search attribute of the user
+     */
     @RequestMapping("/input/date/{attribute}/{dateStart}/to/{dateEnd}")
     public void inputDate(@PathVariable String attribute, @PathVariable long dateStart, @PathVariable long dateEnd) {
         DataModelAttributes dataModelAttributes = DataModelAttributes.valueOf(attribute);
@@ -72,20 +92,29 @@ public class FilterController {
         addInputToMap(dateInput, dataModelAttributes);
     }
 
-    private void addInputToMap(Input input, DataModelAttributes dataModelAttributes) {
-        if (selectedAttributesMap.containsKey(dataModelAttributes)) {
-            List<Input> inputList = selectedAttributesMap.get(dataModelAttributes);
-            inputList.add(input);
-            selectedAttributesMap.put(dataModelAttributes, inputList);
-        } else {
-            List<Input> inputList = new ArrayList<>();
-            inputList.add(input);
-            selectedAttributesMap.put(dataModelAttributes, inputList);
-        }
+    /**
+     * This method start the search of our SearchVerdicts
+     */
+    @RequestMapping("/filter/searchVerdicts")
+    public String startSearch() {
 
-        if (!attributeList.contains(dataModelAttributes.getDisplayName())) {
-            attributeList.add(dataModelAttributes.getDisplayName());
-        }
+        // First get all Verdicts which are related to the Attributes
+        verdictsInUse = getQueriedVerdicts();
+
+        // Second create all SearchVerdict to create all combinations
+        searchVerdict = getAllCombinationsOfSearchVerdicts();
+
+        addVerdictsToSearchVerdicts();
+
+        deleteAllUnnecessarySearchVerdicts();
+
+        return "verdictTable";
+    }
+
+    private void deleteAllUnnecessarySearchVerdicts() {
+        searchVerdict.stream().filter(searchVerdict1 -> searchVerdict1.getRelatedVerdictsWithRevisionAPartOfSuccessful().isEmpty())
+        .filter(searchVerdict1 -> searchVerdict1.getRelatedVerdictsWithRevisionNotSuccessful().isEmpty())
+        .filter(searchVerdict1 -> searchVerdict1.getRelatedVerdictsWithRevisionSuccessful().isEmpty());
     }
 
     /**
@@ -103,19 +132,87 @@ public class FilterController {
         return searchVerdict;
     }
 
+
     /**
-     * This method start the search of our SearchVerdicts
+     * This method will create a list with all SearchVerdict objects, which the user is looking for
+     *
+     * @return all serachVerdict objects which are involved
      */
-    @RequestMapping("/filter/searchVerdicts")
-    public String startSearch() {
+    private List<SearchVerdict> getAllCombinationsOfSearchVerdicts() {
+        List<Map<DataModelAttributes, Input>> allCombinationList = new ArrayList<>();
+        createInputsWhenAnEmptyExists();
+        createMapWithAllCombinations(selectedAttributesMap,
+                new LinkedList<>(selectedAttributesMap.keySet()).listIterator(),
+                new HashMap<>(),
+                allCombinationList);
 
-        verdictsInUse = getQueriedVerdicts();
+        return createSearchVerdictsOfAllCombinations(allCombinationList);
+    }
 
-        searchVerdict = verdictRepoService.getAllCombinationsOfSearchVerdicts(selectedAttributesMap);
+    private void createInputsWhenAnEmptyExists() {
+        selectedAttributesMap.forEach((dataModelAttributes, inputs) -> inputs.forEach(input -> {
+            if (input.getInputType().equals(InputType.String)) { // When we have a stringInput object
+                StringInput stringInput = (StringInput) input;
+                if (stringInput.getValue().isEmpty()) { // And the value is empty (we want all combinations)
+                    createAllCombinationsFromEmptyStringInput(stringInput);
+                }
+            }
+        }));
+    }
 
-        addVerdictsToSearchVerdicts();
+    private void createAllCombinationsFromEmptyStringInput(StringInput stringInput) {
+        verdictsInUse.forEach(verdict -> dataAttributeVerdictService.dataAttributeToVerdictValue(stringInput.getAttribute(), verdict)
+                .forEach(s -> {
+                    StringInput verdictSpecificStringInput = new StringInput();
+                    verdictSpecificStringInput.setAttribute(stringInput.getAttribute());
+                    verdictSpecificStringInput.setValue(s);
+                    addInputToMap(verdictSpecificStringInput, verdictSpecificStringInput.getAttribute());
+                }));
+    }
 
-        return "verdictTable";
+    /**
+     * This method takes the map with all combinations and put them into the SearchVerdict object
+     *
+     * @param allCombinationList the List with all combinations
+     * @return a list with created SearchVerdict
+     */
+    private List<SearchVerdict> createSearchVerdictsOfAllCombinations(List<Map<DataModelAttributes, Input>> allCombinationList) {
+        List<SearchVerdict> searchVerdictList = new ArrayList<>();
+
+        allCombinationList.forEach(attributesStringMap -> {
+            SearchVerdict sv = new SearchVerdict();
+            sv.setCombinationMap(attributesStringMap);
+            searchVerdictList.add(sv);
+        });
+
+        return searchVerdictList;
+    }
+
+    private void createMapWithAllCombinations(Map<DataModelAttributes, Set<Input>> hashMap,
+                                              ListIterator<DataModelAttributes> listIterator,
+                                              Map<DataModelAttributes, Input> solutionMap,
+                                              List<Map<DataModelAttributes, Input>> allCombinationlist) {
+        if (!listIterator.hasNext()) {
+            Map<DataModelAttributes, Input> entry = new HashMap<>();
+
+            for (DataModelAttributes key : solutionMap.keySet()) {
+                entry.put(key, solutionMap.get(key));
+            }
+
+            allCombinationlist.add(entry);
+        } else {
+            DataModelAttributes key = listIterator.next();
+
+            Set<Input> list = hashMap.get(key);
+
+            for (Input value : list) {
+                solutionMap.put(key, value);
+                createMapWithAllCombinations(hashMap, listIterator, solutionMap, allCombinationlist);
+                solutionMap.remove(key);
+            }
+
+            listIterator.previous();
+        }
     }
 
     /**
@@ -147,7 +244,6 @@ public class FilterController {
                 if (isRelated) {
                     searchVerdict.addVerdictToList(verdict);
                 }
-
             }
         }
     }
@@ -161,7 +257,7 @@ public class FilterController {
 
         // First add a list of Verdict to out Set
         if (selectedAttributesMap.entrySet().iterator().hasNext()) {
-            Map.Entry<DataModelAttributes, List<Input>> entry = selectedAttributesMap.entrySet().iterator().next();
+            Map.Entry<DataModelAttributes, Set<Input>> entry = selectedAttributesMap.entrySet().iterator().next();
             verdictSet.addAll(verdictRepoService.getVerdictsForAttribute(entry.getKey(), entry.getValue()));
 
             //Second for every attrbute add the verdicts to the set and create the intersection.
@@ -172,10 +268,25 @@ public class FilterController {
         return verdictSet;
     }
 
+    private void addInputToMap(Input input, DataModelAttributes dataModelAttributes) {
+        if (selectedAttributesMap.containsKey(dataModelAttributes)) {
+            Set<Input> inputList = selectedAttributesMap.get(dataModelAttributes);
+            inputList.add(input);
+            selectedAttributesMap.put(dataModelAttributes, inputList);
+        } else {
+            Set<Input> inputList = new HashSet<>();
+            inputList.add(input);
+            selectedAttributesMap.put(dataModelAttributes, inputList);
+        }
+
+        if (!attributeList.contains(dataModelAttributes.getDisplayName())) {
+            attributeList.add(dataModelAttributes.getDisplayName());
+        }
+    }
+
     /**
      * This method return the value for given SearchVerdict and given attribut
      */
-
     public String getValueForAttributeAndVerdict(SearchVerdict searchVerdict, String attribute) {
         VerdictDateFormatter verdictDateFormatter = new VerdictDateFormatter();
         if (DataModelAttributes.valueOfDisplayName(attribute) != null) {

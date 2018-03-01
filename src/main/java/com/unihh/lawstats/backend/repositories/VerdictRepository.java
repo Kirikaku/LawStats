@@ -19,15 +19,15 @@ public interface VerdictRepository extends SolrCrudRepository<Verdict, String> {
 
     List<Verdict> findAllByDateVerdictBetween(Long date1, Long date2);
 
-    List<Verdict> findAllByForeDecisionRACCourtContainingIgnoreCase(String court);
+    List<Verdict> findAllByForeDecisionRACCourtStartingWith(String[] court);
 
     List<Verdict> findAllByForeDecisionRACVerdictDateBetween(Long date1, Long date2);
 
-    List<Verdict> findAllByForeDecisionRCCourtContainingIgnoreCase(String court);
+    List<Verdict> findAllByForeDecisionRCCourtStartingWith(String[] court);
 
     List<Verdict> findAllByForeDecisionRCVerdictDateBetween(Long date1, Long date2);
 
-    List<Verdict> findAllByForeDecisionDCCourtContainingIgnoreCase(String court);
+    List<Verdict> findAllByForeDecisionDCCourtStartingWith(String[] court);
 
     List<Verdict> findAllByForeDecisionDCVerdictDate(Long date1, Long date2);
 }

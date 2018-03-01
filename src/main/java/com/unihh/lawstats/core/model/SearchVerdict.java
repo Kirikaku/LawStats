@@ -1,6 +1,8 @@
 package com.unihh.lawstats.core.model;
 
 
+import com.unihh.lawstats.core.model.input.Input;
+
 import java.util.*;
 
 /**
