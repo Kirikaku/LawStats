@@ -27,7 +27,7 @@ public class AppConfig {
 
     @Bean
     public SolrClient solrClient() {
-        return new HttpSolrClient("http://localhost:8983/solr/verdict");
+        return new HttpSolrClient(environment.getProperty("solr.address"));
     }
 
     @Bean
