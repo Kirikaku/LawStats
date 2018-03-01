@@ -56,7 +56,9 @@ public class Verdict {
     @Indexed(type = "long")
     private Long foreDecisionDCVerdictDate;
 
-    private List<String> decisionSentences;
+    @Field
+    @Indexed(type = "strings")
+    private String[] decisionSentences;
 
     @Field
     @Indexed(type = "long")
@@ -160,11 +162,11 @@ public class Verdict {
         return this.getDocketNumber().hashCode();
     }
 
-    public List<String> getDecisionSentences() {
+    public String[] getDecisionSentences() {
         return decisionSentences;
     }
 
-    public void setDecisionSentences(List<String> decisionSentences) {
+    public void setDecisionSentences(String[] decisionSentences) {
         this.decisionSentences = decisionSentences;
     }
 

@@ -47,7 +47,6 @@ public class ImportTestData {
             verdict.setRevisionSuccess(revisionSuccessList.get(rand.nextInt(revisionSuccessList.size())));
             verdict.setSenate(senateList.get(rand.nextInt(senateList.size())));
             verdict.setJudgeList(createJudgeArray());
-            //Date dv = (convertToDateLong(dateVerdicts.get(rand.nextInt(dateVerdicts.size())));
             verdict.setDateVerdict(convertToDateLong(dateVerdicts.get(rand.nextInt(dateVerdicts.size()))));
             verdict.setForeDecisionRACCourt(racCourtList.get(rand.nextInt(racCourtList.size())));
             verdict.setDecisionSentences(pickRandomSentences());
@@ -90,14 +89,14 @@ public class ImportTestData {
         return judgeArray;
     }
 
-     private List<String> pickRandomSentences() {
-        Random rand = new Random();
-        List<String> strL = new ArrayList<>();
-        for (int i=0; i > 3; i++) {
-            decSentencesList.get(rand.nextInt(decSentencesList.size()));
-            strL.add(decSentencesList.get(rand.nextInt(decSentencesList.size())));
-        }
-        return strL;
+     private String[] pickRandomSentences() {
+         Random rand = new Random();
+         final int bound = rand.nextInt(6);
+         String[] sentences = new String[5];
+         for (int i = 0; i < bound; i++) {
+             sentences[i] = this.decSentencesList.get(rand.nextInt(this.decSentencesList.size()));
+         }
+         return sentences;
      }
 
     private Long convertToDateLong(String string) throws ParseException {
