@@ -2,11 +2,14 @@ package com.unihh.lawstats.backend.controller;
 
 import com.unihh.lawstats.backend.repositories.VerdictRepoService;
 import com.unihh.lawstats.backend.service.DataAttributeVerdictService;
+import com.unihh.lawstats.core.mapping.VerdictDateFormatter;
 import com.unihh.lawstats.core.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.*;
 
@@ -32,14 +35,14 @@ public class FilterController {
     @Autowired
     VerdictRepoService verdictRepoService;
 
-    public FilterController(){
+    public FilterController() {
         attributeList.add(TableAttributes.RevisionSuccess.getDisplayName());
         attributeList.add(TableAttributes.RevisionNotSuccess.getDisplayName());
         attributeList.add(TableAttributes.RevisionAPartOfSuccess.getDisplayName());
     }
 
     @RequestMapping(value = "/filter/reset")
-    public void resetAll(){
+    public void resetAll() {
         selectedAttributesMap = new HashMap<>();
         attributeList = new ArrayList<>();
         attributeList.add(TableAttributes.RevisionSuccess.getDisplayName());
@@ -80,7 +83,7 @@ public class FilterController {
             selectedAttributesMap.put(dataModelAttributes, inputList);
         }
 
-        if(!attributeList.contains(dataModelAttributes.getDisplayName())){
+        if (!attributeList.contains(dataModelAttributes.getDisplayName())) {
             attributeList.add(dataModelAttributes.getDisplayName());
         }
     }
@@ -123,16 +126,28 @@ public class FilterController {
             for (SearchVerdict searchVerdict : searchVerdict) {
                 boolean isRelated = true;
                 for (DataModelAttributes attribute : searchVerdict.getCombinationMap().keySet()) {
-                    StringInput stringInput = (StringInput) searchVerdict.getValueForKey(attribute);
-                    if (dataAttributeVerdictService.dataAttributeToVerdictValue(attribute, verdict).stream().noneMatch(s -> s.contains(stringInput.getValue())))
-                    {
-                        isRelated = false;
+                    VerdictDateFormatter verdictDateFormatter = new VerdictDateFormatter();
+                    if (attribute.toString().contains("Date")) {
+                        DateInput dateInput = (DateInput) searchVerdict.getValueForKey(attribute);
+                        long date = verdictDateFormatter.formateStringToLong(dataAttributeVerdictService.dataAttributeToVerdictValue(attribute, verdict).get(0));
+                        if (date > dateInput.getEnd() || date < dateInput.getStart()) {
+                            isRelated = false;
+                        }
+
+                    } else {
+                        StringInput stringInput = (StringInput) searchVerdict.getValueForKey(attribute);
+                        if (dataAttributeVerdictService.dataAttributeToVerdictValue(attribute, verdict).stream()
+                                .map(String::toLowerCase)
+                                .noneMatch(s -> s.contains(stringInput.getValue().toLowerCase()))) {
+                            isRelated = false;
+                        }
                     }
                 }
 
                 if (isRelated) {
                     searchVerdict.addVerdictToList(verdict);
                 }
+
             }
         }
     }
@@ -160,13 +175,18 @@ public class FilterController {
     /**
      * This method return the value for given SearchVerdict and given attribut
      */
+
     public String getValueForAttributeAndVerdict(SearchVerdict searchVerdict, String attribute) {
+        VerdictDateFormatter verdictDateFormatter = new VerdictDateFormatter();
         if (DataModelAttributes.valueOfDisplayName(attribute) != null) {
             Input input = searchVerdict.getValueForKey(DataModelAttributes.valueOfDisplayName(attribute));
-            if (input != null) {
+            if (!attribute.toLowerCase().contains("datum")) {
                 return ((StringInput) input).getValue();
+            } else {
+                DateInput dateInput = ((DateInput) input);
+                return verdictDateFormatter.formatVerdictDateToString(dateInput.getStart()) + " - " +
+                        verdictDateFormatter.formatVerdictDateToString(dateInput.getEnd());
             }
-            return "";
         } else {
             switch (TableAttributes.valueOfDisplayName(attribute)) {
                 case RevisionSuccess:

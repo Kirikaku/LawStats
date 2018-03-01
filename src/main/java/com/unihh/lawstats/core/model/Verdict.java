@@ -2,6 +2,7 @@ package com.unihh.lawstats.core.model;
 
 import org.apache.solr.client.solrj.beans.Field;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.solr.core.mapping.Indexed;
 import org.springframework.data.solr.core.mapping.SolrDocument;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -17,37 +18,48 @@ import java.util.Objects;
 @SolrDocument(solrCoreName = "verdict")
 public class Verdict {
 
-    @Field
+    @Field("docketNumber")
+    @Indexed(type = "text_general")
     @Id
     private String docketNumber;
-    @Field
+    @Field("revisionSuccess")
+    @Indexed(type = "long")
     private int revisionSuccess;
     @Field
+    @Indexed(type = "text_general")
     private String senate;
     @Field
-
+    @Indexed(type = "strings")
     private String[] judgeList;
-
-    @Field
+    @Field(value = "dateVerdict")
+    @Indexed(type = "long")
     private Long dateVerdict;
     //Oberlandesgericht
     @Field
+    @Indexed(type = "text_general")
     private String foreDecisionRACCourt;
-    @Field
+    @Field(value = "foreDecisionRACVerdictDate")
+    @Indexed(type = "long")
     private Long foreDecisionRACVerdictDate;
     //Landesgericht
     @Field
+    @Indexed(type = "text_general")
     private String foreDecisionRCCourt;
-    @Field
+    @Field("foreDecisionRCVerdictDate")
+    @Indexed(type = "long")
     private Long foreDecisionRCVerdictDate;
     //Amtsgericht
     @Field
+    @Indexed(type = "text_general")
     private String foreDecisionDCCourt;
-    @Field
+    @Field("foreDecisionDCVerdictDate")
+    @Indexed(type = "long")
     private Long foreDecisionDCVerdictDate;
 
     private List<String> decisionSentences;
 
+    @Field
+    @Indexed(type = "long")
     private int documentNumber;
 
     public String getDocketNumber() {

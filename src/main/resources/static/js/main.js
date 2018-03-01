@@ -40,15 +40,18 @@ function reset(){
 
 function insert() {
     var attribute = document.getElementById("attribute").value;
-    var value = document.getElementById("tag").value;
+    var value = document.getElementById("tag").value.toLowerCase();
     var dateStart = document.getElementById("start").value;
     var dateEnd = document.getElementById("end").value;
 
-    console.log("Value is:"+value);
+    console.log(value);
 
-    if(attribute.indexOf("date") !== -1){
+    if(attribute.indexOf("Date") !== -1){
         var xhttpp = new XMLHttpRequest();
-        xhttpp.open("PUT", "/input/date/"+attribute+"/"+dateStart+"/to/"+dateEnd, true);
+        var dateStartLong = new Date(dateStart).getTime();
+        var dateEndLong = new Date(dateEnd).getTime();
+        console.log("ist ein Date");
+        xhttpp.open("PUT", "/input/date/"+attribute+"/"+dateStartLong+"/to/"+dateEndLong, true);
         xhttpp.send('')
     } else {
         var xhttp = new XMLHttpRequest();

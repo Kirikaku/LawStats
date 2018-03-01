@@ -56,7 +56,7 @@ public class VerdictDateFormatter {
      * @return the formattet date in a string
      */
     public String formatVerdictDateToString(final Long verdictDate) {
-        DateFormat formatter = new SimpleDateFormat("dd:MM:yyyy");
+        DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
         return formatter.format(verdictDate);
     }
 }
