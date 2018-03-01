@@ -14,11 +14,14 @@ import com.unihh.lawstats.core.model.input.StringInput;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @Service("FilterController")
@@ -44,6 +47,12 @@ public class FilterController {
         attributeList.add(TableAttributes.RevisionSuccess.getDisplayName());
         attributeList.add(TableAttributes.RevisionNotSuccess.getDisplayName());
         attributeList.add(TableAttributes.RevisionAPartOfSuccess.getDisplayName());
+    }
+
+    @GetMapping("/filter")
+    public String filter(Model model) {
+        resetAll();
+        return "filter";
     }
 
     @RequestMapping(value = "/filter/reset")
@@ -112,9 +121,9 @@ public class FilterController {
     }
 
     private void deleteAllUnnecessarySearchVerdicts() {
-        searchVerdict.stream().filter(searchVerdict1 -> searchVerdict1.getRelatedVerdictsWithRevisionAPartOfSuccessful().isEmpty())
-        .filter(searchVerdict1 -> searchVerdict1.getRelatedVerdictsWithRevisionNotSuccessful().isEmpty())
-        .filter(searchVerdict1 -> searchVerdict1.getRelatedVerdictsWithRevisionSuccessful().isEmpty());
+        searchVerdict = searchVerdict.stream().filter(searchVerdict1 -> !searchVerdict1.getRelatedVerdictsWithRevisionAPartOfSuccessful().isEmpty() &&
+                !searchVerdict1.getRelatedVerdictsWithRevisionNotSuccessful().isEmpty() &&!searchVerdict1.getRelatedVerdictsWithRevisionSuccessful().isEmpty())
+                .collect(Collectors.toList());
     }
 
     /**

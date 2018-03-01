@@ -22,11 +22,6 @@ public class MenuController {
         return "upload";
     }
 
-    @GetMapping("/filter")
-    public String filter(Model model) {
-        return "filter";
-    }
-
     @GetMapping("/stats")
     public String stats(Model model) {
         return "stats";
