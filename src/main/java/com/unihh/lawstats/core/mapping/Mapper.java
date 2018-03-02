@@ -13,114 +13,30 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.ParseException;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+/**
+ * Wichtig:
+ * Wenn von Watson keine Entitäten zurück kommt, reagiert der Mapper wie folgt:
+ *
+ * Aktenzeichen:    "NOTFOUND" - wird später vom AnalyzingCoordinator behandelt
+ * Richter:         übergibt leeres String Array
+ * //TODO datum klären
+ * Datum:           übergibt leeres Datum (0) - 1970?
+ * Gericht:         übergibt leeren String
+ * (Gerichtsdatum): wird vorerst nicht übergeben
+ */
 public class Mapper {
 
 
-    /*
-    //to do: main und zugehörige statics entfernen! -> Ticket in Trello
-    public static void main(String[] args) throws JSONException, IOException, ParseException {
+    //Liste von Senaten
+    private Map<String, String> senateMap = new HashMap();
 
-        File testfile = new File("src/main/resources/testData/JsonMappingTestData.json");
-        if (testfile.exists()) {
-            InputStream is = new FileInputStream(testfile);
-            String jsonTxt = IOUtils.toString(is, "UTF-8");
-            
-            JSONObject json = new JSONObject(jsonTxt);
-            JSONArray jsonArray = json.getJSONArray("entities");
-
-            // Listen für die einzelnen Entities
-            List<String> docketnumberL = new ArrayList<>();
-            // TODO List Revision Success
-
-            List<String> senateL = new ArrayList<>();
-            Set<String> judgeL = new HashSet<>();
-            List<String> dateverdictL = new ArrayList<>();
-            List<String> foreDecRACcL = new ArrayList<>();
-            List<String> foreDecRACdvL = new ArrayList<>();
-            List<String> foreDecRCcL = new ArrayList<>();
-            List<String> foreDecRCdvL = new ArrayList<>();
-            List<String> foreDecDCcL = new ArrayList<>();
-            List<String> foreDecDCdvL = new ArrayList<>();
-
-            // Iterieren durch das JSON Array
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject jsonObjectEntity = jsonArray.getJSONObject(i);
-                String type = jsonObjectEntity.getString("type");
-
-                //Abfrage des Inhalts | Einsortieren in die zugehörige Liste
-                switch (type) {
-                    case "DocketNumber":
-                        docketnumberL.add(jsonObjectEntity.getString("text"));
-                        break;
-                    //TODO Revision Success Case
-                    case "Senate":
-                        senateL.add(jsonObjectEntity.getString("text"));
-                        break;
-                    case "Judges":
-                        //judgeL.toArray(new String[judgeL.size()]);
-                        judgeL.add(jsonObjectEntity.getString("text"));
-                        break;
-                    case "DateVerdict":
-                        dateverdictL.add(jsonObjectEntity.getString("text"));
-                        break;
-                    case "ForeDecisionRACCourt":
-                        foreDecRACcL.add(jsonObjectEntity.getString("text"));
-                        break;
-                    case "ForeDecisionRACDateVerdict":
-                        foreDecRACdvL.add(jsonObjectEntity.getString("text"));
-                        break;
-                    case "ForeDecisionRCCourt":
-                        foreDecRCcL.add(jsonObjectEntity.getString("text"));
-                        break;
-                    case "ForeDecisionRCDateVerdict":
-                        foreDecRCdvL.add(jsonObjectEntity.getString("text"));
-                        break;
-                    case "ForeDecisionDCCourt":
-                        foreDecDCcL.add(jsonObjectEntity.getString("text"));
-                        break;
-                    case "ForeDecisionDCDateVerdict":
-                        foreDecDCdvL.add(jsonObjectEntity.getString("text"));
-                        break;
-                }
-            }
-            // Creating a new Verdict Object
-            // Using Date for Date-Elements
-            Verdict verdict = new Verdict();
-
-            //Docket Number
-            verdict.setDocketNumber(mostCommon(docketnumberL));
-
-            // TODO revisionSuccess
-
-            //Senate
-            verdict.setSenate(mostCommon(senateL));
-
-            //Judges
-            String[] judgeList = judgeL.toArray(new String[judgeL.size()]);
-            verdict.setJudgeList(judgeList);
-
-            //Date Verdict
-            verdict.setDateVerdict(filterNewestDate(dateverdictL));
-
-            //Oberlandesgericht - RAC
-            verdict.setForeDecisionRACCourt(mostCommon(foreDecRACcL));
-            verdict.setForeDecisionRACVerdictDate((filterNewestDate(foreDecRACdvL)));
-
-            //Landesgericht - RC
-            verdict.setForeDecisionRCCourt(mostCommon(foreDecRCcL));
-            verdict.setForeDecisionRCVerdictDate(filterNewestDate(foreDecRCdvL));
-
-            //Amtsgericht - DC
-            verdict.setForeDecisionDCCourt(mostCommon(foreDecDCcL));
-            verdict.setForeDecisionDCVerdictDate(filterNewestDate((foreDecDCdvL)));
-
-            //sout nur für debugger benötigt
-            //System.out.println("");
-        }
+    public Mapper() {
+        setSenates();
     }
 
-    */
 
     /**
      * Überführt einen String, welcher mit JSON Daten gefüllt ist in ein Verdict Objekt
@@ -130,14 +46,15 @@ public class Mapper {
      * @throws ParseException - ja, kann passieren
      */
     public Verdict mapJSONStringToVerdicObject(String jsonText) throws ParseException {
+
+
         JSONObject json = new JSONObject(jsonText);
         JSONArray jsonArray = json.getJSONArray("entities");
 
         // Listen für die einzelnen Entities
         List<String> docketnumberL = new ArrayList<>();
         // TODO List Revision Success
-
-        List<String> senateL = new ArrayList<>();
+        //List<String> senateL = new ArrayList<>();
         Set<String> judgeL = new HashSet<>();
         List<String> dateverdictL = new ArrayList<>();
         List<String> foreDecRACcL = new ArrayList<>();
@@ -154,75 +71,104 @@ public class Mapper {
 
             //Abfrage des Inhalts | Einsortieren in die zugehörige Liste
             switch (type) {
-                case "DocketNumber":
+                case "Aktenzeichen":
                     docketnumberL.add(jsonObjectEntity.getString("text"));
                     break;
-                //TODO Revision Success Case
-                case "Senate":
-                    senateL.add(jsonObjectEntity.getString("text"));
-                    break;
-                case "Judges":
-                    //judgeL.toArray(new String[judgeL.size()]);
+                case "Richter":
                     judgeL.add(jsonObjectEntity.getString("text"));
                     break;
-                case "DateVerdict":
+                case "Datum":
                     dateverdictL.add(jsonObjectEntity.getString("text"));
                     break;
-                case "ForeDecisionRACCourt":
-                    foreDecRACcL.add(jsonObjectEntity.getString("text"));
-                    break;
-                case "ForeDecisionRACDateVerdict":
-                    foreDecRACdvL.add(jsonObjectEntity.getString("text"));
-                    break;
-                case "ForeDecisionRCCourt":
-                    foreDecRCcL.add(jsonObjectEntity.getString("text"));
-                    break;
-                case "ForeDecisionRCDateVerdict":
-                    foreDecRCdvL.add(jsonObjectEntity.getString("text"));
-                    break;
-                case "ForeDecisionDCCourt":
-                    foreDecDCcL.add(jsonObjectEntity.getString("text"));
-                    break;
-                case "ForeDecisionDCDateVerdict":
-                    foreDecDCdvL.add(jsonObjectEntity.getString("text"));
-                    break;
+                case "Gericht":
+                    if (jsonObjectEntity.getString("text").contains("Oberlandesgericht")) {
+                        foreDecRACcL.add(jsonObjectEntity.getString("text"));
+                    } else if (jsonObjectEntity.getString("text").contains("Landesgericht"))
+                        foreDecDCcL.add(jsonObjectEntity.getString("text"));
+                    else if (jsonObjectEntity.getString("text").contains("Amtsgericht")) {
+                        foreDecDCcL.add(jsonObjectEntity.getString("text"));
+                        // Bei else passiert hier nichts, Liste bleibt leer - wird beim verdict.set... unten aufgefangen
+                        break;
+                    }
             }
         }
-        // Creating a new Verdict Object
-        // Using Date for Date-Elements
-        Verdict verdict = new Verdict();
+            // Creating a new Verdict Object
+            // Using Date for Date-Elements
+            Verdict verdict = new Verdict();
 
-        //Docket Number
-        verdict.setDocketNumber(mostCommon(docketnumberL));
+            //Docket Number
+            if (!docketnumberL.isEmpty()) {
+                verdict.setDocketNumber(mostCommon(docketnumberL));
+            } else {
+                verdict.setDocketNumber("NOTFOUND");
+            }
+            //Senate
+            if (!verdict.getDocketNumber().isEmpty()) {
+                verdict.setSenate(getSenateFromDocketNumber(verdict.getDocketNumber(), docketnumberL));
+            } else {
+                verdict.setSenate("");
+            }
+            //Judges
+            if (!judgeL.isEmpty()) {
+                String[] judgeList = judgeL.toArray(new String[judgeL.size()]);
+                verdict.setJudgeList(judgeList);
+            } else {
+                verdict.setJudgeList(new String[0]);
+            }
 
-        // TODO revisionSuccess
+            //Date Verdict
+            if (!dateverdictL.isEmpty()) {
+                verdict.setDateVerdict(filterNewestDate(dateverdictL));
+            } else {
+                //TODO checken wann ist das?
+                verdict.setDateVerdict((long) 0);
+            }
 
-        //Senate
-        verdict.setSenate(mostCommon(senateL));
+            //Oberlandesgericht - Court
+            if (!foreDecRACcL.isEmpty()) {
+                verdict.setForeDecisionRACCourt(mostCommon(foreDecRACcL));
+            } else {
+                verdict.setForeDecisionRACCourt("");
+            }
+            //Oberlandesgericht - Datum
+            if (!foreDecRACdvL.isEmpty()) {
+                //verdict.setForeDecisionRACVerdictDate((filterNewestDate(foreDecRACdvL)));
+                verdict.setForeDecisionRACVerdictDate((long) 0);
+            } else {
+                verdict.setForeDecisionRACVerdictDate((long) 0);
+            }
+            //Landesgericht - Court
+            if (!foreDecRCcL.isEmpty()) {
+                verdict.setForeDecisionRCCourt(mostCommon(foreDecRCcL));
+            } else {
+                verdict.setForeDecisionRCCourt("");
+            }
+            //Landesgericht - Date
+            if (!foreDecRCdvL.isEmpty()) {
+                verdict.setForeDecisionRCVerdictDate(filterNewestDate(foreDecRCdvL));
+            } else {
+                verdict.setForeDecisionRCVerdictDate((long) 0);
+            }
 
-        //Judges
-        String[] judgeList = judgeL.toArray(new String[judgeL.size()]);
-        verdict.setJudgeList(judgeList);
+            //Amtsgericht - Court
+            if (!foreDecDCcL.isEmpty()) {
+                verdict.setForeDecisionDCCourt(mostCommon(foreDecDCcL));
+            } else {
+                verdict.setForeDecisionDCCourt("");
+            }
+            //Amtsgericht - Date
+            if (foreDecDCdvL.isEmpty()) {
+                verdict.setForeDecisionDCVerdictDate(filterNewestDate((foreDecDCdvL)));
+            } else {
+                verdict.setForeDecisionDCVerdictDate((long) 0);
+            }
 
-        //Date Verdict
-        verdict.setDateVerdict(filterNewestDate(dateverdictL));
-
-        //Oberlandesgericht - RAC
-        verdict.setForeDecisionRACCourt(mostCommon(foreDecRACcL));
-        verdict.setForeDecisionRACVerdictDate((filterNewestDate(foreDecRACdvL)));
-
-        //Landesgericht - RC
-        verdict.setForeDecisionRCCourt(mostCommon(foreDecRCcL));
-        verdict.setForeDecisionRCVerdictDate(filterNewestDate(foreDecRCdvL));
-
-        //Amtsgericht - DC
-        verdict.setForeDecisionDCCourt(mostCommon(foreDecDCcL));
-        verdict.setForeDecisionDCVerdictDate(filterNewestDate((foreDecDCdvL)));
-
-        //sout nur für debugger benötigt
-        //System.out.println("");
-        return verdict;
-    }
+            //Entscheidungssätze
+            verdict.setDecisionSentences(new String[0]);
+            //sout nur für debugger benötigt
+            //System.out.println("");
+            return verdict;
+        }
 
 
     /**
@@ -278,9 +224,57 @@ public class Mapper {
         // Empfängt eine Liste und gibt dabei das neueste Datum zurück.
         List<Long> dateVerdicts;
         dateVerdicts = verdictDateFormatter.formateStringDateToLongList(stringL);
-        return Collections.max(dateVerdicts);
+        Optional<Long> optionalLong = dateVerdicts.stream().max(Long::compareTo);
+        return optionalLong.orElse(0L);
+    }
 
+    private void setSenates() {
+        //Zivilsenate
+        senateMap.put("I", "1. Zivilsenat");
+        senateMap.put("II", "2. Zivilsenat");
+        senateMap.put("III", "3. Zivilsenat");
+        senateMap.put("IV", "4. Zivilsenat");
+        senateMap.put("V", "5. Zivilsenat");
+        senateMap.put("VI", "6. Zivilsenat");
+        senateMap.put("VII", "7. Zivilsenat");
+        senateMap.put("VIII", "8. Zivilsenat");
+        senateMap.put("IX", "9. Zivilsenat");
+        senateMap.put("X", "10. Zivilsenat");
+        senateMap.put("XI", "11. Zivilsenat");
+        senateMap.put("XII", "12. Zivilsenat");
+        // Strafsenate
+        senateMap.put("1", "1. Strafsenat");
+        senateMap.put("2", "2. Strafsenat");
+        senateMap.put("3", "3. Strafsenat");
+        senateMap.put("4", "4. Strafsenat");
+        senateMap.put("5", "5. Strafsenat");
 
+        //weitere Senate
+        //TODO von Dirk die restlichen Bezeichnungen bekommen
+        senateMap.put("", "");
+    }
+
+    private String getSenateFromDocketNumber(String string, List<String> docketNumList) {
+        // Senat ermitteln
+        Pattern civilpenalSenPat = Pattern.compile("([I+|IV|V|VI|VII|VIII|IX|X|XI|XII|1-6]+)\\s[A-Za-z()]{2,20}\\s\\d+/\\d\\d");
+        Pattern otherSenPat = Pattern.compile("(VGS|RiZ\\s?s?(R)|KZR|VRG|RiZ|EnRB|StbSt\\s?(B)|AnwZ\\s?(Brfg)|RiSt|PatAnwSt\\s?(R)|AnwZ\\s?(B)|PatAnwZ|EnVZ|AnwSt\\s?(B)|NotSt\\s?(Brfg)|KVZ|KZB|AR\\s?(Ri)|NotZ\\s?(Brfg)|RiSt\\s?(B)|AnwZ\\s?(P)|EnZB|RiSt\\s?(R)|NotSt\\s?(B)|AnwSt|WpSt\\s?(R)|KVR|AR\\s?(Kart)|EnZR|StbSt\\s?(R)|WpSt\\s?(B)|KZA|AR\\s?(Enw)|AnwSt\\s?(R)|KRB|RiZ\\s?(B)|PatAnwSt\\s?(B)|EnVR|AnwZ|NotZ|EnZA|AR)\\s\\d+/\\d+");
+
+        for (String docketstring : docketNumList) {
+            Matcher m = civilpenalSenPat.matcher(docketstring);
+
+            if (m.find()) {
+                String senateElement = m.group(1);
+                return senateMap.get(senateElement);
+            } else if (Pattern.matches(String.valueOf(otherSenPat), docketstring)) {
+                String senateElement = m.group(1);
+                return senateMap.get(senateElement);
+
+            } else {
+                //TODO was passiert wenn nur nicht matcht
+                return null;
+            }
+        }
+        return null;
     }
 
 }

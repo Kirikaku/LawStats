@@ -1,0 +1,38 @@
+{
+  "language": "de",
+  "usage": {
+    "features": 1
+  },
+  "entities": [
+    {
+      "type": "Aktenzeichen",
+      "count": 1,
+      "text": "XI ZR 392/12"
+    },
+    {
+      "type": "Datum",
+      "count": 1,
+      "text": "9-12-2014"
+    },
+    {
+      "type": "Gericht",
+      "count": 1,
+      "text": "Oberlandesgericht"
+    },
+    {
+      "type": "Datum",
+      "count": 1,
+      "text": "9-12-2014"
+    },
+    {
+      "type": "Richter",
+      "count": 1,
+      "text": "Ellenberger"
+    },
+    {
+      "type": "Richter",
+      "count": 1,
+      "text": "Groneberg"
+    }
+  ]
+}

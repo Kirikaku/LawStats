@@ -16,6 +16,7 @@ public class TestMain {
         AnalyzingCoordinator analyzingCoordinator = new AnalyzingCoordinator();
 
         Verdict verdict = analyzingCoordinator.analyzeDocument(new File("C:\\Users\\Phillip\\Documents\\Studium\\Praktikum Sprachtechnologie\\Firsttest\\verdict70001.pdf"));
+        //Verdict verdict = analyzingCoordinator.analyzeDocument(new File("C:\\Users\\lenna\\Documents\\UNI\\3. Semester\\[SEP] Softwareentwicklungspraktikum\\Testdaten\\verdict70117.pdf"));
 
         System.out.println(verdict);
 

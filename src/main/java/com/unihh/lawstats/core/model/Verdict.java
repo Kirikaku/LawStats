@@ -85,7 +85,12 @@ public class Verdict {
     }
 
     public void setSenate(String senate) {
-        this.senate = senate.toLowerCase();
+        if (senate != null){
+            this.senate = senate.toLowerCase();
+        }
+        else {
+            this.senate = "";
+        }
     }
 
     public String[] getJudgeList() {
@@ -125,7 +130,7 @@ public class Verdict {
     }
 
     public void setForeDecisionRCCourt(String foreDecisionRCCourt) {
-        this.foreDecisionRCCourt = foreDecisionRCCourt.toLowerCase();
+            this.foreDecisionRCCourt = foreDecisionRCCourt.toLowerCase();
     }
 
     public Long getForeDecisionRCVerdictDate() {
@@ -133,7 +138,8 @@ public class Verdict {
     }
 
     public void setForeDecisionRCVerdictDate(Long foreDecisionRCVerdictDate) {
-        this.foreDecisionRCVerdictDate = foreDecisionRCVerdictDate;
+            this.foreDecisionRCVerdictDate = foreDecisionRCVerdictDate;
+
     }
 
     public String getForeDecisionDCCourt() {

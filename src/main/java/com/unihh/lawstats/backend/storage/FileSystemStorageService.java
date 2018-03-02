@@ -24,13 +24,12 @@ import org.springframework.web.multipart.MultipartFile;
 public class FileSystemStorageService implements StorageService {
 
     private final Path rootLocation;
+    @Autowired
     private FileProcessService fileProcessService;
 
     @Autowired
-    public FileSystemStorageService(StorageProperties properties,
-                                    FileProcessService myClassService) {
+    public FileSystemStorageService(StorageProperties properties) {
         this.rootLocation = Paths.get(properties.getLocation());
-        this.fileProcessService = fileProcessService;
     }
 
 
@@ -56,10 +55,9 @@ public class FileSystemStorageService implements StorageService {
         }
 
         if (uploadedFile != null) {
-            FileProcessService fps = new FileProcessService();
-            fps.setFile(uploadedFile);
-            if (fps.checkPDF()) {
-                fps.start();
+            fileProcessService.setFile(uploadedFile);
+            if (fileProcessService.checkPDF()) {
+                fileProcessService.start();
             } else {
                 uploadedFile.delete();
             }
