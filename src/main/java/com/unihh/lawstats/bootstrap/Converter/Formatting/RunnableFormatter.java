@@ -6,14 +6,15 @@ public class RunnableFormatter implements Runnable {
 
     FormattingManager _formattingManager;
     int _endIndex;
-    String _basePath;
+    String _sourceBasePath;
+    String _targetBasePath;
 
 
-    public RunnableFormatter(FormattingManager formattingManager, int endIndex, String basePath){
+    public RunnableFormatter(FormattingManager formattingManager, int endIndex, String sourceBasePath, String targetBasePath){
         _formattingManager = formattingManager;
         _endIndex = endIndex;
-        _basePath = basePath;
-
+        _sourceBasePath = sourceBasePath;
+        _targetBasePath = targetBasePath;
 
     }
 
@@ -24,7 +25,7 @@ public class RunnableFormatter implements Runnable {
         while(counter<=_endIndex){
             //pdfToTextConverter.convertPDFToText(basePath+"\\verdict"+counter+".pdf");
 
-            Formatter.formatText(_basePath+"\\verdict"+counter+"_CLEAN.txt", _basePath+"\\verdict"+counter+"_cleanNeu.txt");
+            Formatter.formatText(_sourceBasePath+"\\verdict"+counter+"_CLEAN.txt", _targetBasePath+"\\verdict"+counter+"_cleanNeu.txt");
             counter = _formattingManager.getAndIncrementCounter();
         }
     }

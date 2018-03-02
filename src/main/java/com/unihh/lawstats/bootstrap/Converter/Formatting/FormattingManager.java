@@ -6,11 +6,11 @@ public class FormattingManager {
 
 
 
-    public void formatMultithread(int numberOfThreads, int startIndex, int endIndex, String basePath){
+    public void formatMultithread(int numberOfThreads, int startIndex, int endIndex, String sourceBasePath, String targetBasePath){
         _counter = startIndex;
 
         for(int i = 1; i <= numberOfThreads; i++){
-            new RunnableFormatter(this, endIndex, basePath).run();
+            new RunnableFormatter(this, endIndex, sourceBasePath, targetBasePath).run();
         }
 
     }
