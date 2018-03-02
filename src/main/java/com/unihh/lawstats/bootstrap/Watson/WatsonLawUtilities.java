@@ -10,7 +10,29 @@ import java.util.Map;
 public class WatsonLawUtilities {
 
 
+    public String splitFirstSentence(String documentText){
+        String temporaryDocumentText = new String(documentText);
+        int dotIndex = -1;
+        String sentence;
+        Map<String, String> sentenceMap = new HashMap<>();
+        String genericValue = "irrelevant";
 
+
+
+            dotIndex = temporaryDocumentText.indexOf(".");
+
+            if (dotIndex == -1) {
+                sentence = temporaryDocumentText;
+                temporaryDocumentText = "";
+            } else {
+                sentence = temporaryDocumentText.substring(0, dotIndex + 1);
+                temporaryDocumentText = temporaryDocumentText.substring(dotIndex+1);
+            }
+
+
+
+        return sentence;
+    }
 
     public Map<String, String> splitDocumentIntoSentences(String documentText){
         String temporaryDocumentText = new String(documentText);
