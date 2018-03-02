@@ -1,6 +1,4 @@
-package com.unihh.lawstats.bootstrap.Converter;
-
-import com.unihh.lawstats.bootstrap.VerdictDownloader;
+package com.unihh.lawstats.bootstrap.Converter.Formatting;
 
 public class FormattingManager {
 

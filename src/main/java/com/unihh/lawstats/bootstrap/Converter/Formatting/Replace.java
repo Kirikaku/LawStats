@@ -1,4 +1,4 @@
-package com.unihh.lawstats.bootstrap.Converter;
+package com.unihh.lawstats.bootstrap.Converter.Formatting;
 
 /**
  * Created by tim on 21.02.2017.

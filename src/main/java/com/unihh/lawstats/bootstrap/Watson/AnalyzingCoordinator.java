@@ -1,6 +1,6 @@
 package com.unihh.lawstats.bootstrap.Watson;
 
-import com.unihh.lawstats.bootstrap.Converter.Formatter;
+import com.unihh.lawstats.bootstrap.Converter.Formatting.Formatter;
 import com.unihh.lawstats.bootstrap.Converter.PDFToTextConverter;
 import com.unihh.lawstats.core.mapping.Mapper;
 import com.unihh.lawstats.core.model.Verdict;

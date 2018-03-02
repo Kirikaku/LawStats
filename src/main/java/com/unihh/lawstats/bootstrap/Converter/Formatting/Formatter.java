@@ -1,4 +1,4 @@
-package com.unihh.lawstats.bootstrap.Converter;
+package com.unihh.lawstats.bootstrap.Converter.Formatting;
 
 import org.apache.commons.io.IOUtils;
 

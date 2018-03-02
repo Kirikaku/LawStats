@@ -1,4 +1,6 @@
-package com.unihh.lawstats.bootstrap.Converter;
+package com.unihh.lawstats.bootstrap.Converter.Formatting;
+
+import com.unihh.lawstats.bootstrap.Converter.PDFToTextConverter;
 
 public class RunnableFormatter implements Runnable {
 
@@ -11,7 +13,6 @@ public class RunnableFormatter implements Runnable {
         _formattingManager = formattingManager;
         _endIndex = endIndex;
         _basePath = basePath;
-
 
     }
 

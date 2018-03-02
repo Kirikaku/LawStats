@@ -1,7 +1,4 @@
-package com.unihh.lawstats.bootstrap.Converter;
-
-import uhh_lt.ABSA.ABSentiment.AbSentiment;
-import uhh_lt.ABSA.ABSentiment.type.Result;
+package com.unihh.lawstats.bootstrap.Converter.Formatting;
 
 public class FormatTestMain {
 

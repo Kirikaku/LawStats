@@ -1,4 +1,4 @@
-package com.unihh.lawstats.bootstrap.Converter;
+package com.unihh.lawstats.bootstrap.Converter.Formatting;
 
 import java.io.*;
 import java.util.ArrayList;

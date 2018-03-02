@@ -1,5 +1,6 @@
 package com.unihh.lawstats.bootstrap.Converter;
 
+import com.unihh.lawstats.bootstrap.Converter.Formatting.Formatter;
 import com.unihh.lawstats.bootstrap.Watson.WatsonLawUtilities;
 import org.apache.commons.io.IOUtils;
 
