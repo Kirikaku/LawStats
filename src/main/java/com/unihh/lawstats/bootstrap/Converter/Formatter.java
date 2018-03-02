@@ -78,7 +78,7 @@ public class Formatter {
         String outFile = cleanPath;
         String content = formatText(textPath);
 
-        if(!content.equals("")) {
+        if(content != null && !content.equals("")) {
             try {
                 FileOutputStream fos = new FileOutputStream(outFile);
                 IOUtils.write(content, fos, "UTF-8");
@@ -93,7 +93,30 @@ public class Formatter {
         }
     }
 
+
     public static String formatText(String textPath){
+        String inFile = null;
+        String content = null;
+
+        inFile = textPath;
+
+
+        try {
+            FileInputStream fis = new FileInputStream(inFile);
+            content = IOUtils.toString(fis,"UTF-8");
+            content = formatTextForString(content);
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return content;
+    }
+
+
+    public static String formatTextForString(String content){
+
         monate.put("Januar", 1);
         monate.put("Februar", 2);
         monate.put("März", 3);
@@ -107,225 +130,229 @@ public class Formatter {
         monate.put("November", 11);
         monate.put("Dezember", 12);
 
-        String inFile = null;
-        String content = null;
-
-        inFile = textPath;
 
 
 
         List<String> shortcuts = (new ShortcutList()).getShortcuts();
 
-        try {
-            FileInputStream fis = new FileInputStream(inFile);
-            content = IOUtils.toString(fis,"UTF-8");
 
 
-            // Leerzeichen
-            String pattern10 = "(^\\s\\s\\s)";
+        //ECLI Nummer
+        String patternECLI = "(ECLI.+\\s)";
 
-            Pattern p = Pattern.compile(pattern10);
-            Matcher m = p.matcher(content);
+        Pattern pECLI = Pattern.compile(patternECLI);
+        Matcher mECLI = pECLI.matcher(content);
 
-            while(m.find()) {
 
+        while(mECLI.find()) {
+
+            String original = mECLI.group(1);
+            String neu = "";
+
+            content = content.replace(original, neu);
+
+        }
+
+
+        // Leerzeichen
+        String pattern10 = "(^\\s\\s\\s)";
+
+        Pattern p = Pattern.compile(pattern10);
+        Matcher m = p.matcher(content);
+
+        while(m.find()) {
+
+            String original = m.group(1);
+            String neu = "";
+
+            content = content.replace(original, neu);
+
+
+        }
+
+
+
+        for(String s: shortcuts)
+        {
+            String original = s.replace(".", "\\.");
+
+            //System.out.println(original);
+            String replacement = s.replace(".", "_");
+
+
+            String zeilenanfang = "\n" + original + " ";
+            String zeilenanfangReplace = "\n" + replacement + " ";
+
+            String leerzeichen = "\\s"+original+"\\s";
+            String leerzeichenReplace = " "+replacement+" ";
+
+            String klammern = "\\("+original+" ";
+            String klammernReplace = "("+replacement+" " ;
+
+            String klammern2 = " " + original + "\\)" ;
+            String klammern2Replace = " " + replacement + ")" ;
+
+            String zeilenende = "\\s"+original+"\n";
+            String zeilenendeReplace = " "+ replacement + " ";
+
+            String komma = "\\s"+original+"\\,";
+            String kommaReplace = " "+ replacement + ",";
+
+            String semikolon = "\\s"+original+"\\;";
+            String semikolonReplace = " "+ replacement + ";";
+
+
+            content = content.replaceAll(zeilenanfang, zeilenanfangReplace);
+            content = content.replaceAll(leerzeichen,leerzeichenReplace );
+            content = content.replaceAll(klammern, klammernReplace);
+            content = content.replaceAll(klammern2,klammern2Replace );
+            content = content.replaceAll(zeilenende,zeilenendeReplace );
+            content = content.replaceAll(komma,kommaReplace );
+            content = content.replaceAll(semikolon,semikolonReplace );
+        }
+
+
+        // Seitenzahlen
+        String pattern3 = "(-\\s?\\d{1,2}\\s?-)";
+
+        p = Pattern.compile(pattern3);
+        m = p.matcher(content);
+
+        while(m.find()) {
+
+            String original = m.group(1);
+            String neu = "";
+
+            content = content.replace(original, neu);
+
+            // System.out.println("Seitenzahl: "+ original);
+        }
+
+
+
+
+        // Datum: 12. Februar 2017 -> 12-2-2017
+        String pattern = "((\\d(\\d)?)\\.\\s+?([äÄöÖüÜßa-zA-Z]+)\\s(\\d{4}))";
+
+        p = Pattern.compile(pattern,Pattern.MULTILINE | Pattern.CANON_EQ);
+        m = p.matcher(content);
+
+        while(m.find()) {
+
+            //System.out.println("Datum: "+m.group(1));
+            String original = m.group(1);
+            String neu = m.group(2) + "-" + monate.get(m.group(4)) + "-" + m.group(5);
+
+            content = content.replace(original, neu);
+        }
+
+        // Datum: 12.02.17-> 12-2-2017
+        String pattern7 = "(\\s(\\d{1,2})\\.(\\d{1,2})\\.(\\d{2}\\s|\\d{4}\\s))";
+
+        p = Pattern.compile(pattern7);
+        m = p.matcher(content);
+
+        while(m.find()) {
+
+            String original = m.group(1);
+            String neu = " "+m.group(2) + "-" + m.group(3) + "-" + m.group(4);
+
+            content = content.replace(original, neu);
+
+            // System.out.println("Datum: "+m.group(1));
+            //  System.out.println("DatumNeu: "+neu);
+        }
+
+
+
+
+        // Geldbeträge: 5.000,34 € -> 5000,34 €
+        String pattern2 = "(\\s\\d{1,3}(\\.\\d{3})?(\\,\\d{1,2})?\\s?)€";
+
+        p = Pattern.compile(pattern2);
+        m = p.matcher(content);
+
+        while(m.find()) {
+
+            String original = m.group(1);
+            String neu = original.replaceAll("\\.", "");
+
+            content = content.replace(original, neu);
+
+            //  System.out.println("Geldbetrag: "+ original);
+        }
+
+
+
+        //hier war ein Fehler
+        // 30. -> 30
+        String pattern4 = "(\\d+\\.\\D+)";
+
+        p = Pattern.compile(pattern4);
+        m = p.matcher(content);
+
+        while(m.find()) {
+
+            String original = m.group(1);
+            String neu = original.replaceAll("\\.", "_");
+
+            content = content.replace(original, neu);
+
+            // System.out.println("Zahl: "+ original);
+        }
+
+
+        // Einfache Ersetzungen mittels Replacement Array
+        for(Replace r : replacements) {
+            content = content.replaceAll(r.from, r.to);
+        }
+
+
+
+        // Bindestriche
+        String pattern5 = "([äÄöÖüÜßa-zA-Z]-[\\r?\\n]+[äÄöÖüÜßa-zA-Z])";
+
+        p = Pattern.compile(pattern5,Pattern.MULTILINE | Pattern.CANON_EQ);
+        m = p.matcher(content);
+
+        while(m.find()) {
+
+            String original = m.group(1);
+            String neu = original.replaceAll("\\n", "");
+            neu = neu.replaceAll("-", "");
+            neu = neu.replaceAll("\\r", "");
+
+            content = content.replace(original, neu);
+
+            //  System.out.println("Wortunterbrechung: "+ original);
+        }
+
+
+        // Satzumbruch
+        String pattern6 = "([äÄöÖüÜßa-zA-Z0-9]([\\r?\\n]+)[äÄöÖüÜßa-zA-Z0-9])";
+
+        p = Pattern.compile(pattern6, Pattern.MULTILINE | Pattern.CANON_EQ);
+        m = p.matcher(content);
+
+        while(m.find()) {
+            try {
                 String original = m.group(1);
-                String neu = "";
 
+                String neu = original.replaceAll(m.group(2), " ");
                 content = content.replace(original, neu);
 
 
+                //TODO Temporary solution to resolve program shutdown after a special case in verdict 17801 (java.util.regex.PatternSyntaxException: Dangling meta character '?' near index 0)
+            }catch(PatternSyntaxException pSE){
+                pSE.printStackTrace();
+
+                return "";
             }
 
-
-
-            for(String s: shortcuts)
-            {
-                String original = s.replace(".", "\\.");
-
-                //System.out.println(original);
-                String replacement = s.replace(".", "_");
-
-
-                String zeilenanfang = "\n" + original + " ";
-                String zeilenanfangReplace = "\n" + replacement + " ";
-
-                String leerzeichen = "\\s"+original+"\\s";
-                String leerzeichenReplace = " "+replacement+" ";
-
-                String klammern = "\\("+original+" ";
-                String klammernReplace = "("+replacement+" " ;
-
-                String klammern2 = " " + original + "\\)" ;
-                String klammern2Replace = " " + replacement + ")" ;
-
-                String zeilenende = "\\s"+original+"\n";
-                String zeilenendeReplace = " "+ replacement + " ";
-
-                String komma = "\\s"+original+"\\,";
-                String kommaReplace = " "+ replacement + ",";
-
-                String semikolon = "\\s"+original+"\\;";
-                String semikolonReplace = " "+ replacement + ";";
-
-
-                content = content.replaceAll(zeilenanfang, zeilenanfangReplace);
-                content = content.replaceAll(leerzeichen,leerzeichenReplace );
-                content = content.replaceAll(klammern, klammernReplace);
-                content = content.replaceAll(klammern2,klammern2Replace );
-                content = content.replaceAll(zeilenende,zeilenendeReplace );
-                content = content.replaceAll(komma,kommaReplace );
-                content = content.replaceAll(semikolon,semikolonReplace );
-            }
-
-
-            // Seitenzahlen
-            String pattern3 = "(-\\s?\\d{1,2}\\s?-)";
-
-            p = Pattern.compile(pattern3);
-            m = p.matcher(content);
-
-            while(m.find()) {
-
-                String original = m.group(1);
-                String neu = "";
-
-                content = content.replace(original, neu);
-
-               // System.out.println("Seitenzahl: "+ original);
-            }
-
-
-
-
-            // Datum: 12. Februar 2017 -> 12-2-2017
-            String pattern = "((\\d(\\d)?)\\.\\s+?([äÄöÖüÜßa-zA-Z]+)\\s(\\d{4}))";
-
-            p = Pattern.compile(pattern,Pattern.MULTILINE | Pattern.CANON_EQ);
-            m = p.matcher(content);
-
-            while(m.find()) {
-
-                //System.out.println("Datum: "+m.group(1));
-                String original = m.group(1);
-                String neu = m.group(2) + "-" + monate.get(m.group(4)) + "-" + m.group(5);
-
-                content = content.replace(original, neu);
-            }
-
-            // Datum: 12.02.17-> 12-2-2017
-            String pattern7 = "(\\s(\\d{1,2})\\.(\\d{1,2})\\.(\\d{2}\\s|\\d{4}\\s))";
-
-            p = Pattern.compile(pattern7);
-            m = p.matcher(content);
-
-            while(m.find()) {
-
-                String original = m.group(1);
-                String neu = " "+m.group(2) + "-" + m.group(3) + "-" + m.group(4);
-
-                content = content.replace(original, neu);
-
-               // System.out.println("Datum: "+m.group(1));
-              //  System.out.println("DatumNeu: "+neu);
-            }
-
-
-
-
-            // Geldbeträge: 5.000,34 € -> 5000,34 €
-            String pattern2 = "(\\s\\d{1,3}(\\.\\d{3})?(\\,\\d{1,2})?\\s?)€";
-
-            p = Pattern.compile(pattern2);
-            m = p.matcher(content);
-
-            while(m.find()) {
-
-                String original = m.group(1);
-                String neu = original.replaceAll("\\.", "");
-
-                content = content.replace(original, neu);
-
-              //  System.out.println("Geldbetrag: "+ original);
-            }
-
-
-
-            //hier war ein Fehler
-            // 30. -> 30
-            String pattern4 = "(\\d+\\.\\D+)";
-
-            p = Pattern.compile(pattern4);
-            m = p.matcher(content);
-
-            while(m.find()) {
-
-                String original = m.group(1);
-                String neu = original.replaceAll("\\.", "_");
-
-                content = content.replace(original, neu);
-
-               // System.out.println("Zahl: "+ original);
-            }
-
-
-            // Einfache Ersetzungen mittels Replacement Array
-            for(Replace r : replacements) {
-                content = content.replaceAll(r.from, r.to);
-            }
-
-
-
-            // Bindestriche
-            String pattern5 = "([äÄöÖüÜßa-zA-Z]-[\\r?\\n]+[äÄöÖüÜßa-zA-Z])";
-
-            p = Pattern.compile(pattern5,Pattern.MULTILINE | Pattern.CANON_EQ);
-            m = p.matcher(content);
-
-            while(m.find()) {
-
-                String original = m.group(1);
-                String neu = original.replaceAll("\\n", "");
-                neu = neu.replaceAll("-", "");
-                neu = neu.replaceAll("\\r", "");
-
-                content = content.replace(original, neu);
-
-              //  System.out.println("Wortunterbrechung: "+ original);
-            }
-
-
-            // Satzumbruch
-            String pattern6 = "([äÄöÖüÜßa-zA-Z0-9]([\\r?\\n]+)[äÄöÖüÜßa-zA-Z0-9])";
-
-            p = Pattern.compile(pattern6, Pattern.MULTILINE | Pattern.CANON_EQ);
-            m = p.matcher(content);
-
-            while(m.find()) {
-                try {
-                    String original = m.group(1);
-
-                    String neu = original.replaceAll(m.group(2), " ");
-                    content = content.replace(original, neu);
-
-
-                    //TODO Temporary solution to resolve program shutdown after a special case in verdict 17801 (java.util.regex.PatternSyntaxException: Dangling meta character '?' near index 0)
-                }catch(PatternSyntaxException pSE){
-                    pSE.printStackTrace();
-
-                    return "";
-                }
-
-            }
-
-
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
         }
 
         return content;
+
     }
 
 
@@ -333,11 +360,12 @@ public class Formatter {
     public void run(){
         int counter = _formattingManager.getAndIncrementCounter();
         PDFToTextConverter pdfToTextConverter = new PDFToTextConverter();
-       String basePath = "C:\\Users\\Phillip\\Documents\\verdicts";
+       String basePath = "C:\\Users\\Phillip\\Documents\\verdictsSelected";
 
         while(counter<=_endIndex){
-            pdfToTextConverter.convertPDFToText(basePath+"\\verdict"+counter+".pdf");
-            Formatter.formatText(basePath+"\\verdict"+counter+".txt", basePath+"\\verdict"+counter+"_CLEAN.txt");
+            //pdfToTextConverter.convertPDFToText(basePath+"\\verdict"+counter+".pdf");
+
+            Formatter.formatText(basePath+"\\verdict"+counter+"_CLEAN.txt", basePath+"\\verdict"+counter+"_cleanNeu.txt");
             counter = _formattingManager.getAndIncrementCounter();
         }
     }
