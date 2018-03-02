@@ -11,17 +11,18 @@ import org.springframework.stereotype.Service;
 import java.io.File;
 
 @Service
-public class FileProcessService {
+public class FileProcessService extends Thread {
 
 
     private AnalyzingCoordinator analyzingCoordinator = new AnalyzingCoordinator();
-
+/*
     public void start() {
         Runnable thread = () -> {
             verdictRepository.save(analyzingCoordinator.analyzeDocument(workfile));
         };
         thread.run();
     }
+*/
 
     @Autowired
     VerdictRepository verdictRepository;
@@ -40,16 +41,16 @@ public class FileProcessService {
         workfile = file;
     }
 
-/*
+
     @Override
     public void run() {
         AnalyzingCoordinator analyzingCoordinator = new AnalyzingCoordinator();
         Verdict object = analyzingCoordinator.analyzeDocument(workfile);
         verdictRepository.save(object);
         //für debugger
-        //System.out.println("");
+        System.out.println("");
     }
-    */
+
 
     public boolean checkPDF() {
         return workfile.toString().contains(".pdf");
