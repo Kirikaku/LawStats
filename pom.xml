@@ -74,7 +74,7 @@
         <dependency>
             <groupId>com.github.uhh-lt</groupId>
             <artifactId>LT-ABSA</artifactId>
-            <version>f07d9eb253</version>
+            <version>-SNAPSHOT</version>
         </dependency>
     </dependencies>
 

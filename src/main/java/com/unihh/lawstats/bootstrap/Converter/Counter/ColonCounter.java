@@ -1,19 +1,18 @@
-package com.unihh.lawstats.bootstrap.Converter;
+package com.unihh.lawstats.bootstrap.Converter.Counter;
 
-import com.unihh.lawstats.bootstrap.Converter.Formatting.Formatter;
 import com.unihh.lawstats.bootstrap.Watson.WatsonLawUtilities;
 import org.apache.commons.io.IOUtils;
 
-import java.io.*;
-import java.util.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.util.HashSet;
+import java.util.Set;
 
-public class RandomDocumentSelector {
+public class ColonCounter {
 
 
+    public void countColon(int numberOfDocuments, int startIndex, int endIndex, String sourceBasePath){
 
-    public void countColon(int numberOfDocuments, String sourceBasePath){
-        int startIndex = 70000;
-        int endIndex = 80000;
         Set<String> pathList = new HashSet<>();
         int colonCounter = 0;
         int twoColonCounter = 0;
@@ -25,8 +24,8 @@ public class RandomDocumentSelector {
             pathList.add("\\verdict"+i+"_clean.txt");
         }
 
-        int counter = 0;
 
+        int counter = 0;
         for(String path: pathList){
 
             if(counter<numberOfDocuments) {
@@ -47,11 +46,7 @@ public class RandomDocumentSelector {
                         }
                     }
 
-
                     counter++;
-
-
-
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -80,46 +75,5 @@ public class RandomDocumentSelector {
 
 
 
-    public void selectRandomDocuments(int numberOfDocuments, String sourceBasePath, String targetBasePath){
-        int startIndex = 17756;
-        int endIndex = 80984;
-        Set<String> pathList = new HashSet<>();
 
-        for(int i = startIndex; i<=endIndex; i++){
-            pathList.add("\\verdict"+i+".txt");
-        }
-
-        int counter = 0;
-
-        for(String path: pathList){
-
-            if(counter<numberOfDocuments) {
-
-                File file = new File(sourceBasePath + path);
-                try {
-                    FileInputStream fileInputStream = new FileInputStream(file);
-                    String content = IOUtils.toString(fileInputStream,"UTF-8");
-                    content = Formatter.formatTextForString(content);
-
-
-                    String cleanPath = path.substring(0,path.length()-4);
-                    cleanPath = cleanPath+"_cleanNeu.txt";
-
-
-                    FileOutputStream fos = new FileOutputStream(targetBasePath + cleanPath);
-                    IOUtils.write(content, fos, "UTF-8");
-                    counter++;
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-            else{
-                return;
-            }
-
-        }
-
-
-    }
 }

@@ -14,6 +14,7 @@ public class RunnableFormatter implements Runnable {
         _endIndex = endIndex;
         _basePath = basePath;
 
+
     }
 
     public void run(){
