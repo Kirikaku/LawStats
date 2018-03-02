@@ -10,7 +10,7 @@
     <title>LawStats - Revisionenliste</title>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <link rel="stylesheet" href="css/main.css"/>
+    <link rel="stylesheet" href="/css/main.css"/>
 </head>
 <body class="no-sidebar">
 <div id="page-wrapper">
@@ -41,7 +41,7 @@
     <div class="wrapper style1">
 
         <div class="container">
-            <table class="table.default" id="verdictList" border="1">
+            <table class="table.default" id="verdictListTable" border="1">
                 <thead>
                 <tr>
                     <th>
@@ -49,23 +49,24 @@
                     </th>
                 </tr>
                 </thead>
-                <tbody>
-                <tr ></tr>
-                </tbody>
             </table>
-    </div>
-
-
-    <!-- Footer -->
-    <div id="footer">
-        <!-- Copyright -->
-        <div class="copyright">
-            <ul class="menu">
-                <li>&copy; LawStats @ Uni Hamburg. All rights reserved.</li>
-                <li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+            <ul>
+                <li th:each="searchedVerdicts : ${@ListController.listVerdicts}" th:text="${searchedVerdicts}"></li>
             </ul>
         </div>
 
+
+        <!-- Footer -->
+        <div id="footer">
+            <!-- Copyright -->
+            <div class="copyright">
+                <ul class="menu">
+                    <li>&copy; LawStats @ Uni Hamburg. All rights reserved.</li>
+                    <li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+                </ul>
+            </div>
+
+        </div>
     </div>
 </div>
 

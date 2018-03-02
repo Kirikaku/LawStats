@@ -53,7 +53,6 @@
             </article>
 
             <div class="inner">
-                <!-- <form action="#" th:action="@{/input}" th:object="${input}" method="post"> !-->
                 <div class="inner">
                     <select title="Attribut" id="attribute">
                         <option value="" disabled selected>Attribut auswählen</option>
@@ -64,12 +63,10 @@
                         </option>
                     </select>
                     <input type="text" id="tag" placeholder="Schlagwort" name="tag"/>
-                    <!-- th:field="*{tag}" !-->
-                    <input type="date" id="start" title="Startdatum"/>  <!-- th:field="*{start}"!-->
-                    <input type="date" id="end" title="Enddatum"/>  <!-- th:field="*{end}" !-->
+                    <input type="date" id="start" title="Startdatum"/>
+                    <input type="date" id="end" title="Enddatum"/>
                     <input type="submit" value="Hinzufügen" onclick="insert()"/>
                 </div>
-                <!-- </form> !-->
                 <div class="inner">
                     <input type="submit" value="Submit" onclick="getQueriedVerdicts()"/>
                 </div>
