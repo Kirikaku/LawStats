@@ -17,18 +17,6 @@ import java.util.regex.PatternSyntaxException;
  */
 public class Formatter {
 
-    FormattingManager _formattingManager;
-    int _endIndex;
-
-
-    public Formatter(FormattingManager formattingManager, int endIndex){
-        _formattingManager = formattingManager;
-        _endIndex = endIndex;
-
-    }
-
-
-
     public static Replace[] replacements = {
 
             new Replace(" a\\. ", " am "),
@@ -113,6 +101,7 @@ public class Formatter {
 
         return content;
     }
+
 
 
     public static String formatTextForString(String content){
@@ -357,17 +346,6 @@ public class Formatter {
 
 
 
-    public void run(){
-        int counter = _formattingManager.getAndIncrementCounter();
-        PDFToTextConverter pdfToTextConverter = new PDFToTextConverter();
-       String basePath = "C:\\Users\\Phillip\\Documents\\verdictsSelected";
 
-        while(counter<=_endIndex){
-            //pdfToTextConverter.convertPDFToText(basePath+"\\verdict"+counter+".pdf");
-
-            Formatter.formatText(basePath+"\\verdict"+counter+"_CLEAN.txt", basePath+"\\verdict"+counter+"_cleanNeu.txt");
-            counter = _formattingManager.getAndIncrementCounter();
-        }
-    }
 
 }

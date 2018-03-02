@@ -8,14 +8,12 @@ public class FormattingManager {
 
 
 
-    public void formatMultithread(int numberOfThreads, int startIndex, int endIndex){
+    public void formatMultithread(int numberOfThreads, int startIndex, int endIndex, String basePath){
         _counter = startIndex;
 
         for(int i = 1; i <= numberOfThreads; i++){
-            new Formatter(this, endIndex).run();
-
+            new RunnableFormatter(this, endIndex, basePath).run();
         }
-
 
     }
 
