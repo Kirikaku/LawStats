@@ -40,6 +40,7 @@ public class FilterController {
     // A list of all attribute displaynames
     private List<String> attributeList = new ArrayList<>();
 
+
     /**
      * Have to set the definitive columns in our table
      */
@@ -119,6 +120,13 @@ public class FilterController {
 
         return "verdictTable";
     }
+
+    /**
+     * This method links to the selected verdictList
+     */
+    @RequestMapping("/filter/verdictList")
+    public String verdictList(Model model) { return "verdictList"; }
+
 
     private void deleteAllUnnecessarySearchVerdicts() {
         searchVerdict = searchVerdict.stream().filter(searchVerdict1 -> !searchVerdict1.getRelatedVerdictsWithRevisionAPartOfSuccessful().isEmpty() &&
