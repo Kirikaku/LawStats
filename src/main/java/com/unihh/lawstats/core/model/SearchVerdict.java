@@ -14,8 +14,11 @@ public class SearchVerdict {
     private List<Verdict> relatedVerdictsWithRevisionSuccessful = new ArrayList<>();
     private List<Verdict> relatedVerdictsWithRevisionNotSuccessful = new ArrayList<>();
     private List<Verdict> relatedVerdictsWithRevisionAPartOfSuccessful = new ArrayList<>();
+    private int id;
 
-    public SearchVerdict() {
+
+    public SearchVerdict(int id) {
+        this.id = id;
     }
 
     public Map<DataModelAttributes, Input> getCombinationMap() {
@@ -50,5 +53,9 @@ public class SearchVerdict {
 
     public Input getValueForKey(DataModelAttributes key){
         return combinationMap.get(key);
+    }
+
+    public int getId() {
+        return id;
     }
 }

@@ -36,10 +36,11 @@ public class FilterController {
     // All verdicts which are related to our selection
     private Set<Verdict> verdictsInUse = new HashSet<>();
     // All combinations of attributes
-    private List<SearchVerdict> searchVerdict = new ArrayList<>();
+    private List<SearchVerdict> searchVerdictList = new ArrayList<>();
     // A list of all attribute displaynames
     private List<String> attributeList = new ArrayList<>();
 
+    private int nextIdForSearchVerdict = 0;
 
     /**
      * Have to set the definitive columns in our table
@@ -63,8 +64,9 @@ public class FilterController {
         attributeList.add(TableAttributes.RevisionSuccess.getDisplayName());
         attributeList.add(TableAttributes.RevisionNotSuccess.getDisplayName());
         attributeList.add(TableAttributes.RevisionAPartOfSuccess.getDisplayName());
-        searchVerdict = new ArrayList<>();
+        searchVerdictList = new ArrayList<>();
         verdictsInUse = new HashSet<>();
+        nextIdForSearchVerdict = 0;
     }
 
     /**
@@ -112,7 +114,7 @@ public class FilterController {
         verdictsInUse = getQueriedVerdicts();
 
         // Second create all SearchVerdict to create all combinations
-        searchVerdict = getAllCombinationsOfSearchVerdicts();
+        searchVerdictList = getAllCombinationsOfSearchVerdicts();
 
         addVerdictsToSearchVerdicts();
 
@@ -125,13 +127,13 @@ public class FilterController {
      * This method links to the selected verdictList
      */
     @RequestMapping("/filter/verdictList")
-    public String verdictList(Model model) { return "verdictList"; }
+    public String verdictList(Model model) {
+        return "verdictList";
+    }
 
 
     private void deleteAllUnnecessarySearchVerdicts() {
-        searchVerdict = searchVerdict.stream().filter(searchVerdict1 -> !searchVerdict1.getRelatedVerdictsWithRevisionAPartOfSuccessful().isEmpty() &&
-                !searchVerdict1.getRelatedVerdictsWithRevisionNotSuccessful().isEmpty() &&!searchVerdict1.getRelatedVerdictsWithRevisionSuccessful().isEmpty())
-                .collect(Collectors.toList());
+        searchVerdictList = searchVerdictList.stream().filter(searchVerdict1 -> !searchVerdict1.getRelatedVerdictsWithRevisionAPartOfSuccessful().isEmpty() && !searchVerdict1.getRelatedVerdictsWithRevisionNotSuccessful().isEmpty() && !searchVerdict1.getRelatedVerdictsWithRevisionSuccessful().isEmpty()).collect(Collectors.toList());
     }
 
     /**
@@ -146,7 +148,7 @@ public class FilterController {
      * One object represents one row
      */
     public List<SearchVerdict> getSearchVerdictList() {
-        return searchVerdict;
+        return searchVerdictList;
     }
 
 
@@ -158,10 +160,7 @@ public class FilterController {
     private List<SearchVerdict> getAllCombinationsOfSearchVerdicts() {
         List<Map<DataModelAttributes, Input>> allCombinationList = new ArrayList<>();
         createInputsWhenAnEmptyExists();
-        createMapWithAllCombinations(selectedAttributesMap,
-                new LinkedList<>(selectedAttributesMap.keySet()).listIterator(),
-                new HashMap<>(),
-                allCombinationList);
+        createMapWithAllCombinations(selectedAttributesMap, new LinkedList<>(selectedAttributesMap.keySet()).listIterator(), new HashMap<>(), allCombinationList);
 
         return createSearchVerdictsOfAllCombinations(allCombinationList);
     }
@@ -178,13 +177,12 @@ public class FilterController {
     }
 
     private void createAllCombinationsFromEmptyStringInput(StringInput stringInput) {
-        verdictsInUse.forEach(verdict -> dataAttributeVerdictService.dataAttributeToVerdictValue(stringInput.getAttribute(), verdict)
-                .forEach(s -> {
-                    StringInput verdictSpecificStringInput = new StringInput();
-                    verdictSpecificStringInput.setAttribute(stringInput.getAttribute());
-                    verdictSpecificStringInput.setValue(s);
-                    addInputToMap(verdictSpecificStringInput, verdictSpecificStringInput.getAttribute());
-                }));
+        verdictsInUse.forEach(verdict -> dataAttributeVerdictService.dataAttributeToVerdictValue(stringInput.getAttribute(), verdict).forEach(s -> {
+            StringInput verdictSpecificStringInput = new StringInput();
+            verdictSpecificStringInput.setAttribute(stringInput.getAttribute());
+            verdictSpecificStringInput.setValue(s);
+            addInputToMap(verdictSpecificStringInput, verdictSpecificStringInput.getAttribute());
+        }));
     }
 
     /**
@@ -197,7 +195,8 @@ public class FilterController {
         List<SearchVerdict> searchVerdictList = new ArrayList<>();
 
         allCombinationList.forEach(attributesStringMap -> {
-            SearchVerdict sv = new SearchVerdict();
+            SearchVerdict sv = new SearchVerdict(nextIdForSearchVerdict);
+            nextIdForSearchVerdict = nextIdForSearchVerdict++;
             sv.setCombinationMap(attributesStringMap);
             searchVerdictList.add(sv);
         });
@@ -205,10 +204,15 @@ public class FilterController {
         return searchVerdictList;
     }
 
-    private void createMapWithAllCombinations(Map<DataModelAttributes, Set<Input>> hashMap,
-                                              ListIterator<DataModelAttributes> listIterator,
-                                              Map<DataModelAttributes, Input> solutionMap,
-                                              List<Map<DataModelAttributes, Input>> allCombinationlist) {
+    public SearchVerdict getSearchVerdictForID(int id) {
+        for (SearchVerdict searchVerdict : searchVerdictList)
+            if (Objects.equals(searchVerdict.getId(), id)) {
+                return searchVerdict;
+            }
+                return null;
+    }
+
+    private void createMapWithAllCombinations(Map<DataModelAttributes, Set<Input>> hashMap, ListIterator<DataModelAttributes> listIterator, Map<DataModelAttributes, Input> solutionMap, List<Map<DataModelAttributes, Input>> allCombinationlist) {
         if (!listIterator.hasNext()) {
             Map<DataModelAttributes, Input> entry = new HashMap<>();
 
@@ -237,7 +241,7 @@ public class FilterController {
      */
     private void addVerdictsToSearchVerdicts() {
         for (Verdict verdict : verdictsInUse) {
-            for (SearchVerdict searchVerdict : searchVerdict) {
+            for (SearchVerdict searchVerdict : searchVerdictList) {
                 boolean isRelated = true;
                 for (DataModelAttributes attribute : searchVerdict.getCombinationMap().keySet()) {
                     VerdictDateFormatter verdictDateFormatter = new VerdictDateFormatter();
@@ -250,9 +254,7 @@ public class FilterController {
 
                     } else {
                         StringInput stringInput = (StringInput) searchVerdict.getValueForKey(attribute);
-                        if (dataAttributeVerdictService.dataAttributeToVerdictValue(attribute, verdict).stream()
-                                .map(String::toLowerCase)
-                                .noneMatch(s -> s.contains(stringInput.getValue().toLowerCase()))) {
+                        if (dataAttributeVerdictService.dataAttributeToVerdictValue(attribute, verdict).stream().map(String::toLowerCase).noneMatch(s -> s.contains(stringInput.getValue().toLowerCase()))) {
                             isRelated = false;
                         }
                     }
@@ -312,8 +314,7 @@ public class FilterController {
                 return ((StringInput) input).getValue();
             } else {
                 DateInput dateInput = ((DateInput) input);
-                return verdictDateFormatter.formatVerdictDateToString(dateInput.getStart()) + " - " +
-                        verdictDateFormatter.formatVerdictDateToString(dateInput.getEnd());
+                return verdictDateFormatter.formatVerdictDateToString(dateInput.getStart()) + " - " + verdictDateFormatter.formatVerdictDateToString(dateInput.getEnd());
             }
         } else {
             switch (TableAttributes.valueOfDisplayName(attribute)) {
