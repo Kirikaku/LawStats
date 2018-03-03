@@ -13,6 +13,7 @@ public class FormattingManager {
             new RunnableFormatter(this, endIndex, sourceBasePath, targetBasePath).run();
         }
 
+
     }
 
 

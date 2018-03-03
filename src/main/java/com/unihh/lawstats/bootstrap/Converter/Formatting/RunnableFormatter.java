@@ -25,7 +25,7 @@ public class RunnableFormatter implements Runnable {
         while(counter<=_endIndex){
             //pdfToTextConverter.convertPDFToText(basePath+"\\verdict"+counter+".pdf");
 
-            Formatter.formatText(_sourceBasePath+"\\verdict"+counter+"_CLEAN.txt", _targetBasePath+"\\verdict"+counter+"_cleanNeu.txt");
+            Formatter.formatText(_sourceBasePath+"\\verdict"+counter+".txt", _targetBasePath+"\\verdict"+counter+"_clean.txt");
             counter = _formattingManager.getAndIncrementCounter();
         }
     }

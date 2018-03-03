@@ -24,7 +24,7 @@ public class BGHVerdictUtil {
 
         String bghVerdictNumber = null;
 
-        String pattern = "verdict(\\d{4})^\\s";
+        String pattern = "verdict(\\d{5})\\S";
 
         Pattern p = Pattern.compile(pattern);
         Matcher m = p.matcher(filename);
