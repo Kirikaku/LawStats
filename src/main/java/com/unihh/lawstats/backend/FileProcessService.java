@@ -4,34 +4,23 @@ import com.unihh.lawstats.backend.repositories.VerdictRepository;
 import com.unihh.lawstats.bootstrap.AnalyzingCoordinator;
 import com.unihh.lawstats.core.model.Verdict;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.util.Observable;
+import java.util.concurrent.atomic.AtomicReference;
+
+import static java.lang.Thread.sleep;
 
 @Service
-public class FileProcessService extends Thread {
+public class FileProcessService extends Observable {
 
-
-    private AnalyzingCoordinator analyzingCoordinator = new AnalyzingCoordinator();
-/*
-    public void start() {
-        Runnable thread = () -> {
-            verdictRepository.save(analyzingCoordinator.analyzeDocument(workfile));
-        };
-        thread.run();
-    }
-*/
 
     @Autowired
     VerdictRepository verdictRepository;
-
-    @Autowired
-    ApplicationContext applicationContext;
-
+    private AnalyzingCoordinator analyzingCoordinator = new AnalyzingCoordinator();
     private File workfile;
-    //private Verdict object;
-
+    private boolean fileAnalyzed = false;
 
     public FileProcessService() {
     }
@@ -40,14 +29,31 @@ public class FileProcessService extends Thread {
         workfile = file;
     }
 
-
-    @Override
-    public void run() {
+    public Verdict start() {
+        AtomicReference<Verdict> verdict = new AtomicReference<>();
         AnalyzingCoordinator analyzingCoordinator = new AnalyzingCoordinator();
-        Verdict object = analyzingCoordinator.analyzeDocument(workfile);
-        verdictRepository.save(object);
-        //für debugger
-        System.out.println("");
+        Runnable thread = () -> {
+            verdict.set(analyzingCoordinator.analyzeDocument(workfile));
+            fileAnalyzed = true;
+            verdictRepository.save(verdict.get());
+        };
+        thread.run();
+
+        int counter = 0;
+        while(counter < 60 && !fileAnalyzed){
+            try {
+                sleep(1000);
+                counter++;
+            } catch (Exception ex){
+                ex.printStackTrace();
+            }
+        }
+
+        if(fileAnalyzed){
+            return verdict.get();
+        } else {
+            return null;
+        }
     }
 
 

@@ -2,6 +2,7 @@ package com.unihh.lawstats.backend;
 
 import java.util.stream.Collectors;
 
+import com.unihh.lawstats.core.model.MappingConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -55,11 +56,15 @@ public class FileUploadController {
     public String handleFileUpload(@RequestParam("file") MultipartFile file,
                                    RedirectAttributes redirectAttributes) {
 
-        storageService.store(file);
+        String docketNumber = storageService.store(file);
         redirectAttributes.addFlashAttribute("message",
                 "Die Datei " + file.getOriginalFilename() + " wurde erfolgreich hochgeladen!");
 
-        return "redirect:/upload";
+        if(docketNumber.equalsIgnoreCase(MappingConstants.VerdictDocketNumberNotFound.getValue())){
+            return "redirect:/upload";
+        } else {
+            return "/verdict/overview";
+        }
     }
 
     @ExceptionHandler(StorageFileNotFoundException.class)

@@ -1,17 +1,7 @@
 package com.unihh.lawstats.backend.storage;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.net.MalformedURLException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.util.stream.Stream;
-
 import com.unihh.lawstats.backend.FileProcessService;
+import com.unihh.lawstats.core.model.Verdict;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -20,8 +10,20 @@ import org.springframework.util.FileSystemUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.MalformedURLException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Observable;
+import java.util.Observer;
+import java.util.stream.Stream;
+
 @Service
-public class FileSystemStorageService implements StorageService {
+public class FileSystemStorageService implements StorageService, Observer {
 
     private final Path rootLocation;
     @Autowired
@@ -34,7 +36,7 @@ public class FileSystemStorageService implements StorageService {
 
 
     @Override
-    public void store(MultipartFile file) {
+    public String store(MultipartFile file) {
         String filename = StringUtils.cleanPath(file.getOriginalFilename());
         if (file.isEmpty()) {
             throw new StorageException("Failed to store empty file " + filename);
@@ -47,23 +49,41 @@ public class FileSystemStorageService implements StorageService {
 
         File uploadedFile = null;
         try {
-            uploadedFile = File.createTempFile(file.getOriginalFilename().split("\\.")[0], "."+file.getOriginalFilename().split("\\.")[1]);
+            uploadedFile = File.createTempFile(file.getOriginalFilename().split("\\.")[0], "." + file.getOriginalFilename().split("\\.")[1]);
             OutputStream outputStream = new FileOutputStream(uploadedFile);
             outputStream.write(file.getBytes());
         } catch (IOException e) {
             e.printStackTrace();
+            return "/";
         }
 
+        String docketNumber = processFile(uploadedFile);
+
+        if (docketNumber.isEmpty()) {
+            return "";
+        } else {
+            return docketNumber;
+        }
+    }
+
+    private String processFile(File uploadedFile) {
         if (uploadedFile != null) {
             fileProcessService.setFile(uploadedFile);
+            Verdict verdict;
             if (fileProcessService.checkPDF()) {
-                fileProcessService.start();
+                verdict = fileProcessService.start();
             } else {
-                uploadedFile.delete();
+                return "";
             }
-            //TODO delete - nur wegen debugger
-            System.out.println("");
+            uploadedFile.delete();
+
+            if (verdict == null) {
+                return "";
+            } else {
+                return verdict.getDocketNumber();
+            }
         }
+        return "";
     }
 
     @Override
@@ -112,5 +132,10 @@ public class FileSystemStorageService implements StorageService {
         } catch (IOException e) {
             throw new StorageException("Could not initialize storage", e);
         }
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+
     }
 }

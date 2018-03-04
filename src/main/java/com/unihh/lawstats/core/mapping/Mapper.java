@@ -1,16 +1,11 @@
 package com.unihh.lawstats.core.mapping;
 
 
+import com.unihh.lawstats.core.model.MappingConstants;
 import com.unihh.lawstats.core.model.Verdict;
-import org.apache.commons.io.IOUtils;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.text.ParseException;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -100,7 +95,7 @@ public class Mapper {
             if (!docketnumberL.isEmpty()) {
                 verdict.setDocketNumber(mostCommon(docketnumberL));
             } else {
-                verdict.setDocketNumber("NOTFOUND");
+                verdict.setDocketNumber(MappingConstants.VerdictDocketNumberNotFound.getValue());
             }
             //Senate
             if (!verdict.getDocketNumber().isEmpty()) {
