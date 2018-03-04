@@ -1,6 +1,6 @@
 package com.unihh.lawstats.bootstrap.Converter.Counter;
 
-import com.unihh.lawstats.bootstrap.Watson.WatsonLawUtilities;
+import com.unihh.lawstats.bootstrap.NaturalLanguageProcessing.Watson.NLPLawUtils;
 import org.apache.commons.io.IOUtils;
 
 import java.io.File;
@@ -18,7 +18,7 @@ public class ColonCounter {
         int twoColonCounter = 0;
 
 
-        WatsonLawUtilities watsonLawUtilities = new WatsonLawUtilities();
+        NLPLawUtils watsonLawUtilities = new NLPLawUtils();
 
         for(int i = startIndex; i<=endIndex; i++){
             pathList.add("\\verdict"+i+"_clean.txt");

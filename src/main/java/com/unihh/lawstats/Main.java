@@ -1,8 +1,5 @@
 package com.unihh.lawstats;
 
-import com.unihh.lawstats.bootstrap.Converter.PDFToTextConverter;
-import com.unihh.lawstats.bootstrap.VerdictDownloader;
-
 public class Main {
 /*
     public static void main(String[] args){

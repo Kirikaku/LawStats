@@ -1,26 +1,25 @@
-package com.unihh.lawstats.bootstrap.Watson;
+package com.unihh.lawstats.bootstrap.NaturalLanguageProcessing.Watson.Classifier;
 
 
 import com.ibm.watson.developer_cloud.natural_language_classifier.v1.NaturalLanguageClassifier;
 import com.ibm.watson.developer_cloud.natural_language_classifier.v1.model.Classification;
 import com.ibm.watson.developer_cloud.natural_language_classifier.v1.model.Classifier;
-import uhh_lt.ABSA.ABSentiment.AbSentiment;
 
 import java.io.File;
 
-public class LawClassifier {
+public class WatsonLawClassifier {
     NaturalLanguageClassifier _service;
 
     public static void main(String[] args) {
-        LawClassifier lawClassifier = new LawClassifier();
+        WatsonLawClassifier watsonLawClassifier = new WatsonLawClassifier();
         String classifierId = "77d867x10-nlc-2";
 
         /*
-        Classifier.Status classifierStatus = lawClassifier.retrieveStatus(classifierId);
+        Classifier.Status classifierStatus = watsonLawClassifier.retrieveStatus(classifierId);
         System.out.println(classifierStatus.toString());
 */
 
-        //lawClassifier.trainClassifier();
+        //watsonLawClassifier.trainClassifier();
 
 
 
@@ -30,11 +29,11 @@ public class LawClassifier {
 
         for(int i = 0; i<10; i++) {
             Classification classification;
-            classification = lawClassifier.classifySentence("Is it rainy today?", classifierId);
+            classification = watsonLawClassifier.classifySentence("Is it rainy today?", classifierId);
             System.out.println(classification);
-            classification = lawClassifier.classifySentence("How hot is it?", classifierId);
+            classification = watsonLawClassifier.classifySentence("How hot is it?", classifierId);
             System.out.println(classification);
-            classification = lawClassifier.classifySentence("Are you stupid?", classifierId);
+            classification = watsonLawClassifier.classifySentence("Are you stupid?", classifierId);
             System.out.println(classification);
 
         }
@@ -47,7 +46,7 @@ public class LawClassifier {
 
     }
 
-    public LawClassifier() {
+    public WatsonLawClassifier() {
         _service = new NaturalLanguageClassifier();
         _service.setEndPoint("https://gateway-fra.watsonplatform.net/natural-language-classifier/api");
         this._service.setUsernameAndPassword("5c91eced-33b4-4c62-b138-1a7018f2c580", "ry2vejcJG7dK");

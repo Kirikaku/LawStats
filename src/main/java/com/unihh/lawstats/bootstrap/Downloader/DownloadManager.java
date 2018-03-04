@@ -1,6 +1,4 @@
-package com.unihh.lawstats.bootstrap.Watson;
-
-import com.unihh.lawstats.bootstrap.VerdictDownloader;
+package com.unihh.lawstats.bootstrap.Downloader;
 
 public class DownloadManager {
     int _counter;

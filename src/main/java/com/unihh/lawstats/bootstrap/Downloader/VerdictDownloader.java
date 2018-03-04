@@ -1,6 +1,6 @@
-package com.unihh.lawstats.bootstrap;
+package com.unihh.lawstats.bootstrap.Downloader;
 
-import com.unihh.lawstats.bootstrap.Watson.DownloadManager;
+import com.unihh.lawstats.bootstrap.Downloader.DownloadManager;
 
 import java.io.*;
 import java.net.URL;

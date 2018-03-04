@@ -1,8 +1,7 @@
 package com.unihh.lawstats.backend;
 
 import com.unihh.lawstats.backend.repositories.VerdictRepository;
-import com.unihh.lawstats.bootstrap.Watson.AnalyzingCoordinator;
-import com.unihh.lawstats.core.mapping.Mapper;
+import com.unihh.lawstats.bootstrap.AnalyzingCoordinator;
 import com.unihh.lawstats.core.model.Verdict;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
