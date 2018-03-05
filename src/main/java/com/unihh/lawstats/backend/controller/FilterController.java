@@ -133,7 +133,7 @@ public class FilterController {
 
 
     private void deleteAllUnnecessarySearchVerdicts() {
-        searchVerdictList = searchVerdictList.stream().filter(searchVerdict1 -> !searchVerdict1.getRelatedVerdictsWithRevisionAPartOfSuccessful().isEmpty() && !searchVerdict1.getRelatedVerdictsWithRevisionNotSuccessful().isEmpty() && !searchVerdict1.getRelatedVerdictsWithRevisionSuccessful().isEmpty()).collect(Collectors.toList());
+        searchVerdictList = searchVerdictList.stream().filter(searchVerdict1 -> !searchVerdict1.getRelatedVerdictsWithRevisionAPartOfSuccessful().isEmpty() || !searchVerdict1.getRelatedVerdictsWithRevisionNotSuccessful().isEmpty() || !searchVerdict1.getRelatedVerdictsWithRevisionSuccessful().isEmpty()).collect(Collectors.toList());
     }
 
     /**

@@ -69,7 +69,7 @@ public class Verdict {
     }
 
     public void setDocketNumber(String docketNumber) {
-        this.docketNumber = docketNumber.toLowerCase();
+        this.docketNumber = docketNumber;
     }
 
     public int getRevisionSuccess() {
@@ -86,7 +86,7 @@ public class Verdict {
 
     public void setSenate(String senate) {
         if (senate != null){
-            this.senate = senate.toLowerCase();
+            this.senate = senate;
         }
         else {
             this.senate = "";
@@ -98,7 +98,7 @@ public class Verdict {
     }
 
     public void setJudgeList(String[] judgeList) {
-        this.judgeList = Arrays.stream(judgeList).filter(Objects::nonNull).map(String::toLowerCase).toArray(String[]::new);
+        this.judgeList = Arrays.stream(judgeList).filter(Objects::nonNull).toArray(String[]::new);
     }
 
     public Long getDateVerdict() {
@@ -114,7 +114,7 @@ public class Verdict {
     }
 
     public void setForeDecisionRACCourt(String foreDecisionRACCourt) {
-        this.foreDecisionRACCourt = foreDecisionRACCourt.toLowerCase();
+        this.foreDecisionRACCourt = foreDecisionRACCourt;
     }
 
     public Long getForeDecisionRACVerdictDate() {
@@ -130,7 +130,7 @@ public class Verdict {
     }
 
     public void setForeDecisionRCCourt(String foreDecisionRCCourt) {
-            this.foreDecisionRCCourt = foreDecisionRCCourt.toLowerCase();
+            this.foreDecisionRCCourt = foreDecisionRCCourt;
     }
 
     public Long getForeDecisionRCVerdictDate() {
@@ -147,7 +147,7 @@ public class Verdict {
     }
 
     public void setForeDecisionDCCourt(String foreDecisionDCCourt) {
-        this.foreDecisionDCCourt = foreDecisionDCCourt.toLowerCase();
+        this.foreDecisionDCCourt = foreDecisionDCCourt;
     }
 
     public Long getForeDecisionDCVerdictDate() {
