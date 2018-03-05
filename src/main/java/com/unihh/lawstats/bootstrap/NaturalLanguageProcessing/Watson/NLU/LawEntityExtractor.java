@@ -43,6 +43,7 @@ public class LawEntityExtractor {
                 .build();
 
 
+        //TODO Bad Request Exception Watson is not available
         AnalysisResults response = service.analyze(parameters).execute();
 
 
