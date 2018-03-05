@@ -123,17 +123,9 @@ public class FilterController {
         return "verdictTable";
     }
 
-    /**
-     * This method links to the selected verdictList
-     */
-    @RequestMapping("/filter/verdictList")
-    public String verdictList(Model model) {
-        return "verdictList";
-    }
-
 
     private void deleteAllUnnecessarySearchVerdicts() {
-        searchVerdictList = searchVerdictList.stream().filter(searchVerdict1 -> !searchVerdict1.getRelatedVerdictsWithRevisionAPartOfSuccessful().isEmpty() || !searchVerdict1.getRelatedVerdictsWithRevisionNotSuccessful().isEmpty() || !searchVerdict1.getRelatedVerdictsWithRevisionSuccessful().isEmpty()).collect(Collectors.toList());
+        searchVerdictList = searchVerdictList.stream().filter(searchVerdict1 -> !searchVerdict1.getRelatedVerdictsWithRevisionPartlySuccessful().isEmpty() || !searchVerdict1.getRelatedVerdictsWithRevisionNotSuccessful().isEmpty() || !searchVerdict1.getRelatedVerdictsWithRevisionSuccessful().isEmpty()).collect(Collectors.toList());
     }
 
     /**
@@ -323,7 +315,7 @@ public class FilterController {
                 case RevisionNotSuccess:
                     return String.valueOf(searchVerdict.getRelatedVerdictsWithRevisionNotSuccessful().size());
                 case RevisionAPartOfSuccess:
-                    return String.valueOf(searchVerdict.getRelatedVerdictsWithRevisionAPartOfSuccessful().size());
+                    return String.valueOf(searchVerdict.getRelatedVerdictsWithRevisionPartlySuccessful().size());
                 default:
                     return "Nicht implementiert";
             }

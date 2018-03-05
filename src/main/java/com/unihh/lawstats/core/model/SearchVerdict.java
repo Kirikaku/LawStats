@@ -34,7 +34,7 @@ public class SearchVerdict {
         return Collections.unmodifiableList(relatedVerdictsWithRevisionNotSuccessful);
     }
 
-    public List<Verdict> getRelatedVerdictsWithRevisionAPartOfSuccessful() {
+    public List<Verdict> getRelatedVerdictsWithRevisionPartlySuccessful() {
         return Collections.unmodifiableList(relatedVerdictsWithRevisionAPartOfSuccessful);
     }
 

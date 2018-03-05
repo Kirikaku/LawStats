@@ -12,7 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link rel="stylesheet" href="/css/main.css"/>
 </head>
-<body class="no-sidebar">
+<body class="no-sidebar"  style="text-align: center">
 <div id="page-wrapper">
 
     <!-- Header -->
@@ -44,12 +44,19 @@
             <table class="table.default" id="verdictListTable" border="1">
                 <thead>
                 <tr>
-                        Links
+                    <th>
+                        Aktenverzeichnisnummer
+                    </th>
+                    <th>
+                        Weitere Infos
+                    </th>
+
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="searchedVerdicts : ${@ListController.getSearchedVerdicts()}"
-                    th:text="${searchedVerdicts}">
+                <tr th:each="searchedVerdicts : ${@ListController.getSearchedVerdicts(id, revisionSuccess)}">
+                    <td th:text="${searchedVerdicts.getDocketNumber()}"></td>
+                    <td th:text="Link zur verdictSite"></td>
                 </tr>
                 </tbody>
             </table>
