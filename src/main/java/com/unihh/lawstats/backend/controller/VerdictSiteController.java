@@ -11,9 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.HandlerMapping;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
@@ -28,8 +31,22 @@ public class VerdictSiteController {
 
     Verdict verdict;
 
-    @RequestMapping(value = "/verdict/{docketNumber}")
-    public String getVerdictSite(Model model, @PathVariable String docketNumber) {
+    @RequestMapping(value = "/verdict/{givenDocketNumber}/**")
+    public String getVerdictSite(Model model, @PathVariable String givenDocketNumber, HttpServletRequest request) {
+        final String path =
+                request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE).toString();
+        final String bestMatchingPattern =
+                request.getAttribute(HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE).toString();
+
+        String arguments = new AntPathMatcher().extractPathWithinPattern(bestMatchingPattern, path);
+
+        String docketNumber;
+        if (null != arguments && !arguments.isEmpty()) {
+           docketNumber = givenDocketNumber + '/' + arguments;
+        } else {
+           docketNumber = givenDocketNumber;
+        }
+
         Set<Input> docketValueSet = new HashSet<>();
         StringInput stringInput = new StringInput();
         stringInput.setAttribute(DataModelAttributes.DocketNumber);
@@ -37,19 +54,24 @@ public class VerdictSiteController {
         docketValueSet.add(stringInput);
         Collection<? extends Verdict> verdictList = verdictRepoService.getVerdictsForAttribute(DataModelAttributes.DocketNumber, docketValueSet);
 
-        if (verdictList.size() == 1) {
+        if (!verdictList.isEmpty()) {
             verdict = verdictList.iterator().next();
             model.addAttribute("verdict", verdict);
+        } else {
+            return "/";
         }
 
         return "verdictSite";
     }
 
     public String getStringFromArray(String[] judgeArray){
-        StringBuilder sb = new StringBuilder();
-        Arrays.stream(judgeArray).forEach(s -> sb.append(s).append(", "));
-        sb.delete(sb.length() - 1, sb.length());
-        return sb.toString();
+        if(judgeArray != null) {
+            StringBuilder sb = new StringBuilder();
+            Arrays.stream(judgeArray).forEach(s -> sb.append(s).append(", "));
+            sb.delete(sb.length() - 1, sb.length());
+            return sb.toString();
+        }
+        return "";
     }
 
     public String getStringFromDateLong(long dateLong){

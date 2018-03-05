@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface VerdictRepository extends SolrCrudRepository<Verdict, String> {
 
-    List<Verdict> findAllByDocketNumberContainingIgnoreCase(String docketNumberList);
+    List<Verdict> findAllByDocketNumberStartingWith(String[] docketNumberList);
 
     List<Verdict> findAllByRevisionSuccess(int revisionSuccess);
 

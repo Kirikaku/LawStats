@@ -20,7 +20,7 @@ public class VerdictRepoService {
         for (Input input: value) {
             switch (key) {
                 case DocketNumber:
-                    verdictSetForAttribute.addAll(verdictRepository.findAllByDocketNumberContainingIgnoreCase(((StringInput)input).getValue().toLowerCase()));
+                    verdictSetForAttribute.addAll(verdictRepository.findAllByDocketNumberStartingWith(((StringInput)input).getValue().toLowerCase().split(" ")));
                     break;
                 case Senate:
                     verdictSetForAttribute.addAll(verdictRepository.findAllBySenateContainingIgnoreCase(((StringInput)input).getValue().toLowerCase()));
