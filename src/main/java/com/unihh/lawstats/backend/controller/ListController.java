@@ -15,9 +15,6 @@ import java.util.*;
 @Service("ListController")
 public class ListController {
 
-    List<Verdict> searchedVerdicts = new ArrayList<>();
-    SearchVerdict searchedVerdict;
-
     @Autowired
     FilterController filterController;
 
@@ -26,11 +23,11 @@ public class ListController {
      *
      * @param id              Verdict ID
      * @param revisionSuccess Attribute
-     * @return List of Verdicts
+     * @return List of selected Verdicts
      */
     public List<Verdict> getSearchedVerdicts(int id, int revisionSuccess) {
 
-        searchedVerdict = filterController.getSearchVerdictForID(id);
+        SearchVerdict searchedVerdict = filterController.getSearchVerdictForID(id);
 
         switch (revisionSuccess) {
             case -1:
@@ -42,7 +39,6 @@ public class ListController {
             default:
                 return null;
         }
-
     }
 
     /**
@@ -50,8 +46,6 @@ public class ListController {
      */
     @RequestMapping(value = "/filter/listVerdicts/{id}/{revisionSuccess}")
     public String getList(Model model, @PathVariable int id, @PathVariable int revisionSuccess) {
-
-        searchedVerdicts = getSearchedVerdicts(id, revisionSuccess);
         model.addAttribute("id", id);
         model.addAttribute("revisionSuccess", revisionSuccess);
         return "verdictList";
@@ -60,22 +54,22 @@ public class ListController {
     /**
      * This method creates a link to a viable Verdictlist
      *
-     * @param id        Verdict id
+     * @param id        Verdict ID
      * @param attribute Verdict attribute
      * @return Link to VerdictList
      */
     public String getLink(int id, String attribute) {
-        int attr = 0;
+        int a = 0;
         switch (attribute) {
             case "Revision erfolgreich":
-                attr = 1;
+                a = 1;
                 break;
             case "Revision teilweise erfolgreich":
-                attr = 0;
+                a = 0;
                 break;
             case "Revision nicht erfolgreich":
-                attr = -1;
+                a = -1;
         }
-        return "/filter/listVerdicts/" + id + "/" + attr;
+        return "/filter/listVerdicts/" + id + "/" + a;
     }
 }
