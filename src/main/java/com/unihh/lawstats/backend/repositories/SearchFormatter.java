@@ -1,5 +1,8 @@
 package com.unihh.lawstats.backend.repositories;
 
+/**
+ * This class formatted the search params to the repository
+ */
 public class SearchFormatter {
 
     public String[] formatString(String string){

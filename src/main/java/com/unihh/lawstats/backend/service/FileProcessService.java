@@ -13,6 +13,9 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import static java.lang.Thread.sleep;
 
+/**
+ * This service is the file process service for a uploaded file
+ */
 @Service
 public class FileProcessService extends Observable {
 
@@ -37,7 +40,7 @@ public class FileProcessService extends Observable {
             try {
                 verdict.set(coordinator.analyzeDocument(workfile));
                 verdictRepository.save(verdict.get()); // only safe, when successfully analyze
-            } catch (NoDocketnumberFoundException ex){
+            } catch (NoDocketnumberFoundException ex) {
                 verdict.set(null);
             }
             fileAnalyzed = true;
@@ -45,16 +48,16 @@ public class FileProcessService extends Observable {
         thread.run();
 
         int counter = 0;
-        while(counter < 60 && !fileAnalyzed){
+        while (counter < 60 && !fileAnalyzed) {
             try {
                 sleep(1000);
                 counter++;
-            } catch (Exception ex){
+            } catch (Exception ex) {
                 ex.printStackTrace();
             }
         }
 
-        if(fileAnalyzed){
+        if (fileAnalyzed) {
             return verdict.get();
         } else {
             return null;

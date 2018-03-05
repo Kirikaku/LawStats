@@ -53,7 +53,7 @@ public class VerdictRepoService {
                     break;
                 case ForeDecisionDCDateVerdict:
                     DateInput dateInputDC = (DateInput) input;
-                    verdictSetForAttribute.addAll(verdictRepository.findAllByForeDecisionRCVerdictDateBetween(dateInputDC.getStart(), dateInputDC.getEnd()));
+                    verdictSetForAttribute.addAll(verdictRepository.findAllByForeDecisionDCVerdictDateBetween(dateInputDC.getStart(), dateInputDC.getEnd()));
                     break;
                 default:
                     return Collections.emptyList();

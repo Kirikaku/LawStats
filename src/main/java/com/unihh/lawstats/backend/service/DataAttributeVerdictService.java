@@ -9,6 +9,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * This service is the mapping service between dataAttribute and verdict value
+ */
 @Service
 public class DataAttributeVerdictService {
 

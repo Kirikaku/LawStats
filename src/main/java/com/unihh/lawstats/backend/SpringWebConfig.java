@@ -57,11 +57,6 @@ public class SpringWebConfig extends WebMvcConfigurerAdapter implements Applicat
     }
 
     @Bean
-    public ImportTestData importTestData(VerdictRepository verdictRepository) throws ParseException {
-        return new ImportTestData(verdictRepository);
-    }
-
-    @Bean
     public ResourceBundleMessageSource messageSource() {
         ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
         messageSource.setBasename("Messages");

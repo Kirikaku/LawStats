@@ -29,5 +29,5 @@ public interface VerdictRepository extends SolrCrudRepository<Verdict, String> {
 
     List<Verdict> findAllByForeDecisionDCCourtStartingWith(String[] court);
 
-    List<Verdict> findAllByForeDecisionDCVerdictDate(Long date1, Long date2);
+    List<Verdict> findAllByForeDecisionDCVerdictDateBetween(Long date1, Long date2);
 }

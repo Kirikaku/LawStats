@@ -2,7 +2,6 @@ package com.unihh.lawstats.backend.controller;
 
 import java.util.stream.Collectors;
 
-import com.unihh.lawstats.core.mapping.MappingConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -78,12 +77,12 @@ public class FileUploadController {
                                    RedirectAttributes redirectAttributes) {
 
         String docketNumber = storageService.store(file);
-        redirectAttributes.addFlashAttribute("message",
-                "Die Datei " + file.getOriginalFilename() + " wurde erfolgreich hochgeladen!");
 
         if(docketNumber.isEmpty()){
             return "redirect:/upload";
         } else {
+            redirectAttributes.addFlashAttribute("message",
+                    "Die Datei " + file.getOriginalFilename() + " wurde nicht erfolgreich hochgeladen!");
             return "redirect:/verdict/"+docketNumber;
         }
     }

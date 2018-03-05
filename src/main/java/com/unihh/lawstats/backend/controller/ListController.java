@@ -2,6 +2,7 @@ package com.unihh.lawstats.backend.controller;
 
 import com.unihh.lawstats.core.model.SearchVerdict;
 import com.unihh.lawstats.core.model.Verdict;
+import com.unihh.lawstats.core.model.attributes.TableAttributes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,7 @@ import java.util.*;
 public class ListController {
 
     @Autowired
-    FilterController filterController;
+    private FilterController filterController;
 
     /**
      * This method returns a list of Verdicts for certain attributes
@@ -60,14 +61,14 @@ public class ListController {
      */
     public String getLink(int id, String attribute) {
         int a = 0;
-        switch (attribute) {
-            case "Revision erfolgreich":
+        switch (TableAttributes.valueOfDisplayName(attribute)) {
+            case RevisionSuccess:
                 a = 1;
                 break;
-            case "Revision teilweise erfolgreich":
+            case RevisionAPartOfSuccess:
                 a = 0;
                 break;
-            case "Revision nicht erfolgreich":
+            case RevisionNotSuccess:
                 a = -1;
         }
         return "/filter/listVerdicts/" + id + "/" + a;

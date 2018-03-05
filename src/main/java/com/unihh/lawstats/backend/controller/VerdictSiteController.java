@@ -27,9 +27,9 @@ import java.util.Set;
 public class VerdictSiteController {
 
     @Autowired
-    VerdictRepoService verdictRepoService;
+    private VerdictRepoService verdictRepoService;
 
-    Verdict verdict;
+    private Verdict verdict;
 
     /**
      * This method is related to url: /verdict/{docketNumber}/**

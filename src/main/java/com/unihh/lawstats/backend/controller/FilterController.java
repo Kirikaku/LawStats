@@ -29,9 +29,9 @@ import java.util.stream.Collectors;
 public class FilterController {
 
     @Autowired
-    DataAttributeVerdictService dataAttributeVerdictService;
+    private DataAttributeVerdictService dataAttributeVerdictService;
     @Autowired
-    VerdictRepoService verdictRepoService;
+    private VerdictRepoService verdictRepoService;
     // Out Map with all from user selected attributes
     private Map<DataModelAttributes, Set<Input>> selectedAttributesMap = new HashMap<>();
     // All verdicts which are related to our selection
