@@ -12,7 +12,6 @@ import java.text.ParseException;
 
 public class AnalyzingCoordinator {
 
-
     public Verdict analyzeDocument(File fileToAnalyze) {
         Verdict verdict = new Verdict();
         PDFToTextConverter pdfToTextConverter = new PDFToTextConverter();

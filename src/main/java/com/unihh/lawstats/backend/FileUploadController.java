@@ -63,7 +63,7 @@ public class FileUploadController {
         if(docketNumber.equalsIgnoreCase(MappingConstants.VerdictDocketNumberNotFound.getValue())){
             return "redirect:/upload";
         } else {
-            return "/verdict/overview";
+            return "redirect:/verdict/"+docketNumber;
         }
     }
 

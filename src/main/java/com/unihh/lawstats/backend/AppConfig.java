@@ -1,7 +1,6 @@
 package com.unihh.lawstats.backend;
 
 import com.unihh.lawstats.backend.repositories.VerdictRepository;
-import com.unihh.lawstats.core.config.SolrProperties;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.springframework.beans.factory.annotation.Autowired;

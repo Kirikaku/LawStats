@@ -1,0 +1,143 @@
+<!DOCTYPE HTML>
+
+<!--
+	Helios by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html xmlns:th="http://www.thymeleaf.org">
+
+
+<head>
+    <title>Lawstats - Filter</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="/css/main.css"/>
+
+
+<body class="no-sidebar" style="text-align: center">
+<div id="page-wrapper">
+
+    <!-- Header -->
+    <div id="header">
+
+        <!-- Inner -->
+        <div class="inner">
+            <header>
+                <h1><a th:href="@{/}" id="logo">LawStats</a></h1>
+            </header>
+        </div>
+
+        <!-- Nav -->
+        <nav id="nav">
+            <ul>
+                <li><a th:href="@{/}">Home</a></li>
+                <li><a th:href="@{/upload}">Upload</a></li>
+                <li><a th:href="@{/filter}">Filter</a></li>
+                <li><a th:href="@{/stats}">Stats</a></li>
+            </ul>
+        </nav>
+
+    </div>
+    <!-- Main -->
+    <div class="wrapper style1">
+
+        <div class="container">
+            <article id="main" class="special" th:object="${verdict}">
+                <header>
+                    <h2 th:text="${verdict.getDocketNumber()}"></h2>
+                    <p>
+                    <table>
+                        <tbody>
+                        <tr>
+                            <td>RevisionSuccess</td>
+                            <td th:text="${verdict.getRevisionSuccess()}"/>
+                        </tr>
+                        <tr>
+                            <td>Senat</td>
+                            <td th:text="${verdict.getSenate()}"></td>
+                        </tr>
+                        <tr>
+                            <td>Judges</td>
+                            <td th:text="${@VerdictSiteController.getStringFromArray(verdict.getJudgeList())}"/>
+                        </tr>
+                        <tr>
+                            <td>DateVerdict</td>
+                            <td th:text="${@VerdictSiteController.getStringFromDateLong(verdict.getDateVerdict())}"/>
+                        </tr>
+                        <tr>
+                            <td> Oberlandesgericht</td>
+                            <td th:text="${verdict.getForeDecisionRACCourt()}"/>
+                        </tr>
+                        <tr>
+                            <td> OberlandesGericht-Entscheidungsdatum</td>
+                            <td th:text="${@VerdictSiteController.getStringFromDateLong(verdict.getForeDecisionRACVerdictDate())}"/>
+                        </tr>
+                        <tr>
+                            <td> Landsgericht</td>
+                            <td th:text="${verdict.getForeDecisionRCCourt()}"/>
+                        </tr>
+                        <tr>
+                            <td> Landsgericht-entscheidungsdatum</td>
+                            <td th:text="${@VerdictSiteController.getStringFromDateLong(verdict.getForeDecisionRCVerdictDate())}"/>
+                        </tr>
+                        <tr>
+                            <td> Amtsgericht</td>
+                            <td th:text="${verdict.getForeDecisionDCCourt()}"/>
+                        </tr>
+                        <tr>
+                            <td> Amtsgericht-Entscheidungsdatum</td>
+                            <td th:text="${@VerdictSiteController.getStringFromDateLong(verdict.getForeDecisionDCVerdictDate())}"/>
+                        </tr>
+                        <tr>
+                            <td>URL</td>
+                            <td>  <a th:href="${@VerdictSiteController.getBGHUrlWhenAvailable(verdict.getDocumentNumber())}"
+                                     th:text="${@VerdictSiteController.getBGHUrlWhenAvailable(verdict.getDocumentNumber())}"/> </td>
+                        </tr>
+                        <tr>
+                            <td>importent sentences</td>
+                            <td th:text="${@VerdictSiteController.getStringFromArray(verdict.getDecisionSentences())}"/>
+                        </tr>
+                        </tbody>
+                    </table>
+                    </p>
+                </header>
+            </article>
+        </div>
+    </div>
+</div>
+<!-- Footer -->
+<div id="footer">
+    <div class="container">
+
+        <div class="row">
+            <div class="12u">
+
+                <!-- Copyright -->
+                <div class="copyright">
+                    <ul class="menu">
+                        <li>&copy; LawStats @ Uni Hamburg. All rights reserved.</li>
+                        <li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</div>
+</div>
+
+<!-- Scripts -->
+<script th:src="@{/js/jquery.min.js/}"></script>
+<script th:src="@{/js/jquery.dropotron.min.js/}"></script>
+<script th:src="@{/js/jquery.scrolly.min.js/}"></script>
+<script th:src="@{/js/jquery.onvisible.min.js/}"></script>
+<script th:src="@{/js/skel.min.js/}"></script>
+<script th:src="@{/js/util.js/}"></script>
+<script th:src="@{/js/main.js/}"></script>
+
+</body>
+</html>
