@@ -1,5 +1,6 @@
 package com.unihh.lawstats.backend.controller;
 
+import com.unihh.lawstats.backend.repositories.SearchFormatter;
 import com.unihh.lawstats.backend.repositories.VerdictRepoService;
 import com.unihh.lawstats.backend.service.DataAttributeVerdictService;
 import com.unihh.lawstats.core.mapping.VerdictDateFormatter;
@@ -256,6 +257,7 @@ public class FilterController {
      * This methods adds all related Verdicts to the SearchVerdicts objects
      */
     private void addVerdictsToSearchVerdicts() {
+        SearchFormatter searchFormatter = new SearchFormatter();
         for (Verdict verdict : verdictsInUse) {
             for (SearchVerdict searchVerdict : searchVerdictList) {
                 boolean isRelated = true;
@@ -270,7 +272,8 @@ public class FilterController {
 
                     } else {
                         StringInput stringInput = (StringInput) searchVerdict.getValueForKey(attribute);
-                        if (dataAttributeVerdictService.dataAttributeToVerdictValue(attribute, verdict).stream().map(String::toLowerCase).noneMatch(s -> s.contains(stringInput.getValue().toLowerCase()))) {
+                        // when there is one value of the verdict attribute, which contains all values of the searchVerdict
+                        if (!verdictContainsValueOfSearchVerdict(verdict, stringInput)) {
                             isRelated = false;
                         }
                     }
@@ -281,6 +284,14 @@ public class FilterController {
                 }
             }
         }
+    }
+
+    private boolean verdictContainsValueOfSearchVerdict(Verdict verdict, StringInput stringInput) {
+        SearchFormatter searchFormatter = new SearchFormatter();
+        String[] stringArray = searchFormatter.formatString(stringInput.getValue());
+        List<String> verdictValues = dataAttributeVerdictService.dataAttributeToVerdictValue(stringInput.getAttribute(), verdict);
+        verdictValues = verdictValues.stream().map(String::toLowerCase).collect(Collectors.toList());
+        return verdictValues.stream().anyMatch(o -> Arrays.stream(stringArray).allMatch(o::contains));
     }
 
     /**

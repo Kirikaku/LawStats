@@ -13,7 +13,7 @@ public interface VerdictRepository extends SolrCrudRepository<Verdict, String> {
 
     List<Verdict> findAllByRevisionSuccess(int revisionSuccess);
 
-    List<Verdict> findAllBySenateContainingIgnoreCase(String senate);
+    List<Verdict> findAllBySenateContaining(String senate);
 
     List<Verdict> findByJudgeListContainingIgnoreCase(String judges);
 
