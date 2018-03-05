@@ -21,25 +21,33 @@ public class ListController {
     @Autowired
     FilterController filterController;
 
+    /**
+     * This method returns a list of Verdicts for certain attributes
+     *
+     * @param id              Verdict ID
+     * @param revisionSuccess Attribute
+     * @return List of Verdicts
+     */
     public List<Verdict> getSearchedVerdicts(int id, int revisionSuccess) {
 
         searchedVerdict = filterController.getSearchVerdictForID(id);
 
         switch (revisionSuccess) {
-            case 0:
+            case -1:
                 return searchedVerdict.getRelatedVerdictsWithRevisionNotSuccessful();
-            case 1:
+            case 0:
                 return searchedVerdict.getRelatedVerdictsWithRevisionPartlySuccessful();
-            case 2:
+            case 1:
                 return searchedVerdict.getRelatedVerdictsWithRevisionSuccessful();
+            default:
+                return null;
         }
-        return null;
+
     }
 
     /**
      * This method links to the selected verdictList
      */
-
     @RequestMapping(value = "/filter/listVerdicts/{id}/{revisionSuccess}")
     public String getList(Model model, @PathVariable int id, @PathVariable int revisionSuccess) {
 
@@ -49,10 +57,25 @@ public class ListController {
         return "verdictList";
     }
 
-    @RequestMapping(value = "/linkVerdicts")
-    public String getLink(Model model)
-    {
-        return "linkVerdicts";
+    /**
+     * This method creates a link to a viable Verdictlist
+     *
+     * @param id        Verdict id
+     * @param attribute Verdict attribute
+     * @return Link to VerdictList
+     */
+    public String getLink(int id, String attribute) {
+        int attr = 0;
+        switch (attribute) {
+            case "Revision erfolgreich":
+                attr = 1;
+                break;
+            case "Revision teilweise erfolgreich":
+                attr = 0;
+                break;
+            case "Revision nicht erfolgreich":
+                attr = -1;
+        }
+        return "/filter/listVerdicts/" + id + "/" + attr;
     }
-
 }

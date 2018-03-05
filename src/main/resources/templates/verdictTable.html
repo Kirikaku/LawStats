@@ -23,7 +23,7 @@
         <tbody>
         <tr th:each="verdict : ${@FilterController.getSearchVerdictList()}">
             <td th:each="attribute : ${@FilterController.getAttributesDisplayname()}" >
-                <span th:href="@{/linkVerdicts/__${verdict.getId()}__/__${attribute}__}" th:text="${@FilterController.getValueForAttributeAndVerdict(verdict, attribute)}"></span>
+                <a th:href="${@ListController.getLink(verdict.getId(), attribute)}"><span th:text="${@FilterController.getValueForAttributeAndVerdict(verdict, attribute)}"></span></a>
             </td>
         </tr>
         </tbody>

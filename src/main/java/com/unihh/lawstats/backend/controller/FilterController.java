@@ -202,7 +202,7 @@ public class FilterController {
 
         allCombinationList.forEach(attributesStringMap -> {
             SearchVerdict sv = new SearchVerdict(nextIdForSearchVerdict);
-            nextIdForSearchVerdict = nextIdForSearchVerdict++;
+            nextIdForSearchVerdict += 1;
             sv.setCombinationMap(attributesStringMap);
             searchVerdictList.add(sv);
         });
