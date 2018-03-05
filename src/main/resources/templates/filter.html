@@ -56,7 +56,7 @@
                 <div class="inner">
                     <select title="Attribut" id="attribute" onchange="hideOptions()">
                         <option value="" disabled selected>Attribut auswählen</option>
-                        <option th:each="attribute : ${T(com.unihh.lawstats.core.model.DataModelAttributes).values()}"
+                        <option th:each="attribute : ${T(com.unihh.lawstats.core.model.attributes.DataModelAttributes).values()}"
                                 th:value="${attribute}"
                                 th:text="${attribute.displayName}"
                                 name="attribute">
@@ -78,10 +78,10 @@
                     <table class="table.default" id="attributeTable" border="1">
                         <thead>
                         <tr>
-                            <th>Kategorie</th>
-                            <th>Schlagwort</th>
-                            <th>Startdatum</th>
-                            <th>Enddatum</th>
+                            <th onclick="sortTable(0)">Kategorie</th>
+                            <th onclick="sortTable(1)">Schlagwort</th>
+                            <th onclick="sortTable(2)">Startdatum</th>
+                            <th onclick="sortTable(3)">Enddatum</th>
                         </tr>
                         </thead>
                         <tbody>
