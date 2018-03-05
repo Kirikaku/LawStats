@@ -38,7 +38,7 @@ public class VerdictDateFormatter {
         return date.getTime();
     }
 
-    public List<Long> formateStringDateToLongList(List<String> stringL) throws ParseException {
+    public List<Long> formateStringDateToLongList(List<String> stringL) {
         // Empfängt eine Liste und gibt dabei das neueste Datum zurück.
         List<Long> dateVerdictList = new ArrayList<>();
         for (String string : stringL) {

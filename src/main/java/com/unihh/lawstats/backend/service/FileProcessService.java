@@ -2,6 +2,7 @@ package com.unihh.lawstats.backend.service;
 
 import com.unihh.lawstats.backend.repositories.VerdictRepository;
 import com.unihh.lawstats.bootstrap.AnalyzingCoordinator;
+import com.unihh.lawstats.core.mapping.NoDocketnumberFoundException;
 import com.unihh.lawstats.core.model.Verdict;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,11 +32,15 @@ public class FileProcessService extends Observable {
 
     public Verdict start() {
         AtomicReference<Verdict> verdict = new AtomicReference<>();
-        AnalyzingCoordinator analyzingCoordinator = new AnalyzingCoordinator();
+        AnalyzingCoordinator coordinator = new AnalyzingCoordinator();
         Runnable thread = () -> {
-            verdict.set(analyzingCoordinator.analyzeDocument(workfile));
+            try {
+                verdict.set(coordinator.analyzeDocument(workfile));
+                verdictRepository.save(verdict.get()); // only safe, when successfully analyze
+            } catch (NoDocketnumberFoundException ex){
+                verdict.set(null);
+            }
             fileAnalyzed = true;
-            verdictRepository.save(verdict.get());
         };
         thread.run();
 

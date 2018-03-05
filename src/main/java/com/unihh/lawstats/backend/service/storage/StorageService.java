@@ -10,6 +10,10 @@ public interface StorageService {
 
     void init();
 
+    /**
+     * store and create and save the created verdict
+     * @return returns the docketNumber or an empty string, when there isnt any docketNumber
+     */
     String store(MultipartFile file);
 
     Stream<Path> loadAll();

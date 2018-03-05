@@ -81,7 +81,7 @@ public class FileUploadController {
         redirectAttributes.addFlashAttribute("message",
                 "Die Datei " + file.getOriginalFilename() + " wurde erfolgreich hochgeladen!");
 
-        if(docketNumber.equalsIgnoreCase(MappingConstants.VerdictDocketNumberNotFound.getValue())){
+        if(docketNumber.isEmpty()){
             return "redirect:/upload";
         } else {
             return "redirect:/verdict/"+docketNumber;

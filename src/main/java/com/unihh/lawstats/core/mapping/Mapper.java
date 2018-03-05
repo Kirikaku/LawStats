@@ -33,14 +33,13 @@ public class Mapper {
 
 
     /**
-     * Überführt einen String, welcher mit JSON Daten gefüllt ist in ein Verdict Objekt
+     * creates a verdict object of given jsonText
      *
-     * @param jsonText - String, welcher die von Watson ermittelten Entities etc. enthält
-     * @return ein Verdict Object, mit den parameterisierten Daten der Entities
-     * @throws ParseException - ja, kann passieren
+     * @param jsonText - the json text in string
+     * @return the verdict object from the json object, when a exce
+     * @throws NoDocketnumberFoundException when no Docketnumber is in the jsonText
      */
-    public Verdict mapJSONStringToVerdicObject(String jsonText) throws ParseException {
-
+    public Verdict mapJSONStringToVerdicObject(String jsonText) throws NoDocketnumberFoundException {
 
         JSONObject json = new JSONObject(jsonText);
         JSONArray jsonArray = json.getJSONArray("entities");
@@ -86,81 +85,65 @@ public class Mapper {
                     }
             }
         }
-            // Creating a new Verdict Object
-            // Using Date for Date-Elements
+            // Creating new Verdict-object
+            // When one attribute is not available, we dont set an empty value, we let them null
             Verdict verdict = new Verdict();
 
-            //Docket Number
+            //Docket Number (If not available, return null)
             if (!docketnumberL.isEmpty()) {
                 verdict.setDocketNumber(mostCommon(docketnumberL));
             } else {
-                verdict.setDocketNumber(MappingConstants.VerdictDocketNumberNotFound.getValue());
+                throw new NoDocketnumberFoundException("no Docketnumber found for given json: " + jsonText);
             }
+
             //Senate
             if (!verdict.getDocketNumber().isEmpty()) {
                 verdict.setSenate(getSenateFromDocketNumber(verdict.getDocketNumber(), docketnumberL));
-            } else {
-                verdict.setSenate("");
             }
+
             //Judges
             if (!judgeL.isEmpty()) {
                 String[] judgeList = judgeL.toArray(new String[judgeL.size()]);
                 verdict.setJudgeList(judgeList);
-            } else {
-                verdict.setJudgeList(new String[0]);
             }
 
             //Date Verdict
             if (!dateverdictL.isEmpty()) {
                 verdict.setDateVerdict(filterNewestDate(dateverdictL));
-            } else {
-                //TODO checken wann ist das?
-                verdict.setDateVerdict((long) 0);
             }
 
             //Oberlandesgericht - Court
             if (!foreDecRACcL.isEmpty()) {
                 verdict.setForeDecisionRACCourt(mostCommon(foreDecRACcL));
-            } else {
-                verdict.setForeDecisionRACCourt("");
             }
+
             //Oberlandesgericht - Datum
             if (!foreDecRACdvL.isEmpty()) {
-                //verdict.setForeDecisionRACVerdictDate((filterNewestDate(foreDecRACdvL)));
-                verdict.setForeDecisionRACVerdictDate((long) 0);
-            } else {
-                verdict.setForeDecisionRACVerdictDate((long) 0);
+                verdict.setForeDecisionRACVerdictDate((filterNewestDate(foreDecRACdvL)));
             }
+
             //Landesgericht - Court
             if (!foreDecRCcL.isEmpty()) {
                 verdict.setForeDecisionRCCourt(mostCommon(foreDecRCcL));
-            } else {
-                verdict.setForeDecisionRCCourt("");
             }
+
             //Landesgericht - Date
             if (!foreDecRCdvL.isEmpty()) {
                 verdict.setForeDecisionRCVerdictDate(filterNewestDate(foreDecRCdvL));
-            } else {
-                verdict.setForeDecisionRCVerdictDate((long) 0);
             }
 
             //Amtsgericht - Court
             if (!foreDecDCcL.isEmpty()) {
                 verdict.setForeDecisionDCCourt(mostCommon(foreDecDCcL));
-            } else {
-                verdict.setForeDecisionDCCourt("");
             }
+
             //Amtsgericht - Date
-            if (foreDecDCdvL.isEmpty()) {
+            if (!foreDecDCdvL.isEmpty()) {
                 verdict.setForeDecisionDCVerdictDate(filterNewestDate((foreDecDCdvL)));
-            } else {
-                verdict.setForeDecisionDCVerdictDate((long) 0);
             }
 
             //Entscheidungssätze
             verdict.setDecisionSentences(new String[0]);
-            //sout nur für debugger benötigt
-            //System.out.println("");
             return verdict;
         }
 
@@ -207,13 +190,12 @@ public class Mapper {
 
 
     /**
-     * Filtert aus einer Stringliste das am kuerzesten zurückliegende/ jüngste Datum
+     * filtered the newest date
      *
-     * @param stringL Stringliste
-     * @return
-     * @throws ParseException
+     * @param stringL dates in string
+     * @return the newest date-long
      */
-    private Long filterNewestDate(List<String> stringL) throws ParseException {
+    private Long filterNewestDate(List<String> stringL) {
         VerdictDateFormatter verdictDateFormatter = new VerdictDateFormatter();
         // Empfängt eine Liste und gibt dabei das neueste Datum zurück.
         List<Long> dateVerdicts;
