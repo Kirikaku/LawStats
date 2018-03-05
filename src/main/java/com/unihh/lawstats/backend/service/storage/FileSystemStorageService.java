@@ -1,6 +1,6 @@
-package com.unihh.lawstats.backend.storage;
+package com.unihh.lawstats.backend.service.storage;
 
-import com.unihh.lawstats.backend.FileProcessService;
+import com.unihh.lawstats.backend.service.FileProcessService;
 import com.unihh.lawstats.core.model.Verdict;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;

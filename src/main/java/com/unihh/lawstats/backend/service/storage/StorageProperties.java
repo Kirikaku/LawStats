@@ -1,4 +1,4 @@
-package com.unihh.lawstats.backend.storage;
+package com.unihh.lawstats.backend.service.storage;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

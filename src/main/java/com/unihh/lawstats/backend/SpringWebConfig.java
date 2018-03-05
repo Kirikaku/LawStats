@@ -1,12 +1,21 @@
 package com.unihh.lawstats.backend;
 
+import com.unihh.lawstats.backend.repositories.VerdictRepository;
+import org.apache.solr.client.solrj.SolrClient;
+import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.core.env.Environment;
+import org.springframework.data.solr.core.SolrOperations;
+import org.springframework.data.solr.core.SolrTemplate;
+import org.springframework.data.solr.repository.config.EnableSolrRepositories;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.spring4.SpringTemplateEngine;
@@ -15,11 +24,18 @@ import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ITemplateResolver;
 
+import java.text.ParseException;
+
 @Configuration
 @ComponentScan
+@PropertySource("classpath:config/solr.properties")
+@EnableSolrRepositories
 public class SpringWebConfig extends WebMvcConfigurerAdapter implements ApplicationContextAware {
 
     private ApplicationContext applicationContext;
+
+    @Autowired
+    Environment environment;
 
     public SpringWebConfig() {
         super();
@@ -28,6 +44,21 @@ public class SpringWebConfig extends WebMvcConfigurerAdapter implements Applicat
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
+    }
+
+    @Bean
+    public SolrClient solrClient() {
+        return new HttpSolrClient(environment.getProperty("solr.address"));
+    }
+
+    @Bean
+    public SolrOperations solrTemplate() {
+        return new SolrTemplate(solrClient());
+    }
+
+    @Bean
+    public ImportTestData importTestData(VerdictRepository verdictRepository) throws ParseException {
+        return new ImportTestData(verdictRepository);
     }
 
     @Bean

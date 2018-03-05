@@ -1,8 +1,8 @@
-package com.unihh.lawstats.backend;
+package com.unihh.lawstats.backend.controller;
 
 import java.util.stream.Collectors;
 
-import com.unihh.lawstats.core.model.MappingConstants;
+import com.unihh.lawstats.core.mapping.MappingConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -16,12 +16,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.unihh.lawstats.backend.storage.StorageFileNotFoundException;
-import com.unihh.lawstats.backend.storage.StorageService;
+import com.unihh.lawstats.backend.service.storage.StorageFileNotFoundException;
+import com.unihh.lawstats.backend.service.storage.StorageService;
 
 @Controller
 public class FileUploadController {

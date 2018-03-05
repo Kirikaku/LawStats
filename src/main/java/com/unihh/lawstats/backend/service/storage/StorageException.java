@@ -1,4 +1,4 @@
-package com.unihh.lawstats.backend.storage;
+package com.unihh.lawstats.backend.service.storage;
 
 
 class StorageException extends RuntimeException {

@@ -1,7 +1,7 @@
 package com.unihh.lawstats.backend;
 
-import com.unihh.lawstats.backend.storage.StorageProperties;
-import com.unihh.lawstats.backend.storage.StorageService;
+import com.unihh.lawstats.backend.service.storage.StorageProperties;
+import com.unihh.lawstats.backend.service.storage.StorageService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
