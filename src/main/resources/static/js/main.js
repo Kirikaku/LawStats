@@ -103,11 +103,14 @@ function hideOptions() {
     var attribute = document.getElementById("attribute").value;
     //Ist es Datum? - Wann ja: if - sonst else
     if(attribute.indexOf("Date") !== -1) {
+        document.getElementById("tag").value = '';
         document.getElementById("tag").style.display = 'none';
         document.getElementById("start").style.display = 'inline';
         document.getElementById("end").style.display = 'inline';
     }
     else {
+        document.getElementById("start").value = '';
+        document.getElementById("end").value = '';
         document.getElementById("tag").style.display = 'inline';
         document.getElementById("start").style.display = 'none';
         document.getElementById("end").style.display = 'none';
