@@ -56,7 +56,11 @@
                 <tbody>
                 <tr th:each="searchedVerdicts : ${@ListController.getSearchedVerdicts(id, revisionSuccess)}">
                     <td th:text="${searchedVerdicts.getDocketNumber()}"></td>
-                    <td th:text="Link zur verdictSite"></td>
+                    <td>
+                        <a th:href="${'/verdict/' + searchedVerdicts.getDocketNumber()}">
+                            <span th:text="${'/verdict/' + searchedVerdicts.getDocketNumber()}"/>
+                        </a>
+                    </td>
                 </tr>
                 </tbody>
             </table>
