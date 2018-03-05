@@ -22,6 +22,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.unihh.lawstats.backend.service.storage.StorageFileNotFoundException;
 import com.unihh.lawstats.backend.service.storage.StorageService;
 
+/**
+ * This class is the controller for the uploading site.
+ * it manage the workflow for the uploading
+ */
 @Controller
 public class FileUploadController {
 
@@ -32,6 +36,12 @@ public class FileUploadController {
         this.storageService = storageService;
     }
 
+    /**
+     * This method is mapped to the relative URL /uploadFile
+     * It ask the user, which file should uploaded
+     *
+     * @return returns the uploadFile site
+     */
     @GetMapping("/uploadFile")
     public String listUploadedFiles(Model model) {
 
@@ -43,6 +53,11 @@ public class FileUploadController {
         return "uploadFile";
     }
 
+    /**
+     * This method is related to the URL: /files/filename:.+
+     * it loads the file
+     * @return return an OK - Response
+     */
     @GetMapping("/files/{filename:.+}")
     @ResponseBody
     public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
@@ -52,6 +67,12 @@ public class FileUploadController {
                 "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }
 
+    /**
+     * This method is related to /uploadFile
+     * it handles the upload flow
+     *
+     * @return either the single verdict overview or the uploadFile page
+     */
     @PostMapping("/uploadFile")
     public String handleFileUpload(@RequestParam("file") MultipartFile file,
                                    RedirectAttributes redirectAttributes) {
@@ -71,5 +92,4 @@ public class FileUploadController {
     public ResponseEntity<?> handleStorageFileNotFound() {
         return ResponseEntity.notFound().build();
     }
-
 }

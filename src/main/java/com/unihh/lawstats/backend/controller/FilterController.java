@@ -39,7 +39,7 @@ public class FilterController {
     private List<SearchVerdict> searchVerdictList = new ArrayList<>();
     // A list of all attribute displaynames
     private List<String> attributeList = new ArrayList<>();
-
+    // This field is used for setting the id to SearchVerdicts. It is important for the listing of verdicts
     private int nextIdForSearchVerdict = 0;
 
     /**
@@ -51,12 +51,20 @@ public class FilterController {
         attributeList.add(TableAttributes.RevisionAPartOfSuccess.getDisplayName());
     }
 
+    /**
+     * This method is related to the url: /filter
+     * it resets all (new context) and returns the filter html
+     */
     @GetMapping("/filter")
     public String filter(Model model) {
         resetAll();
         return "filter";
     }
 
+    /**
+     * This method is related to URL /filter/reset
+     * It resets all value
+     */
     @RequestMapping(value = "/filter/reset")
     public void resetAll() {
         selectedAttributesMap = new HashMap<>();
@@ -157,6 +165,9 @@ public class FilterController {
         return createSearchVerdictsOfAllCombinations(allCombinationList);
     }
 
+    /**
+     * When an empty value exists, then this means that we want to get all all values of it
+     */
     private void createInputsWhenAnEmptyExists() {
         selectedAttributesMap.forEach((dataModelAttributes, inputs) -> inputs.forEach(input -> {
             if (input.getInputType().equals(InputType.String)) { // When we have a stringInput object
@@ -168,6 +179,9 @@ public class FilterController {
         }));
     }
 
+    /**
+     * This method creates all combinations of given attribute
+     */
     private void createAllCombinationsFromEmptyStringInput(StringInput stringInput) {
         verdictsInUse.forEach(verdict -> dataAttributeVerdictService.dataAttributeToVerdictValue(stringInput.getAttribute(), verdict).forEach(s -> {
             StringInput verdictSpecificStringInput = new StringInput();
@@ -196,6 +210,9 @@ public class FilterController {
         return searchVerdictList;
     }
 
+    /**
+     * This mehtod return the searchVerdict object for given id, otherwise you get null
+     */
     public SearchVerdict getSearchVerdictForID(int id) {
         for (SearchVerdict searchVerdict : searchVerdictList)
             if (Objects.equals(searchVerdict.getId(), id)) {
@@ -204,6 +221,13 @@ public class FilterController {
                 return null;
     }
 
+    /**
+     * This method creates recursively all combinations of Attributes and values
+     * @param hashMap the with all attributes and values
+     * @param listIterator the iterator which will be used to create a tree
+     * @param solutionMap the map with with one combination
+     * @param allCombinationlist list with all maps of combination
+     */
     private void createMapWithAllCombinations(Map<DataModelAttributes, Set<Input>> hashMap, ListIterator<DataModelAttributes> listIterator, Map<DataModelAttributes, Input> solutionMap, List<Map<DataModelAttributes, Input>> allCombinationlist) {
         if (!listIterator.hasNext()) {
             Map<DataModelAttributes, Input> entry = new HashMap<>();

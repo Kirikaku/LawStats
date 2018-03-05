@@ -31,6 +31,9 @@ public class VerdictSiteController {
 
     Verdict verdict;
 
+    /**
+     * This method is related to url: /verdict/{docketNumber}/**
+     */
     @RequestMapping(value = "/verdict/{givenDocketNumber}/**")
     public String getVerdictSite(Model model, @PathVariable String givenDocketNumber, HttpServletRequest request) {
         final String path =
@@ -64,6 +67,9 @@ public class VerdictSiteController {
         return "verdictSite";
     }
 
+    /**
+     * This array returns a String with appended values of the given array
+     */
     public String getStringFromArray(String[] judgeArray){
         if(judgeArray != null) {
             StringBuilder sb = new StringBuilder();
@@ -74,11 +80,17 @@ public class VerdictSiteController {
         return "";
     }
 
+    /**
+     * This method formats the given long and returns a strng
+     */
     public String getStringFromDateLong(long dateLong){
         VerdictDateFormatter verdictDateFormatter = new VerdictDateFormatter();
         return verdictDateFormatter.formatVerdictDateToString(dateLong);
     }
 
+    /**
+     * this method formats the given documentId into an url of the BGH
+     */
     public String getBGHUrlWhenAvailable(int documentIdInBGH){
         BGHVerdictUtil bghVerdictUtil = new BGHVerdictUtil();
         return bghVerdictUtil.retrieveBGHVerdictUrl(documentIdInBGH);
