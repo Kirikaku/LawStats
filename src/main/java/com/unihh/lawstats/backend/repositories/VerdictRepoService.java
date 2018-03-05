@@ -1,6 +1,7 @@
 package com.unihh.lawstats.backend.repositories;
 
 import com.unihh.lawstats.core.model.*;
+import com.unihh.lawstats.core.model.attributes.DataModelAttributes;
 import com.unihh.lawstats.core.model.input.DateInput;
 import com.unihh.lawstats.core.model.input.Input;
 import com.unihh.lawstats.core.model.input.StringInput;

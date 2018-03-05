@@ -1,9 +1,9 @@
 package com.unihh.lawstats.backend.controller;
 
 import com.unihh.lawstats.backend.repositories.VerdictRepoService;
-import com.unihh.lawstats.bootstrap.Converter.Utils.BGHVerdictUtil;
+import com.unihh.lawstats.core.mapping.BGHVerdictUtil;
 import com.unihh.lawstats.core.mapping.VerdictDateFormatter;
-import com.unihh.lawstats.core.model.DataModelAttributes;
+import com.unihh.lawstats.core.model.attributes.DataModelAttributes;
 import com.unihh.lawstats.core.model.Verdict;
 import com.unihh.lawstats.core.model.input.Input;
 import com.unihh.lawstats.core.model.input.StringInput;

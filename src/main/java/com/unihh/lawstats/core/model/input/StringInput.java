@@ -1,7 +1,7 @@
 package com.unihh.lawstats.core.model.input;
 
 
-import com.unihh.lawstats.core.model.DataModelAttributes;
+import com.unihh.lawstats.core.model.attributes.DataModelAttributes;
 
 public class StringInput implements Input {
 

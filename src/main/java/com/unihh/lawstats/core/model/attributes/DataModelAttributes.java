@@ -1,4 +1,4 @@
-package com.unihh.lawstats.core.model;
+package com.unihh.lawstats.core.model.attributes;
 
 /**
  * This enum contains all searchable properties in solr for the verdict object

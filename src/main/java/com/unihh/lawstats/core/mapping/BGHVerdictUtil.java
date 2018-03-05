@@ -1,4 +1,4 @@
-package com.unihh.lawstats.bootstrap.Converter.Utils;
+package com.unihh.lawstats.core.mapping;
 
 import java.net.URL;
 import java.util.regex.Matcher;

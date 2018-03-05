@@ -1,4 +1,4 @@
-package com.unihh.lawstats.core.model;
+package com.unihh.lawstats.core.model.attributes;
 
 /**
  * This enum contains additional properties for the verdict object

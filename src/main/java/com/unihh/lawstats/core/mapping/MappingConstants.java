@@ -1,4 +1,4 @@
-package com.unihh.lawstats.core.model;
+package com.unihh.lawstats.core.mapping;
 
 public enum MappingConstants {
     VerdictDocketNumberNotFound("404 NOT FOUND");

@@ -1,7 +1,6 @@
 package com.unihh.lawstats.core.mapping;
 
 
-import com.unihh.lawstats.core.model.MappingConstants;
 import com.unihh.lawstats.core.model.Verdict;
 import org.json.JSONArray;
 import org.json.JSONObject;

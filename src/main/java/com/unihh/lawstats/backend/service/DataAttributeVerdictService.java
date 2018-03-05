@@ -1,9 +1,8 @@
 package com.unihh.lawstats.backend.service;
 
 import com.unihh.lawstats.core.mapping.VerdictDateFormatter;
-import com.unihh.lawstats.core.model.DataModelAttributes;
+import com.unihh.lawstats.core.model.attributes.DataModelAttributes;
 import com.unihh.lawstats.core.model.Verdict;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;

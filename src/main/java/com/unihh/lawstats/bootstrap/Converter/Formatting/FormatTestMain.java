@@ -1,7 +1,5 @@
 package com.unihh.lawstats.bootstrap.Converter.Formatting;
 
-import com.unihh.lawstats.bootstrap.Converter.Utils.BGHVerdictUtil;
-
 public class FormatTestMain {
 
     public static void main(String[] args){

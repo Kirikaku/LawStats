@@ -1,11 +1,7 @@
 package com.unihh.lawstats.core.model.input;
 
 
-import com.unihh.lawstats.backend.service.DataAttributeVerdictService;
-import com.unihh.lawstats.core.model.Attributes;
-import com.unihh.lawstats.core.model.DataModelAttributes;
-
-import java.io.DataInput;
+import com.unihh.lawstats.core.model.attributes.DataModelAttributes;
 
 public class DateInput implements Input {
 
