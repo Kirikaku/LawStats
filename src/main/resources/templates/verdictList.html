@@ -44,15 +44,15 @@
             <table class="table.default" id="verdictListTable" border="1">
                 <thead>
                 <tr>
-                    <th>
                         Links
-                    </th>
                 </tr>
                 </thead>
+                <tbody>
+                <tr th:each="searchedVerdicts : ${@ListController.getSearchedVerdicts()}"
+                    th:text="${searchedVerdicts}">
+                </tr>
+                </tbody>
             </table>
-            <ul>
-                <li th:each="searchedVerdicts : ${@ListController.listVerdicts}" th:text="${searchedVerdicts}"></li>
-            </ul>
         </div>
 
 
@@ -69,7 +69,6 @@
         </div>
     </div>
 </div>
-
 <!-- Scripts -->
 <script th:src="@{/js/jquery.min.js/}"></script>
 <script th:src="@{/js/jquery.dropotron.min.js/}"></script>
