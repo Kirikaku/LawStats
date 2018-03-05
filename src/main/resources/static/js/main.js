@@ -26,6 +26,11 @@ function reset(){
     td3.innerHTML = "Startdatum";
     td4.innerHTML = "Enddatum";
 
+    td1.style.fontWeight = 'bold';
+    td2.style.fontWeight = 'bold';
+    td3.style.fontWeight = 'bold';
+    td4.style.fontWeight = 'bold';
+
     row.appendChild(td1);
     row.appendChild(td2);
     row.appendChild(td3);
@@ -46,7 +51,7 @@ function insert() {
 
     console.log(value);
 
-    if(attribute.indexOf("Date") !== -1){
+    if(attribute.indexOf("Date") !== -1) {
         var xhttpp = new XMLHttpRequest();
         var dateStartLong = new Date(dateStart).getTime();
         var dateEndLong = new Date(dateEnd).getTime();
@@ -93,6 +98,22 @@ function insert() {
     table.children[0].appendChild(row);
 
 }
+
+function hideOptions() {
+    var attribute = document.getElementById("attribute").value;
+    //Ist es Datum? - Wann ja: if - sonst else
+    if(attribute.indexOf("Date") !== -1) {
+        document.getElementById("tag").style.display = 'none';
+        document.getElementById("start").style.display = 'inline';
+        document.getElementById("end").style.display = 'inline';
+    }
+    else {
+        document.getElementById("tag").style.display = 'inline';
+        document.getElementById("start").style.display = 'none';
+        document.getElementById("end").style.display = 'none';
+    }
+}
+
 
 (function ($) {
 

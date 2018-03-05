@@ -54,7 +54,7 @@
 
             <div class="inner">
                 <div class="inner">
-                    <select title="Attribut" id="attribute">
+                    <select title="Attribut" id="attribute" onchange="hideOptions()">
                         <option value="" disabled selected>Attribut auswählen</option>
                         <option th:each="attribute : ${T(com.unihh.lawstats.core.model.DataModelAttributes).values()}"
                                 th:value="${attribute}"
