@@ -1,6 +1,5 @@
 package com.unihh.lawstats.backend;
 
-import com.unihh.lawstats.backend.repositories.VerdictRepository;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.springframework.beans.BeansException;
@@ -23,8 +22,6 @@ import org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ITemplateResolver;
-
-import java.text.ParseException;
 
 @Configuration
 @ComponentScan
@@ -62,8 +59,6 @@ public class SpringWebConfig extends WebMvcConfigurerAdapter implements Applicat
         messageSource.setBasename("Messages");
         return messageSource;
     }
-
-
     // View Resolver
     @Bean
     public ThymeleafViewResolver htmlViewResolver() {

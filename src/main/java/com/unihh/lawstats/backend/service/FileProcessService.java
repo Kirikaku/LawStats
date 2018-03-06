@@ -1,6 +1,6 @@
 package com.unihh.lawstats.backend.service;
 
-import com.unihh.lawstats.backend.repositories.VerdictRepoService;
+import com.unihh.lawstats.backend.repository.VerdictRepoService;
 import com.unihh.lawstats.bootstrap.AnalyzingCoordinator;
 import com.unihh.lawstats.core.mapping.NoDocketnumberFoundException;
 import com.unihh.lawstats.core.model.Verdict;

@@ -1,4 +1,4 @@
-package com.unihh.lawstats.backend.repositories;
+package com.unihh.lawstats.backend.repository;
 
 /**
  * This class formatted the search params to the repository

@@ -1,6 +1,6 @@
 package com.unihh.lawstats.backend.controller;
 
-import com.unihh.lawstats.backend.repositories.VerdictRepoService;
+import com.unihh.lawstats.backend.repository.VerdictRepoService;
 import com.unihh.lawstats.core.mapping.BGHVerdictUtil;
 import com.unihh.lawstats.core.mapping.VerdictDateFormatter;
 import com.unihh.lawstats.core.model.attributes.DataModelAttributes;

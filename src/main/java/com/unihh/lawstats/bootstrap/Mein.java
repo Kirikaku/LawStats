@@ -1,7 +1,7 @@
 package com.unihh.lawstats.bootstrap;
 
-import com.unihh.lawstats.backend.repositories.VerdictRepository;
-import com.unihh.lawstats.backend.repositories.VerdictRepoService;
+import com.unihh.lawstats.backend.repository.VerdictRepository;
+import com.unihh.lawstats.backend.repository.VerdictRepoService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 

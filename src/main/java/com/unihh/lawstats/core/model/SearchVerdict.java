@@ -55,6 +55,10 @@ public class SearchVerdict {
         }
     }
 
+    public void addAll(Collection<Verdict> collection){
+        collection.forEach(this::addVerdictToList);
+    }
+
     public void setCombinationMap(Map<DataModelAttributes, Input> combinationMap) {
         this.combinationMap = combinationMap;
     }

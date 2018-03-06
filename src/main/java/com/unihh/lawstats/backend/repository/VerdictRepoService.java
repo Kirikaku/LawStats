@@ -1,4 +1,4 @@
-package com.unihh.lawstats.backend.repositories;
+package com.unihh.lawstats.backend.repository;
 
 import com.unihh.lawstats.core.model.Verdict;
 import com.unihh.lawstats.core.model.attributes.DataModelAttributes;
@@ -8,6 +8,7 @@ import com.unihh.lawstats.core.model.input.StringInput;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.xml.crypto.Data;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -19,6 +20,14 @@ public class VerdictRepoService {
     @Autowired
     public VerdictRepoService(VerdictRepository verdictRepository) {
         this.verdictRepository = verdictRepository;
+    }
+
+    public List<Verdict> testVerdictThing(Map<DataModelAttributes, Set<Input>> searchMap){
+        return verdictRepository.findVerdictByAttributesAndValues(searchMap);
+    }
+
+    public List<String> getAllTermsOfGivenAttribute(DataModelAttributes attributes){
+        return verdictRepository.findAllValuesForStringAttribute(attributes);
     }
 
     public Collection<Verdict> getVerdictsForAttributeAndValue(DataModelAttributes key, String value) {
@@ -81,10 +90,9 @@ public class VerdictRepoService {
 
     public void save(Verdict verdict) {
         if (verdict != null) {
-            SearchFormatter searchFormatter = new SearchFormatter();
             Collection<Verdict> verdicts = getVerdictsForAttributeAndValue(DataModelAttributes.DocketNumber, verdict.getDocketNumber());
             if (!verdicts.isEmpty()) {
-                verdictRepository.delete(verdict.getDocketNumber());
+                verdictRepository.deleteById(verdict.getId());
             }
             verdictRepository.save(verdict);
         }

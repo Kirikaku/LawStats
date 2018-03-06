@@ -1,15 +1,15 @@
-package com.unihh.lawstats.backend.repositories;
+package com.unihh.lawstats.backend.repository;
 
 import com.unihh.lawstats.core.model.Verdict;
-import org.springframework.data.solr.repository.SolrCrudRepository;
+import org.springframework.data.repository.CrudRepository;
 
-import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
-public interface VerdictRepository extends SolrCrudRepository<Verdict, String> {
+public interface VerdictRepository extends CrudRepository<Verdict, Long>, VerdictRepositoryCustom {
 
     List<Verdict> findAllByDocketNumberStartingWith(String[] docketNumberList);
+
+    void deleteById(Long id);
 
     List<Verdict> findAllByRevisionSuccess(int revisionSuccess);
 

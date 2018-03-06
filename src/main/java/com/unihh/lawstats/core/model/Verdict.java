@@ -1,15 +1,13 @@
 package com.unihh.lawstats.core.model;
 
+import com.sun.javafx.beans.IDProperty;
+import com.unihh.lawstats.core.HashService;
 import org.apache.solr.client.solrj.beans.Field;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.solr.core.mapping.Indexed;
 import org.springframework.data.solr.core.mapping.SolrDocument;
-import org.springframework.format.annotation.DateTimeFormat;
 
-import java.net.URL;
 import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -18,15 +16,18 @@ import java.util.Objects;
 @SolrDocument(solrCoreName = "verdict")
 public class Verdict {
 
-    @Field("docketNumber")
-    @Indexed(type = "text_general")
     @Id
+    @Field("id")
+    @Indexed(type = "long")
+    private Long id;
+    @Field("docketNumber")
+    @Indexed(type = "string")
     private String docketNumber;
     @Field("revisionSuccess")
     @Indexed(type = "long")
     private int revisionSuccess;
     @Field
-    @Indexed(type = "text_general")
+    @Indexed(type = "string")
     private String senate;
     @Field
     @Indexed(type = "strings")
@@ -69,6 +70,7 @@ public class Verdict {
     }
 
     public void setDocketNumber(String docketNumber) {
+        id = HashService.longHash(docketNumber);
         this.docketNumber = docketNumber;
     }
 
@@ -85,10 +87,9 @@ public class Verdict {
     }
 
     public void setSenate(String senate) {
-        if (senate != null){
+        if (senate != null) {
             this.senate = senate;
-        }
-        else {
+        } else {
             this.senate = "";
         }
     }
@@ -130,7 +131,7 @@ public class Verdict {
     }
 
     public void setForeDecisionRCCourt(String foreDecisionRCCourt) {
-            this.foreDecisionRCCourt = foreDecisionRCCourt;
+        this.foreDecisionRCCourt = foreDecisionRCCourt;
     }
 
     public Long getForeDecisionRCVerdictDate() {
@@ -138,7 +139,7 @@ public class Verdict {
     }
 
     public void setForeDecisionRCVerdictDate(Long foreDecisionRCVerdictDate) {
-            this.foreDecisionRCVerdictDate = foreDecisionRCVerdictDate;
+        this.foreDecisionRCVerdictDate = foreDecisionRCVerdictDate;
 
     }
 
@@ -160,7 +161,7 @@ public class Verdict {
 
     @Override
     public boolean equals(Object obj) {
-        return obj instanceof Verdict && this.getDocketNumber().equals(((Verdict) obj).getDocketNumber());
+        return obj instanceof Verdict && Objects.equals(this.id, ((Verdict) obj).getId());
     }
 
     @Override
@@ -183,4 +184,10 @@ public class Verdict {
     public void setDocumentNumber(int documentNumber) {
         this.documentNumber = documentNumber;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+
 }

@@ -11,7 +11,7 @@
     <solr:repositories base-package="com.acme.repositories" />
     <solr:solr-client id="solrClient" url="http://localhost:8983/solr" />
     <!-- Enable Solr repositories and configure repository base package -->
-    <solr:repositories base-package="com.unihh.lawstats.backend.repositories"/>
+    <solr:repositories base-package="com.unihh.lawstats.backend.repository"/>
 
     <bean id="solrTemplate" class="org.springframework.data.solr.core.SolrTemplate">
         <constructor-arg index="0" ref="solrClient"/>

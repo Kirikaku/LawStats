@@ -143,7 +143,7 @@ public class Mapper {
             }
 
             //Entscheidungssätze
-            verdict.setDecisionSentences(new String[0]);
+            //verdict.setDecisionSentences(null); only set array when there is really a string, otherwise null
             return verdict;
         }
 

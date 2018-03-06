@@ -1,13 +1,13 @@
 package com.unihh.lawstats.backend.controller;
 
-import com.unihh.lawstats.backend.repositories.SearchFormatter;
-import com.unihh.lawstats.backend.repositories.VerdictRepoService;
+import com.unihh.lawstats.backend.repository.SearchFormatter;
+import com.unihh.lawstats.backend.repository.VerdictRepoService;
 import com.unihh.lawstats.backend.service.DataAttributeVerdictService;
 import com.unihh.lawstats.core.mapping.VerdictDateFormatter;
-import com.unihh.lawstats.core.model.attributes.DataModelAttributes;
 import com.unihh.lawstats.core.model.SearchVerdict;
-import com.unihh.lawstats.core.model.attributes.TableAttributes;
 import com.unihh.lawstats.core.model.Verdict;
+import com.unihh.lawstats.core.model.attributes.DataModelAttributes;
+import com.unihh.lawstats.core.model.attributes.TableAttributes;
 import com.unihh.lawstats.core.model.input.DateInput;
 import com.unihh.lawstats.core.model.input.Input;
 import com.unihh.lawstats.core.model.input.InputType;
@@ -189,6 +189,7 @@ public class FilterController {
      * This method creates all combinations of given attribute
      */
     private void createAllCombinationsFromEmptyStringInput(StringInput stringInput) {
+       // verdictRepoService.getAllTermsOfGivenAttribute(stringInput.getAttribute()).forEach(s -> {
         verdictsInUse.forEach(verdict -> dataAttributeVerdictService.dataAttributeToVerdictValue(stringInput.getAttribute(), verdict).forEach(s -> {
             StringInput verdictSpecificStringInput = new StringInput();
             verdictSpecificStringInput.setAttribute(stringInput.getAttribute());
@@ -263,6 +264,9 @@ public class FilterController {
      * This methods adds all related Verdicts to the SearchVerdicts objects
      */
     private void addVerdictsToSearchVerdicts() {
+//        for (SearchVerdict searchVerdict : searchVerdictList) {
+//            searchVerdict.addAll(verdictRepoService.testVerdictThing(convertSearchVerdictCombinationMap(searchVerdict)));
+//        }
         SearchFormatter searchFormatter = new SearchFormatter();
         for (Verdict verdict : verdictsInUse) {
             for (SearchVerdict searchVerdict : searchVerdictList) {
@@ -292,6 +296,17 @@ public class FilterController {
         }
     }
 
+    private Map<DataModelAttributes, Set<Input>> convertSearchVerdictCombinationMap(SearchVerdict searchVerdict) {
+        Map<DataModelAttributes, Set<Input>> map = new HashMap<>();
+        searchVerdict.getCombinationMap().forEach((dataModelAttributes, input) -> {
+            Set<Input> set = new HashSet<>();
+            set.add(input);
+            map.put(dataModelAttributes, set);
+        });
+
+        return map;
+    }
+
     private boolean verdictContainsValueOfSearchVerdict(Verdict verdict, StringInput stringInput) {
         SearchFormatter searchFormatter = new SearchFormatter();
         String[] stringArray = searchFormatter.formatString(stringInput.getValue());
@@ -305,6 +320,7 @@ public class FilterController {
      * All Attributes are connected with an AND
      */
     private Set<Verdict> getQueriedVerdicts() {
+        //return new HashSet<>(verdictRepoService.testVerdictThing(selectedAttributesMap));
         Set<Verdict> verdictSet = new HashSet<>(); //make set empty
 
         // First add a list of Verdict to out Set
