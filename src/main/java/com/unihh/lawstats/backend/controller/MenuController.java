@@ -9,9 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class MenuController {
 
-    @Autowired
-    VerdictRepository verdictRepository;
-
     @GetMapping("/")
     public String home(Model model) {
         return "index";

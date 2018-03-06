@@ -1,6 +1,6 @@
 package com.unihh.lawstats.backend.service;
 
-import com.unihh.lawstats.backend.repositories.VerdictRepository;
+import com.unihh.lawstats.backend.repositories.VerdictRepoService;
 import com.unihh.lawstats.bootstrap.AnalyzingCoordinator;
 import com.unihh.lawstats.core.mapping.NoDocketnumberFoundException;
 import com.unihh.lawstats.core.model.Verdict;
@@ -21,7 +21,7 @@ public class FileProcessService extends Observable {
 
 
     @Autowired
-    VerdictRepository verdictRepository;
+    VerdictRepoService verdictRepoService;
     private AnalyzingCoordinator analyzingCoordinator = new AnalyzingCoordinator();
     private File workfile;
     private boolean fileAnalyzed = false;
@@ -39,7 +39,7 @@ public class FileProcessService extends Observable {
         Runnable thread = () -> {
             try {
                 verdict.set(coordinator.analyzeDocument(workfile));
-                verdictRepository.save(verdict.get()); // only safe, when successfully analyze
+                verdictRepoService.save(verdict.get()); // only safe, when successfully analyze
             } catch (NoDocketnumberFoundException ex) {
                 verdict.set(null);
             }
