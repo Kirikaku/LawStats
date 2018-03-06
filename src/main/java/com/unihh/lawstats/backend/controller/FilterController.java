@@ -219,14 +219,15 @@ public class FilterController {
             if (Objects.equals(searchVerdict.getId(), id)) {
                 return searchVerdict;
             }
-                return null;
+        return null;
     }
 
     /**
      * This method creates recursively all combinations of Attributes and values
-     * @param hashMap the with all attributes and values
-     * @param listIterator the iterator which will be used to create a tree
-     * @param solutionMap the map with with one combination
+     *
+     * @param hashMap            the with all attributes and values
+     * @param listIterator       the iterator which will be used to create a tree
+     * @param solutionMap        the map with with one combination
      * @param allCombinationlist list with all maps of combination
      */
     private void createMapWithAllCombinations(Map<DataModelAttributes, Set<Input>> hashMap, ListIterator<DataModelAttributes> listIterator, Map<DataModelAttributes, Input> solutionMap, List<Map<DataModelAttributes, Input>> allCombinationlist) {
@@ -331,7 +332,7 @@ public class FilterController {
     }
 
     /**
-     * This method return the value for given SearchVerdict and given attribut
+     * This method returns the value for given SearchVerdict and given attribut
      */
     public String getValueForAttributeAndVerdict(SearchVerdict searchVerdict, String attribute) {
         VerdictDateFormatter verdictDateFormatter = new VerdictDateFormatter();
@@ -355,5 +356,29 @@ public class FilterController {
                     return "Nicht implementiert";
             }
         }
+    }
+
+
+    /**
+     * This method returns the percent value for given SearchVerdict and given attribut
+     */
+    public String getPercentValue(SearchVerdict searchVerdict, String attribute) {
+        double p;
+        if (searchVerdict.getAllRelatedVerdicts().size() != 0) {
+            switch (TableAttributes.valueOfDisplayName(attribute)) {
+                case RevisionSuccess:
+                    p = ((double) searchVerdict.getRelatedVerdictsWithRevisionSuccessful().size()) / searchVerdict.getAllRelatedVerdicts().size() *100;
+                    return Double.toString(p) + "%";
+                case RevisionAPartOfSuccess:
+                    p = ((double) searchVerdict.getRelatedVerdictsWithRevisionPartlySuccessful().size()) / searchVerdict.getAllRelatedVerdicts().size() *100;
+                    return Double.toString(p) + "%";
+                case RevisionNotSuccess:
+                    p = (double) searchVerdict.getRelatedVerdictsWithRevisionNotSuccessful().size() / searchVerdict.getAllRelatedVerdicts().size() *100;
+                    return Double.toString(p) + "%";
+                default:
+                    return "";
+            }
+        }
+        return "";
     }
 }

@@ -15,6 +15,7 @@ public class SearchVerdict {
     private List<Verdict> relatedVerdictsWithRevisionSuccessful = new ArrayList<>();
     private List<Verdict> relatedVerdictsWithRevisionNotSuccessful = new ArrayList<>();
     private List<Verdict> relatedVerdictsWithRevisionAPartOfSuccessful = new ArrayList<>();
+    private List<Verdict> allRelatedVerdicts = new ArrayList<>();
     private int id;
 
 
@@ -38,7 +39,13 @@ public class SearchVerdict {
         return Collections.unmodifiableList(relatedVerdictsWithRevisionAPartOfSuccessful);
     }
 
+    public  List<Verdict> getAllRelatedVerdicts(){
+        return  Collections.unmodifiableList(allRelatedVerdicts);
+    }
+
     public void addVerdictToList(Verdict verdict){
+        allRelatedVerdicts.add(verdict);
+
         if(verdict.getRevisionSuccess() == 2){
             relatedVerdictsWithRevisionSuccessful.add(verdict);
         } else if (verdict.getRevisionSuccess() == 1){

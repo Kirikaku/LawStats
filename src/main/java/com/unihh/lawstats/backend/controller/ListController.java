@@ -37,6 +37,8 @@ public class ListController {
                 return searchedVerdict.getRelatedVerdictsWithRevisionPartlySuccessful();
             case 1:
                 return searchedVerdict.getRelatedVerdictsWithRevisionSuccessful();
+            case 2:
+                return searchedVerdict.getAllRelatedVerdicts();
             default:
                 return null;
         }
@@ -60,7 +62,7 @@ public class ListController {
      * @return Link to VerdictList
      */
     public String getLink(int id, String attribute) {
-        int a = 0;
+        int a;
         switch (TableAttributes.valueOfDisplayName(attribute)) {
             case RevisionSuccess:
                 a = 1;
@@ -70,7 +72,12 @@ public class ListController {
                 break;
             case RevisionNotSuccess:
                 a = -1;
+                break;
+            default:
+                a = 2;
         }
         return "/filter/listVerdicts/" + id + "/" + a;
     }
+
+
 }
