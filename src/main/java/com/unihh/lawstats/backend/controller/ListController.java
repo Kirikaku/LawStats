@@ -78,6 +78,4 @@ public class ListController {
         }
         return "/filter/listVerdicts/" + id + "/" + a;
     }
-
-
 }

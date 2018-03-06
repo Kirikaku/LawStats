@@ -25,6 +25,10 @@ import java.text.DecimalFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static com.unihh.lawstats.core.model.attributes.TableAttributes.RevisionNotSuccess;
+import static com.unihh.lawstats.core.model.attributes.TableAttributes.RevisionPartlySuccess;
+import static com.unihh.lawstats.core.model.attributes.TableAttributes.RevisionSuccess;
+
 @Controller
 @Service("FilterController")
 public class FilterController {
@@ -48,7 +52,7 @@ public class FilterController {
      * Have to set the definitive columns in our table
      */
     public FilterController() {
-        attributeList.add(TableAttributes.RevisionSuccess.getDisplayName());
+        attributeList.add(RevisionSuccess.getDisplayName());
         attributeList.add(TableAttributes.RevisionNotSuccess.getDisplayName());
         attributeList.add(TableAttributes.RevisionPartlySuccess.getDisplayName());
     }
@@ -71,7 +75,7 @@ public class FilterController {
     public void resetAll() {
         selectedAttributesMap = new HashMap<>();
         attributeList = new ArrayList<>();
-        attributeList.add(TableAttributes.RevisionSuccess.getDisplayName());
+        attributeList.add(RevisionSuccess.getDisplayName());
         attributeList.add(TableAttributes.RevisionNotSuccess.getDisplayName());
         attributeList.add(TableAttributes.RevisionPartlySuccess.getDisplayName());
         searchVerdictList = new ArrayList<>();
@@ -363,23 +367,35 @@ public class FilterController {
     /**
      * This method returns the percent value for a given SearchVerdict and attribute
      */
-    public String getPercentValue(SearchVerdict searchVerdict, String attribute) {
+    public double getPercentValue(SearchVerdict searchVerdict, String attribute) {
         double p;
-        DecimalFormat perc = new DecimalFormat("#.##");
         if (searchVerdict.getAllRelatedVerdicts().size() != 0) {
             switch (TableAttributes.valueOfDisplayName(attribute)) {
                 case RevisionSuccess:
                     p = ((double) searchVerdict.getRelatedVerdictsWithRevisionSuccessful().size()) / searchVerdict.getAllRelatedVerdicts().size() * 100;
-                    return perc.format(p) + "%";
+                    return p;
                 case RevisionPartlySuccess:
                     p = ((double) searchVerdict.getRelatedVerdictsWithRevisionPartlySuccessful().size()) / searchVerdict.getAllRelatedVerdicts().size() * 100;
-                    return perc.format(p) + "%";
+                    return p;
                 case RevisionNotSuccess:
                     p = ((double) searchVerdict.getRelatedVerdictsWithRevisionNotSuccessful().size()) / searchVerdict.getAllRelatedVerdicts().size() * 100;
-                    return perc.format(p) + "%";
+                    return p;
                 default:
-                    return "";
+                    return 0;
             }
+        }
+        return 0;
+    }
+
+    public String getFormattedPercentValue(SearchVerdict searchVerdict, String attribute) {
+        DecimalFormat pct = new DecimalFormat("#.##");
+
+        if (TableAttributes.valueOfDisplayName(attribute).equals(RevisionSuccess) ||
+            TableAttributes.valueOfDisplayName(attribute).equals(RevisionPartlySuccess) ||
+            TableAttributes.valueOfDisplayName(attribute).equals(RevisionNotSuccess)) {
+            double p = getPercentValue(searchVerdict, attribute);
+
+            return pct.format(p) + "%";
         }
         return "";
     }
