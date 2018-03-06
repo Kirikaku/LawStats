@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.text.DecimalFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -49,7 +50,7 @@ public class FilterController {
     public FilterController() {
         attributeList.add(TableAttributes.RevisionSuccess.getDisplayName());
         attributeList.add(TableAttributes.RevisionNotSuccess.getDisplayName());
-        attributeList.add(TableAttributes.RevisionAPartOfSuccess.getDisplayName());
+        attributeList.add(TableAttributes.RevisionPartlySuccess.getDisplayName());
     }
 
     /**
@@ -72,7 +73,7 @@ public class FilterController {
         attributeList = new ArrayList<>();
         attributeList.add(TableAttributes.RevisionSuccess.getDisplayName());
         attributeList.add(TableAttributes.RevisionNotSuccess.getDisplayName());
-        attributeList.add(TableAttributes.RevisionAPartOfSuccess.getDisplayName());
+        attributeList.add(TableAttributes.RevisionPartlySuccess.getDisplayName());
         searchVerdictList = new ArrayList<>();
         verdictsInUse = new HashSet<>();
         nextIdForSearchVerdict = 0;
@@ -332,7 +333,7 @@ public class FilterController {
     }
 
     /**
-     * This method returns the value for given SearchVerdict and given attribut
+     * This method returns the value for a given SearchVerdict and attribute
      */
     public String getValueForAttributeAndVerdict(SearchVerdict searchVerdict, String attribute) {
         VerdictDateFormatter verdictDateFormatter = new VerdictDateFormatter();
@@ -350,7 +351,7 @@ public class FilterController {
                     return String.valueOf(searchVerdict.getRelatedVerdictsWithRevisionSuccessful().size());
                 case RevisionNotSuccess:
                     return String.valueOf(searchVerdict.getRelatedVerdictsWithRevisionNotSuccessful().size());
-                case RevisionAPartOfSuccess:
+                case RevisionPartlySuccess:
                     return String.valueOf(searchVerdict.getRelatedVerdictsWithRevisionPartlySuccessful().size());
                 default:
                     return "Nicht implementiert";
@@ -360,21 +361,22 @@ public class FilterController {
 
 
     /**
-     * This method returns the percent value for given SearchVerdict and given attribut
+     * This method returns the percent value for a given SearchVerdict and attribute
      */
     public String getPercentValue(SearchVerdict searchVerdict, String attribute) {
         double p;
+        DecimalFormat perc = new DecimalFormat("#.##");
         if (searchVerdict.getAllRelatedVerdicts().size() != 0) {
             switch (TableAttributes.valueOfDisplayName(attribute)) {
                 case RevisionSuccess:
-                    p = ((double) searchVerdict.getRelatedVerdictsWithRevisionSuccessful().size()) / searchVerdict.getAllRelatedVerdicts().size() *100;
-                    return Double.toString(p) + "%";
-                case RevisionAPartOfSuccess:
-                    p = ((double) searchVerdict.getRelatedVerdictsWithRevisionPartlySuccessful().size()) / searchVerdict.getAllRelatedVerdicts().size() *100;
-                    return Double.toString(p) + "%";
+                    p = ((double) searchVerdict.getRelatedVerdictsWithRevisionSuccessful().size()) / searchVerdict.getAllRelatedVerdicts().size() * 100;
+                    return perc.format(p) + "%";
+                case RevisionPartlySuccess:
+                    p = ((double) searchVerdict.getRelatedVerdictsWithRevisionPartlySuccessful().size()) / searchVerdict.getAllRelatedVerdicts().size() * 100;
+                    return perc.format(p) + "%";
                 case RevisionNotSuccess:
-                    p = (double) searchVerdict.getRelatedVerdictsWithRevisionNotSuccessful().size() / searchVerdict.getAllRelatedVerdicts().size() *100;
-                    return Double.toString(p) + "%";
+                    p = ((double) searchVerdict.getRelatedVerdictsWithRevisionNotSuccessful().size()) / searchVerdict.getAllRelatedVerdicts().size() * 100;
+                    return perc.format(p) + "%";
                 default:
                     return "";
             }

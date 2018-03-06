@@ -22,8 +22,12 @@
         </thead>
         <tbody>
         <tr th:each="verdict : ${@FilterController.getSearchVerdictList()}">
-            <td th:each="attribute : ${@FilterController.getAttributesDisplayname()}" >
-                <a th:href="${@ListController.getLink(verdict.getId(), attribute)}"><span th:text="${@FilterController.getValueForAttributeAndVerdict(verdict, attribute)}"></span><div th:text="${@FilterController.getPercentValue(verdict, attribute)}"></div></a>
+            <td th:each="attribute : ${@FilterController.getAttributesDisplayname()}">
+                <a th:href="${@ListController.getLink(verdict.getId(), attribute)}">
+                    <span th:text="${@FilterController.getValueForAttributeAndVerdict(verdict, attribute)}"></span>
+                    <div style="font-style: italic"
+                         th:text="${@FilterController.getPercentValue(verdict, attribute)}"></div>
+                </a>
             </td>
         </tr>
         </tbody>

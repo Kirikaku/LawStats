@@ -67,7 +67,7 @@ public class ListController {
             case RevisionSuccess:
                 a = 1;
                 break;
-            case RevisionAPartOfSuccess:
+            case RevisionPartlySuccess:
                 a = 0;
                 break;
             case RevisionNotSuccess:
