@@ -9,7 +9,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 // This is the code snippet for getting the verdict repo in the bootstrapping phse
 public class Mein {
 
-    public static void main(String[] args) {
+    public void main(String[] args) {
         ApplicationContext context = new ClassPathXmlApplicationContext("beansDefinitionForBootstrapPhase.xml");
         VerdictRepoService verdictRepoService = new VerdictRepoService(context.getBean("verdictRepository", VerdictRepository.class));
 
