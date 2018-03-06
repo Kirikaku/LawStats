@@ -318,10 +318,29 @@ public class Formatter {
 
 
         // Satzumbruch
+       content = replaceNewLines(content);
+
+
+        return content;
+
+    }
+
+
+
+    public static String replaceNewLines(String content){
+
+
+
+        // Satzumbruch
         String pattern6 = "([äÄöÖüÜßa-zA-Z0-9]([\\r?\\n]+)[äÄöÖüÜßa-zA-Z0-9])";
 
-        p = Pattern.compile(pattern6, Pattern.MULTILINE | Pattern.CANON_EQ);
-        m = p.matcher(content);
+
+
+
+
+
+        Pattern p = Pattern.compile(pattern6, Pattern.MULTILINE | Pattern.CANON_EQ);
+        Matcher m = p.matcher(content);
 
         while(m.find()) {
             try {
@@ -340,11 +359,9 @@ public class Formatter {
 
         }
 
+
         return content;
-
     }
-
-
 
 
 

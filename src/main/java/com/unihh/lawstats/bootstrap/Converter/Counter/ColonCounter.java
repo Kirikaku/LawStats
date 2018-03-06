@@ -1,6 +1,6 @@
 package com.unihh.lawstats.bootstrap.Converter.Counter;
 
-import com.unihh.lawstats.bootstrap.NaturalLanguageProcessing.Watson.NLPLawUtils;
+import com.unihh.lawstats.bootstrap.NaturalLanguageProcessing.NLPLawUtils;
 import org.apache.commons.io.IOUtils;
 
 import java.io.File;
