@@ -1,17 +1,15 @@
 package com.unihh.lawstats.backend.repositories;
 
-import com.unihh.lawstats.backend.repositories.SearchFormatter;
-import com.unihh.lawstats.backend.repositories.VerdictRepository;
 import com.unihh.lawstats.core.model.Verdict;
 import com.unihh.lawstats.core.model.attributes.DataModelAttributes;
 import com.unihh.lawstats.core.model.input.DateInput;
 import com.unihh.lawstats.core.model.input.Input;
 import com.unihh.lawstats.core.model.input.StringInput;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service(value = "verdictRepoService")
 public class VerdictRepoService {
@@ -19,17 +17,29 @@ public class VerdictRepoService {
     private VerdictRepository verdictRepository;
 
     @Autowired
-    public VerdictRepoService(VerdictRepository verdictRepository){
+    public VerdictRepoService(VerdictRepository verdictRepository) {
         this.verdictRepository = verdictRepository;
     }
 
-    public Collection<? extends Verdict> getVerdictsForAttribute(DataModelAttributes key, Set<Input> value) {
+    public Collection<Verdict> getVerdictsForAttributeAndValue(DataModelAttributes key, String value) {
+        StringInput stringInput = new StringInput();
+        stringInput.setAttribute(key);
+        stringInput.setValue(value);
+        Set<Input> inputSet = new HashSet<>();
+        inputSet.add(stringInput);
+        return getVerdictsForAttribute(key, inputSet);
+    }
+
+    public Collection<Verdict> getVerdictsForAttribute(DataModelAttributes key, Set<Input> value) {
         SearchFormatter searchFormatter = new SearchFormatter();
         Set<Verdict> verdictSetForAttribute = new HashSet<>();
         for (Input input : value) {
             switch (key) {
                 case DocketNumber:
-                    verdictSetForAttribute.addAll(verdictRepository.findAllByDocketNumberStartingWith(searchFormatter.formatString(((StringInput) input).getValue())));
+                    List<Verdict> verdictList = new ArrayList<>();
+                    String[] valueArray = searchFormatter.formatString(((StringInput) input).getValue());
+                    verdictList.addAll(verdictRepository.findAllByDocketNumberStartingWith(valueArray));
+                    verdictSetForAttribute.addAll(verdictList.stream().filter(verdict -> Arrays.stream(valueArray).allMatch(s -> verdict.getDocketNumber().contains(s))).collect(Collectors.toList()));
                     break;
                 case Senate:
                     verdictSetForAttribute.addAll(verdictRepository.findAllBySenateContaining((searchFormatter.formatString(((StringInput) input).getValue()))[0]));
@@ -72,7 +82,7 @@ public class VerdictRepoService {
     public void save(Verdict verdict) {
         if (verdict != null) {
             SearchFormatter searchFormatter = new SearchFormatter();
-            List<Verdict> verdicts = verdictRepository.findAllByDocketNumberStartingWith(searchFormatter.formatString(verdict.getDocketNumber()));
+            Collection<Verdict> verdicts = getVerdictsForAttributeAndValue(DataModelAttributes.DocketNumber, verdict.getDocketNumber());
             if (!verdicts.isEmpty()) {
                 verdictRepository.delete(verdict.getDocketNumber());
             }

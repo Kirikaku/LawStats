@@ -7,7 +7,8 @@ public enum TableAttributes implements Attributes {
 
     RevisionSuccess("Revision erfolgreich"),
     RevisionNotSuccess("Revision nicht erfolgreich"),
-    RevisionAPartOfSuccess("Revision teilweise erfolgreich");
+    RevisionAPartOfSuccess("Revision teilweise erfolgreich"),
+    NOTAVAILABLE("Nicht vorhanden");
 
     private final String displayName;
 
@@ -26,6 +27,6 @@ public enum TableAttributes implements Attributes {
                 return attributes;
             }
         }
-        return null;
+        return NOTAVAILABLE;
     }
 }
