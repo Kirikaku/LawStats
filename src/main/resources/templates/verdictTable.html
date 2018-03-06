@@ -15,7 +15,7 @@
     <table class="table.default" id="verdictTable" border="1">
         <thead>
         <tr>
-            <th th:each="attribute : ${@FilterController.getAttributesDisplayname()}"
+            <th onclick="showWichTable(this)" th:each="attribute : ${@FilterController.getAttributesDisplayname()}"
                 th:text="${attribute}">
             </th>
         </tr>

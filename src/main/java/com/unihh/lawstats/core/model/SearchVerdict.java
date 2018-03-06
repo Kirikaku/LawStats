@@ -46,9 +46,9 @@ public class SearchVerdict {
     public void addVerdictToList(Verdict verdict){
         allRelatedVerdicts.add(verdict);
 
-        if(verdict.getRevisionSuccess() == 2){
+        if(verdict.getRevisionSuccess() == 1){
             relatedVerdictsWithRevisionSuccessful.add(verdict);
-        } else if (verdict.getRevisionSuccess() == 1){
+        } else if (verdict.getRevisionSuccess() == 0){
             relatedVerdictsWithRevisionAPartOfSuccessful.add(verdict);
         } else {
             relatedVerdictsWithRevisionNotSuccessful.add(verdict);

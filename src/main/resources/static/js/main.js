@@ -1,4 +1,3 @@
-
 function getQueriedVerdicts() {
     var url = '/filter/searchVerdicts';
 
@@ -7,9 +6,9 @@ function getQueriedVerdicts() {
     $("#verdictTableBlock").load(url);
 }
 
-function reset(){
+function reset() {
     var table = document.getElementById("attributeTable").children[0];
-    while(table.firstElementChild) {
+    while (table.firstElementChild) {
         table.removeChild(table.firstElementChild);
         console.log(table.firstChild);
     }
@@ -51,22 +50,22 @@ function insert() {
 
     console.log(value);
 
-    if(attribute.indexOf("Date") !== -1) {
+    if (attribute.indexOf("Date") !== -1) {
         var xhttpp = new XMLHttpRequest();
         var dateStartLong = new Date(dateStart).getTime();
         var dateEndLong = new Date(dateEnd).getTime();
-        if(!dateStartLong){
+        if (!dateStartLong) {
             dateStartLong = 0;
         }
-        if(!dateEndLong){
+        if (!dateEndLong) {
             dateEndLong = 8640000000000000;
         }
         console.log("ist ein Date");
-        xhttpp.open("PUT", "/input/date/"+attribute+"/"+dateStartLong+"/to/"+dateEndLong, true);
+        xhttpp.open("PUT", "/input/date/" + attribute + "/" + dateStartLong + "/to/" + dateEndLong, true);
         xhttpp.send('')
     } else {
         var xhttp = new XMLHttpRequest();
-        xhttp.open("PUT", "/input/string/"+attribute+"/"+value.replace('.', '__'), true);
+        xhttp.open("PUT", "/input/string/" + attribute + "/" + value.replace('.', '__'), true);
         xhttp.send('')
     }
 
@@ -102,7 +101,7 @@ function insert() {
 function hideOptions() {
     var attribute = document.getElementById("attribute").value;
     //Ist es Datum? - Wann ja: if - sonst else
-    if(attribute.indexOf("Date") !== -1) {
+    if (attribute.indexOf("Date") !== -1) {
         document.getElementById("tag").value = '';
         document.getElementById("tag").style.display = 'none';
         document.getElementById("start").style.display = 'inline';
@@ -117,64 +116,166 @@ function hideOptions() {
     }
 }
 
-function sortTable(n) {
+function showWichTable(input) {
+
+    //console.info(input.innerHTML);
+
+    //TODO was bisher nicht sortiert wird: Aktenzeichen und Senat aufgrund poly-Sortierstruktur
+    //Spalte 0 -2: Revisionsspalten
+    if (input.innerText.indexOf("Revision erfolgreich") !== -1) {
+        //console.info("Rev erfolg");
+        sortTableByNumber(0);
+        //Done
+    }
+    else if (input.innerText.indexOf("Revision nicht erfolgreich") !== -1) {
+        sortTableByNumber(1);
+        //Done
+    }
+    else if (input.innerText.indexOf("Revision teilweise erfolgreich") !== -1) {
+        sortTableByNumber(2);
+        //Done
+    }
+    //Spalten 3 - Sortieren nach den verschiedenen Datentypen
+    else if (input.innerText.indexOf("Entscheidungsdatum") !== -1) {
+        //console.info("Datumsfeld");
+        sortTableByDate(3);
+        //Done
+    }
+    else if ((input.innerText.indexOf("Landesgericht") !== -1) || (input.innerText.indexOf("Richter") !== -1) || (input.innerText.indexOf("Oberlandesgericht") !== -1)
+        || (input.innerText.indexOf("Amtsgericht") !== -1)) {
+        console.info("Textfeld");
+        sortTableByString(3);
+
+    }
+    else {
+        console.info("keins");
+    }
+}
+
+function sortTableByNumber(n) {
     var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-    table = document.getElementById("attributeTable");
+    table = document.getElementById("verdictTable");
     switching = true;
-
-    // Set the sorting direction to ascending:
-    dir = "asc";
-
-    /* Make a loop that will continue until
-    no switching has been done: */
+    dir = "desc";
     while (switching) {
-        // Start by saying: no switching is done:
         switching = false;
         rows = table.getElementsByTagName("TR");
-
-        /* Loop through all table rows (except the
-        first, which contains table headers): */
         for (i = 1; i < (rows.length - 1); i++) {
-            // Start by saying there should be no switching:
             shouldSwitch = false;
-            /* Get the two elements you want to compare,
-            one from current row and one from the next: */
-            x = rows[i].getElementsByTagName("TD")[n];
-            y = rows[i + 1].getElementsByTagName("TD")[n];
-            /* Check if the two rows should switch place,
-            based on the direction, asc or desc: */
+            x = rows[i].getElementsByTagName("TD")[n].innerText;
+            y = rows[i + 1].getElementsByTagName("TD")[n].innerText;
             if (dir == "asc") {
-                if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-                    // If so, mark as a switch and break the loop:
+                if (x > y) {
                     shouldSwitch= true;
                     break;
                 }
             } else if (dir == "desc") {
-                if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
-                    // If so, mark as a switch and break the loop:
+                if (x < y) {
                     shouldSwitch= true;
                     break;
                 }
             }
         }
         if (shouldSwitch) {
-            /* If a switch has been marked, make the switch
-            and mark that a switch has been done: */
             rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
             switching = true;
-            // Each time a switch is done, increase this count by 1:
             switchcount ++;
         } else {
-            /* If no switching has been done AND the direction is "asc",
-            set the direction to "desc" and run the while loop again. */
-            if (switchcount == 0 && dir == "asc") {
-                dir = "desc";
+            if (switchcount == 0 && dir == "desc") {
+                dir = "asc";
                 switching = true;
             }
         }
     }
 }
 
+function sortTableByDate(n) {
+    var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+    table = document.getElementById("verdictTable");
+    switching = true;
+    dir = "desc";
+    while (switching) {
+        switching = false;
+        rows = table.getElementsByTagName("TR");
+        for (i = 1; i < (rows.length - 1); i++) {
+            shouldSwitch = false;
+            x = rows[i].getElementsByTagName("TD")[n];
+            y = rows[i + 1].getElementsByTagName("TD")[n];
+            // X behandeln
+            x = x.getElementsByTagName("span")[0].innerHTML;
+            //console.info(x);
+            x = x.substring(0, 10);
+            var dayX = x.substring(0, 2);
+            var monthX = x.substring(3, 5);
+            var yearX = x.substring(6, 10);
+            //Y behandeln
+            y = y.getElementsByTagName("span")[0].innerHTML;
+            y = y.substring(0, 10);
+            var dayY = y.substring(0, 2);
+            var monthY = y.substring(3, 5);
+            var yearY = y.substring(6, 10);
+
+            if (dir == "asc") {
+                if (yearX > yearY) {
+                    shouldSwitch = true;
+                    break;
+                }
+            } else if (dir == "desc") {
+                if (yearX < yearY) {
+                    shouldSwitch = true;
+                    break;
+                }
+            }
+        }
+            if (shouldSwitch) {
+                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                switching = true;
+                switchcount++;
+            } else {
+                if (switchcount == 0 && dir == "desc") {
+                    dir = "asc";
+                    switching = true;
+                }
+            }
+        }
+}
+
+function sortTableByString(n) {
+    var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+    table = document.getElementById("verdictTable");
+    switching = true;
+    dir = "desc";
+    while (switching) {
+        switching = false;
+        rows = table.getElementsByTagName("TR");
+        for (i = 1; i < (rows.length - 1); i++) {
+            shouldSwitch = false;
+            x = rows[i].getElementsByTagName("TD")[n].innerText;
+            y = rows[i + 1].getElementsByTagName("TD")[n].innerText;
+            if (dir == "asc") {
+                if (x.toLowerCase() > y.toLowerCase()) {
+                    shouldSwitch = true;
+                    break;
+                }
+            } else if (dir == "desc") {
+                if (xtoLowerCase() < ytoLowerCase()) {
+                    shouldSwitch = true;
+                    break;
+                }
+            }
+        }
+        if (shouldSwitch) {
+            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+            switching = true;
+            switchcount++;
+        } else {
+            if (switchcount == 0 && dir == "desc") {
+                dir = "asc";
+                switching = true;
+            }
+        }
+    }
+}
 
 (function ($) {
 

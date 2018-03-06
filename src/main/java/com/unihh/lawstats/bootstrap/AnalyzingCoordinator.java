@@ -42,6 +42,7 @@ public class AnalyzingCoordinator {
         //TODO set the documentNumber
 
         //TODO hier kommt es drauf an ob Watson oder TU Darm. Classifier benutzt wird
+        //TODO ändern zurück
         verdict.setRevisionSuccess(1);
 
         String jsonClassifierResponse = "";
