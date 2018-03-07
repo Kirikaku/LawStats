@@ -205,29 +205,30 @@ public class TrainingData {
 
 
     private void writeRowsForFinalData(Set<String[]> valueSet, String basePath) {
-        long trainingsDataAmount = Math.round(valueSet.size()*0.9);
+        long trainingsDataAmount = Math.round(valueSet.size()*0.8);
         long testDataAmount = valueSet.size()-trainingsDataAmount;
-
+        int ongoingIndex = 0;
 
         for (String[] valueArray : valueSet) {
+            ongoingIndex++;
 
             if(trainingsDataAmount > 0) {
                 trainingsDataAmount--;
-               writeOneRow(valueArray, basePath+"trainingsData.tsv");
+               writeOneRow(valueArray, basePath+"trainingsData.tsv", ongoingIndex);
             }
             else{
-                writeOneRow(valueArray, basePath+"testData.tsv");
+                writeOneRowTestData(valueArray, basePath+"testData.tsv", ongoingIndex);
             }
         }
     }
 
 
-    private void writeOneRow(String[] valueArray, String filename){
+    private void writeOneRow(String[] valueArray, String filename, int ongoingIndex){
         if (valueArray.length == 3) {
             try {
                 FileOutputStream fos = new FileOutputStream(filename, true);
 
-                String row = valueArray[2] + "\t" + valueArray[0] + "\t" + valueArray[1] +"\t \t "+ "\n";
+                String row = valueArray[2] + "\t" + valueArray[0] + "\t" + valueArray[1] + "\n";
                 IOUtils.write(row, fos, "UTF-8");
 
 
@@ -236,8 +237,23 @@ public class TrainingData {
 
             }
         }
+    }
 
 
+    private void writeOneRowTestData(String[] valueArray, String filename, int ongoingIndex){
+        if (valueArray.length == 3) {
+            try {
+                FileOutputStream fos = new FileOutputStream(filename, true);
+
+                String row = valueArray[2]+ongoingIndex + "\t" + valueArray[0] + "\t" + valueArray[1] +"\t"+valueArray[1]+"\t"+valueArray[1]+":"+valueArray[1]+ "\n";
+                IOUtils.write(row, fos, "UTF-8");
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            }
+        }
     }
 
 

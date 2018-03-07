@@ -10,6 +10,8 @@ import com.unihh.lawstats.bootstrap.NaturalLanguageProcessing.NLPLawUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.util.*;
 
 public class LawEntityExtractor {
@@ -67,6 +69,13 @@ public class LawEntityExtractor {
 
         String fileName = jsonObject.getString("name");
         JSONArray mentionsJsonArray = jsonObject.getJSONArray("mentions");
+        //jsonObject.remove("mentions");
+        String test = jsonObject.toString();
+
+
+
+        System.out.println(test);
+
         Iterator<Object> iterableMentionsJsonArray = mentionsJsonArray.iterator();
 
 
@@ -89,6 +98,7 @@ public class LawEntityExtractor {
 
         while (iterableMentionsJsonArray.hasNext()) {
             JSONObject mentionObject = (JSONObject) iterableMentionsJsonArray.next();
+
             String type = mentionObject.getString("type");
             String sentence = null;
             String revisionType = null;

@@ -7,6 +7,5 @@ public class TrainingDataFromBasefileMain {
         TrainingData trainingData = new TrainingData();
 
         trainingData.createTrainingDataFromBaseFiles("C:\\Users\\Phillip\\Documents\\Studium\\Praktikum Sprachtechnologie\\TU Classifier\\TrainingsData\\Clean\\");
-
     }
 }
