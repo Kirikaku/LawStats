@@ -39,6 +39,7 @@ public class FileProcessService extends Observable {
         Runnable thread = () -> {
             try {
                 verdict.set(coordinator.analyzeDocument(workfile));
+                verdict.get().setDocumentNumber(0);
                 verdictRepoService.save(verdict.get()); // only safe, when successfully analyze
             } catch (NoDocketnumberFoundException ex) {
                 verdict.set(null);
