@@ -1,12 +1,17 @@
 package com.unihh.lawstats.bootstrap;
 
+import com.unihh.lawstats.backend.repository.VerdictRepoService;
+import com.unihh.lawstats.backend.repository.VerdictRepository;
 import com.unihh.lawstats.bootstrap.Converter.Formatting.Formatter;
 import com.unihh.lawstats.bootstrap.Converter.PDFToTextConverter;
 import com.unihh.lawstats.bootstrap.NaturalLanguageProcessing.Watson.NLU.LawEntityExtractor;
+import com.unihh.lawstats.core.mapping.BGHVerdictUtil;
 import com.unihh.lawstats.core.mapping.Mapper;
 import com.unihh.lawstats.core.mapping.NoDocketnumberFoundException;
 import com.unihh.lawstats.core.model.Verdict;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 
 import java.io.File;
@@ -39,12 +44,8 @@ public class AnalyzingCoordinator {
         // Throw the NoDocketnumberFoundException
         Verdict verdict = verdictMapper.mapJSONStringToVerdicObject(jsonNLUResponse);
 
-        //TODO set the documentNumber
-
-        //TODO hier kommt es drauf an ob Watson oder TU Darm. Classifier benutzt wird
-        verdict.setRevisionSuccess(1);
-
-        String jsonClassifierResponse = "";
+        BGHVerdictUtil bghVerdictUtil = new BGHVerdictUtil();
+        verdict.setDocumentNumber(Integer.valueOf(bghVerdictUtil.retrieveBGHVerdictNumberForFileName(fileToAnalyze.getName())));
 
         return verdict;
     }
