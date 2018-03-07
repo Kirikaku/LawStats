@@ -15,8 +15,8 @@ import java.io.FileWriter;
 import java.util.*;
 
 public class LawEntityExtractor {
-    static String usernameNLU = "e20dcd7b-4d20-418f-8d2d-3df229599ce7";
-    static String passwordNLU = "PtIenHyRZxzG";
+    static String usernameNLU = "d89542b0-6000-48a2-8694-4318dc69ea54";
+    static String passwordNLU = "36hBkk1G2X8Y";
 
 
     public String extractEntities(String modelId, String text) {

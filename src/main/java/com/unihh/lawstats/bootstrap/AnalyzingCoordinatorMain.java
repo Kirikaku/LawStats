@@ -24,7 +24,7 @@ public class AnalyzingCoordinatorMain {
         Verdict verdict = new Verdict();
         try {
             verdict = analyzingCoordinator.analyzeDocument(new File("C:\\Users\\Phillip\\Documents\\Studium\\Praktikum Sprachtechnologie\\Firsttest\\verdict70001.pdf"));
-            verdictRepoService.save(verdict);
+            //verdictRepoService.save(verdict);
         } catch (NoDocketnumberFoundException ex){
             ex.printStackTrace();
         }

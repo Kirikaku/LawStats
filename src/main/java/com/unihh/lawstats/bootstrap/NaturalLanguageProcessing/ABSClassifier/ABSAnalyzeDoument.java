@@ -59,6 +59,7 @@ public class ABSAnalyzeDoument {
         return Integer.compare(cardinalityOfRevisionSuccessOver0Point6[0], cardinalityOfRevisionNotSuccessOver0Point6[0]);
     }
 
+
     public List<Result> retrieveResultsForDocumentString(String documentText){
         NLPLawUtils nlpLawUtils = new NLPLawUtils();
         AbSentiment abSentiment = new AbSentiment("src/main/resources/ABSConfiguration.txt");

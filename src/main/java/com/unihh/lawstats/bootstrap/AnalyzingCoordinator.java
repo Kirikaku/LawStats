@@ -4,6 +4,7 @@ import com.unihh.lawstats.backend.repository.VerdictRepoService;
 import com.unihh.lawstats.backend.repository.VerdictRepository;
 import com.unihh.lawstats.bootstrap.Converter.Formatting.Formatter;
 import com.unihh.lawstats.bootstrap.Converter.PDFToTextConverter;
+import com.unihh.lawstats.bootstrap.NaturalLanguageProcessing.ABSClassifier.ABSAnalyzeDoument;
 import com.unihh.lawstats.bootstrap.NaturalLanguageProcessing.Watson.NLU.LawEntityExtractor;
 import com.unihh.lawstats.core.mapping.BGHVerdictUtil;
 import com.unihh.lawstats.core.mapping.Mapper;
@@ -39,10 +40,16 @@ public class AnalyzingCoordinator {
 
         pdfToTextConverter.convertPDFToText(path);
         documentText = Formatter.formatText(pathTxt);
-        jsonNLUResponse = lawEntityExtractor.extractEntities("10:864de4a5-5bab-495e-8080-2f1185d1b38d", documentText); //TODO model id von config holen
+
+        //10:864de4a5-5bab-495e-8080-2f1185d1b38d
+        jsonNLUResponse = lawEntityExtractor.extractEntities("10:48045270-76aa-4341-98d0-92bd2cb7473b", documentText); //TODO model id von config holen
 
         // Throw the NoDocketnumberFoundException
         Verdict verdict = verdictMapper.mapJSONStringToVerdicObject(jsonNLUResponse);
+
+
+        ABSAnalyzeDoument absAnalyzeDoument = new ABSAnalyzeDoument();
+
 
         BGHVerdictUtil bghVerdictUtil = new BGHVerdictUtil();
         verdict.setDocumentNumber(Integer.valueOf(bghVerdictUtil.retrieveBGHVerdictNumberForFileName(fileToAnalyze.getName())));
