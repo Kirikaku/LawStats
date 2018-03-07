@@ -18,6 +18,10 @@ public class ABSDocumentAnalyzer {
     public Verdict analyzeABSResultsAndPutItInVerdict(List<Result> resultList, Verdict verdict) {
         verdict.setRevisionSuccess(computerRevisionSuccess(resultList));
 
+        if(verdict.getRevisionSuccess() == -99){
+            return null;
+        }
+
         List<String> importantSentences = new ArrayList<>();
         resultList.forEach(result -> {
             if(!result.getRelevance().equals("irrelevant")){
@@ -56,6 +60,12 @@ public class ABSDocumentAnalyzer {
                     break;
             }
         });
+        if(cardinalityOfRevisionSuccessOver0Point6[0] == 0 &&
+                cardinalityOfRevisionNotSuccessOver0Point6[0] == 0 &&
+                cardinalityOfRevisionPartiallySuccessOver0Point6[0] == 0) {
+            return -99;
+        }
+
         return Integer.compare(cardinalityOfRevisionSuccessOver0Point6[0], cardinalityOfRevisionNotSuccessOver0Point6[0]);
     }
 

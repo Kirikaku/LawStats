@@ -48,6 +48,10 @@ public class AnalyzingCoordinator {
         List<Result> classifierReults = absDocumentAnalyzer.retrieveResultsForDocumentString(documentText);
         verdict = absDocumentAnalyzer.analyzeABSResultsAndPutItInVerdict(classifierReults, verdict);
 
+        if(verdict == null){
+            return null;
+        }
+
 
         BGHVerdictUtil bghVerdictUtil = new BGHVerdictUtil();
         verdict.setDocumentNumber(Integer.valueOf(bghVerdictUtil.retrieveBGHVerdictNumberForFileName(fileToAnalyze.getName())));

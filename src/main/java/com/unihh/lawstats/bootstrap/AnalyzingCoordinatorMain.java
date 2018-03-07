@@ -27,7 +27,9 @@ public class AnalyzingCoordinatorMain {
                     if (file1.getName().endsWith(".pdf") && counter[0] < 1000) {
                         try {
                             Verdict verdict = analyzingCoordinator.analyzeDocument(file1);
-                            //verdictRepoService.save(verdict);
+                            if(verdict != null){
+                                verdictRepoService.save(verdict);
+                            }
                             counter[0]++;
                         } catch (NoDocketnumberFoundException ex) {
                             ex.printStackTrace();
