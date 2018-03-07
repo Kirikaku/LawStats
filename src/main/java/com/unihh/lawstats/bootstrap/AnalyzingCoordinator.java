@@ -8,6 +8,7 @@ import com.unihh.lawstats.core.mapping.BGHVerdictUtil;
 import com.unihh.lawstats.core.mapping.Mapper;
 import com.unihh.lawstats.core.mapping.NoDocketnumberFoundException;
 import com.unihh.lawstats.core.model.Verdict;
+import uhh_lt.ABSA.ABSentiment.AbSentiment;
 import uhh_lt.ABSA.ABSentiment.type.Result;
 
 
@@ -15,6 +16,17 @@ import java.io.File;
 import java.util.List;
 
 public class AnalyzingCoordinator {
+
+    ABSDocumentAnalyzer _absDocumentAnalyzer;
+
+    public AnalyzingCoordinator(){
+        _absDocumentAnalyzer = new ABSDocumentAnalyzer();
+    }
+
+    public AnalyzingCoordinator(AbSentiment abSentiment){
+        _absDocumentAnalyzer = new ABSDocumentAnalyzer();
+        _absDocumentAnalyzer.setAbSentiment(abSentiment);
+    }
 
     /**
      * this method analyse the given files and creates a verdict of it
@@ -36,6 +48,9 @@ public class AnalyzingCoordinator {
 
         pdfToTextConverter.convertPDFToText(path);
         documentText = Formatter.formatText(pathTxt);
+        if(documentText == null || documentText.equals("")){
+            return null;
+        }
 
         //10:864de4a5-5bab-495e-8080-2f1185d1b38d
         jsonNLUResponse = lawEntityExtractor.extractEntities("10:a6285191-9eae-41c0-befb-bffaf2e9e587", documentText); //TODO model id von config holen
@@ -44,9 +59,9 @@ public class AnalyzingCoordinator {
         Verdict verdict = verdictMapper.mapJSONStringToVerdicObject(jsonNLUResponse);
 
 
-        ABSDocumentAnalyzer absDocumentAnalyzer = new ABSDocumentAnalyzer();
-        List<Result> classifierReults = absDocumentAnalyzer.retrieveResultsForDocumentString(documentText);
-        verdict = absDocumentAnalyzer.analyzeABSResultsAndPutItInVerdict(classifierReults, verdict);
+
+        List<Result> classifierReults = _absDocumentAnalyzer.retrieveResultsForDocumentString(documentText);
+        verdict = _absDocumentAnalyzer.analyzeABSResultsAndPutItInVerdict(classifierReults, verdict);
 
         if(verdict == null){
             return null;

@@ -46,7 +46,7 @@ public class TrainingData {
         for (Map.Entry<String, String[]> sentenceEntry : _allDecisionSentences.entrySet()) {
             String[] valueArray = sentenceEntry.getValue();
             String key = sentenceEntry.getKey();
-            if (key.length() < 12) {
+            if (key.length() < 26) {
 
             } else {
                 switch (valueArray[0].toLowerCase()) {
@@ -74,7 +74,7 @@ public class TrainingData {
         });
 
 
-        String basePath = "C:\\Users\\Phillip\\Documents\\Studium\\Praktikum Sprachtechnologie\\TU Classifier\\TrainingsData\\";
+        String basePath = "C:\\Users\\Phillip\\Documents\\Studium\\Praktikum Sprachtechnologie\\TU Classifier\\TrainingsData2\\";
         String erfolgOutfile = "erfolg.tsv";
         String teilErfolgOutfile = "teilerfolg.tsv";
         String misserfolgOutfile = "misserfolg.tsv";
@@ -126,10 +126,12 @@ public class TrainingData {
 
     private void writeTrainingFileForValueLists(String basePath, List<String[]> erfolgValueList, List<String[]> teilerfolgValueList, List<String[]> misserfolgValueList, List<String[]> irrelevantValueList) {
         Set<String[]> trainingDataValues = new HashSet<>();
-        int limit = erfolgValueList.size();
+        int limit = erfolgValueList.size()*2;
 
         trainingDataValues.addAll(erfolgValueList);
-        trainingDataValues = addValuesToSet(misserfolgValueList, trainingDataValues, limit);
+        trainingDataValues.addAll(misserfolgValueList);
+        trainingDataValues.addAll(teilerfolgValueList);
+        //trainingDataValues = addValuesToSet(misserfolgValueList, trainingDataValues, limit);
         trainingDataValues = addValuesToSet(irrelevantValueList, trainingDataValues, limit);
 
         writeRowsForFinalData(trainingDataValues, basePath);

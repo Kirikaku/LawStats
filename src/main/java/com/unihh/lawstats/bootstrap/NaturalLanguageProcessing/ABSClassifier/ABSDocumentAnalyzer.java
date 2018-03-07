@@ -15,6 +15,8 @@ import java.util.List;
 
 public class ABSDocumentAnalyzer {
 
+    AbSentiment _abSentiment;
+
     public Verdict analyzeABSResultsAndPutItInVerdict(List<Result> resultList, Verdict verdict) {
         verdict.setRevisionSuccess(computerRevisionSuccess(resultList));
 
@@ -42,17 +44,17 @@ public class ABSDocumentAnalyzer {
         resultList.forEach(result -> {
             switch (result.getRelevance()) {
                 case "revisionsErfolg":
-                    if (result.getRelevanceScore() >= 0.6) {
+                    if (result.getRelevanceScore() >= 0.4) {
                         cardinalityOfRevisionSuccessOver0Point6[0]++;
                     }
                     break;
                 case "revisionsMisserfolg":
-                    if (result.getRelevanceScore() >= 0.6) {
+                    if (result.getRelevanceScore() >= 0.4) {
                         cardinalityOfRevisionNotSuccessOver0Point6[0]++;
                     }
                     break;
                 case "revisionsTeilerfolg":
-                    if (result.getRelevanceScore() >= 0.6) {
+                    if (result.getRelevanceScore() >= 0.4) {
                         cardinalityOfRevisionPartiallySuccessOver0Point6[0]++;
                     }
                     break;
@@ -60,6 +62,8 @@ public class ABSDocumentAnalyzer {
                     break;
             }
         });
+
+
         if(cardinalityOfRevisionSuccessOver0Point6[0] == 0 &&
                 cardinalityOfRevisionNotSuccessOver0Point6[0] == 0 &&
                 cardinalityOfRevisionPartiallySuccessOver0Point6[0] == 0) {
@@ -72,16 +76,29 @@ public class ABSDocumentAnalyzer {
 
     public List<Result> retrieveResultsForDocumentString(String documentText){
         NLPLawUtils nlpLawUtils = new NLPLawUtils();
-        AbSentiment abSentiment = new AbSentiment("src/main/resources/config/ABSConfiguration.txt");
+        AbSentiment abSentiment;
+        if(_abSentiment != null){
+            abSentiment = _abSentiment;
+        }
+        else {
+            abSentiment = new AbSentiment("src/main/resources/config/ABSConfiguration.txt");
+        }
         List<Result> resultList = new ArrayList<>();
         List<String> sentenceList = nlpLawUtils.splitDocumentIntoSpecifiedSentences(documentText, 10);
 
 
         for(String sentence: sentenceList){
-           Result result = abSentiment.analyzeText(sentence);
-           resultList.add(result);
+            if(sentence != null) {
+                Result result = abSentiment.analyzeText(sentence);
+                resultList.add(result);
+            }
         }
 
        return resultList;
+    }
+
+
+    public void setAbSentiment(AbSentiment abSentiment){
+        _abSentiment = abSentiment;
     }
 }
