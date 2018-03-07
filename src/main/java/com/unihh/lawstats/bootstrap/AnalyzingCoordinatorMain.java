@@ -35,10 +35,10 @@ public class AnalyzingCoordinatorMain {
                     }
                 });
             } else {
-                log.error("Dir does not exists");
+               // log.error("Dir does not exists");
             }
         } else {
-            log.error("No parameter was given, pls give me a dir to all pdfs");
+            //log.error("No parameter was given, pls give me a dir to all pdfs");
         }
 
     }
