@@ -16,7 +16,6 @@ import java.util.regex.Pattern;
  * <p>
  * Aktenzeichen:    "NOTFOUND" - wird später vom AnalyzingCoordinator behandelt
  * Richter:         übergibt leeres String Array
- * //TODO datum klären
  * Datum:           übergibt leeres Datum (0) - 1970?
  * Gericht:         übergibt leeren String
  * (Gerichtsdatum): wird vorerst nicht übergeben
@@ -46,7 +45,6 @@ public class Mapper {
 
         // Listen für die einzelnen Entities
         List<String> docketnumberL = new ArrayList<>();
-        // TODO List Revision Success
         //List<String> senateL = new ArrayList<>();
         Set<String> judgeL = new HashSet<>();
         List<String> dateverdictL = new ArrayList<>();
