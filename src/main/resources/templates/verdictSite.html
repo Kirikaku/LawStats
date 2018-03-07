@@ -42,7 +42,7 @@
     <!-- Main -->
     <div class="wrapper style1">
 
-        <div class="container">
+        <div class="container" style="width: 80%;">
             <article id="main" class="special" th:object="${verdict}">
                 <header>
                     <h2 th:text="${verdict.getDocketNumber()}"></h2>
@@ -50,53 +50,53 @@
                     <table>
                         <tbody>
                         <tr>
-                            <td>RevisionSuccess</td>
-                            <td th:text="${verdict.getRevisionSuccess()}"/>
+                            <td>Revisionsausgang</td>
+                            <td th:text="${verdict.getRevisionSuccess()}"></td>
                         </tr>
                         <tr>
                             <td>Senat</td>
                             <td th:text="${verdict.getSenate()}"></td>
                         </tr>
                         <tr>
-                            <td>Judges</td>
-                            <td th:text="${@VerdictSiteController.getStringFromArray(verdict.getJudgeList())}"/>
+                            <td>Richter</td>
+                            <td th:text="${@VerdictSiteController.getStringFromArray(verdict.getJudgeList())}"></td>
                         </tr>
                         <tr>
-                            <td>DateVerdict</td>
-                            <td th:text="${@VerdictSiteController.getStringFromDateLong(verdict.getDateVerdict())}"/>
+                            <td>Entscheidungsdatum</td>
+                            <td th:text="${@VerdictSiteController.getStringFromDateLong(verdict.getDateVerdict())}"></td>
                         </tr>
                         <tr>
                             <td> Oberlandesgericht</td>
-                            <td th:text="${verdict.getForeDecisionRACCourt()}"/>
+                            <td th:text="${verdict.getForeDecisionRACCourt()}"></td>
                         </tr>
                         <tr>
-                            <td> OberlandesGericht-Entscheidungsdatum</td>
-                            <td th:text="${@VerdictSiteController.getStringFromDateLong(verdict.getForeDecisionRACVerdictDate())}"/>
+                            <td> Oberlandesgericht-Entscheidungsdatum</td>
+                            <td th:text="${@VerdictSiteController.getStringFromDateLong(verdict.getForeDecisionRACVerdictDate())}"></td>
                         </tr>
                         <tr>
-                            <td> Landsgericht</td>
-                            <td th:text="${verdict.getForeDecisionRCCourt()}"/>
+                            <td> Landesgericht</td>
+                            <td th:text="${verdict.getForeDecisionRCCourt()}"></td>
                         </tr>
                         <tr>
-                            <td> Landsgericht-entscheidungsdatum</td>
-                            <td th:text="${@VerdictSiteController.getStringFromDateLong(verdict.getForeDecisionRCVerdictDate())}"/>
+                            <td> Landesgericht-Entscheidungsdatum</td>
+                            <td th:text="${@VerdictSiteController.getStringFromDateLong(verdict.getForeDecisionRCVerdictDate())}"></td>
                         </tr>
                         <tr>
                             <td> Amtsgericht</td>
-                            <td th:text="${verdict.getForeDecisionDCCourt()}"/>
+                            <td th:text="${verdict.getForeDecisionDCCourt()}"></td>
                         </tr>
                         <tr>
                             <td> Amtsgericht-Entscheidungsdatum</td>
-                            <td th:text="${@VerdictSiteController.getStringFromDateLong(verdict.getForeDecisionDCVerdictDate())}"/>
+                            <td th:text="${@VerdictSiteController.getStringFromDateLong(verdict.getForeDecisionDCVerdictDate())}"></td>
                         </tr>
                         <tr>
                             <td>URL</td>
                             <td>  <a th:href="${@VerdictSiteController.getBGHUrlWhenAvailable(verdict.getDocumentNumber())}"
-                                     th:text="${@VerdictSiteController.getBGHUrlWhenAvailable(verdict.getDocumentNumber())}"/> </td>
+                                     th:text="${@VerdictSiteController.getBGHUrlWhenAvailable(verdict.getDocumentNumber())}"></a> </td>
                         </tr>
                         <tr>
-                            <td>importent sentences</td>
-                            <td th:text="${@VerdictSiteController.getStringFromArray(verdict.getDecisionSentences())}"/>
+                            <td>Wichtige Sätze</td>
+                            <td th:text="${@VerdictSiteController.getStringFromArray(verdict.getDecisionSentences())}"></td>
                         </tr>
                         </tbody>
                     </table>

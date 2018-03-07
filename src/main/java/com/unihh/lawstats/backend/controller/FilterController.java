@@ -383,7 +383,7 @@ public class FilterController {
     /**
      * This method returns the percent value for a given SearchVerdict and attribute
      */
-    public double getPercentValue(SearchVerdict searchVerdict, String attribute) {
+    private double getPercentValue(SearchVerdict searchVerdict, String attribute) {
         double p;
         if (searchVerdict.getAllRelatedVerdicts().size() != 0) {
             switch (TableAttributes.valueOfDisplayName(attribute)) {
@@ -403,6 +403,9 @@ public class FilterController {
         return 0;
     }
 
+    /**
+     * This method returns a formatted String of the percent value for a given SearchVerdict and attribute
+     */
     public String getFormattedPercentValue(SearchVerdict searchVerdict, String attribute) {
         DecimalFormat pct = new DecimalFormat("#.##");
 

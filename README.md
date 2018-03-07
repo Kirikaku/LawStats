@@ -1,6 +1,6 @@
 # LawStats
 
-###Inhalt
+### Inhalt
 Diese Applikation dient zur **Suche und Analyse** einer Bibiliothek von Revisionen
 des Bundesgerichtshofs nach gewählten **Attributen und Schlagworten**, sowie zur
 automatischen einer Untersuchung selbst hochgeladenen Revisision als pdf-Dokument.
@@ -8,7 +8,7 @@ automatischen einer Untersuchung selbst hochgeladenen Revisision als pdf-Dokumen
 Zudem kann der **Revisionsausgang** der gesuchten oder hochgeladenen Urteile
 ausgegeben werden.
 
-###Applikation aufrufen
+### Applikation aufrufen
 Die Applikation kann sowohllokal als auch online auf "" aufgerufen werden.
 Online steht bereits eine komplette Bibliothek von ca. 50.000 Revisionen zur Verfügung.
 
@@ -19,9 +19,9 @@ werden und dann als *Spring Boot App* gestartet werden. Die Applikation steht da
 Zusätzlich kann dann ein Solr Server als eigene Bibliothek eingebunden werden...
 
 
-##Benutzung (nicht in Readme)
+## Benutzung (nicht in Readme)
 
-####Filter
+#### Filter
 Zum Filtern und Durchsuchen der Bibliothek kann über die Eingabefelder zunächst ein
 **Kriterium** und dann nach einem passendem **Schlagwort** bzw. **Datumsintervall**
 angegeben werden.

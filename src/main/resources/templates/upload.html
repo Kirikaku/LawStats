@@ -12,10 +12,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link rel="stylesheet" href="css/main.css"/>
 
-
 <body class="no-sidebar" style="text-align: center">
 <div id="page-wrapper">
-
 
     <!-- Header -->
     <div id="header">
@@ -36,24 +34,19 @@
                 <li><a th:href="@{/stats}">Stats</a></li>
             </ul>
         </nav>
-
-
     </div>
+
     <!-- Main -->
     <div class="wrapper style1">
 
         <div class="container">
             <header>
                 <article id="main" class="special">
-
                     <h2>Revisionen hochladen</h2>
                     <div class="container">
-                        Hier neue können neue Revisionen hochgeladen werden und überprüft werden
+                        Hier neue können neue Revisionen hochgeladen werden und überprüft werden (nur .pdf)
                     </div>
-
-
                 </article>
-
 
                 <div class="container">
                     <form method="POST" enctype="multipart/form-data" th:action="@{/uploadFile}">
@@ -69,6 +62,7 @@
             </header>
         </div>
     </div>
+
     <!-- Footer -->
     <div id="footer">
         <!-- Copyright -->
@@ -78,7 +72,6 @@
                 <li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
             </ul>
         </div>
-
     </div>
 
 </div>
