@@ -1,0 +1,25 @@
+{
+  "language": "de",
+  "entities": [
+    {
+      "type": "Aktenzeichen",
+      "count": 1,
+      "text": "5 StR 209/00"
+    },
+    {
+      "type": "Richter",
+      "count": 1,
+      "text": "Eve Jobs"
+    },
+    {
+      "type": "Richter",
+      "count": 1,
+      "text": "Prof. Dr. Gurkensalat"
+    },
+    {
+      "type": "Datum",
+      "count": 1,
+      "text": "14-6-2006"
+    }
+  ]
+}

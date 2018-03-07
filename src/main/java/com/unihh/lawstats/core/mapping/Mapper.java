@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 /**
  * Wichtig:
  * Wenn von Watson keine Entitäten zurück kommt, reagiert der Mapper wie folgt:
- *
+ * <p>
  * Aktenzeichen:    "NOTFOUND" - wird später vom AnalyzingCoordinator behandelt
  * Richter:         übergibt leeres String Array
  * //TODO datum klären
@@ -85,67 +85,67 @@ public class Mapper {
                     }
             }
         }
-            // Creating new Verdict-object
-            // When one attribute is not available, we dont set an empty value, we let them null
-            Verdict verdict = new Verdict();
+        // Creating new Verdict-object
+        // When one attribute is not available, we dont set an empty value, we let them null
+        Verdict verdict = new Verdict();
 
-            //Docket Number (If not available, return null)
-            if (!docketnumberL.isEmpty()) {
-                verdict.setDocketNumber(mostCommon(docketnumberL));
-            } else {
-                throw new NoDocketnumberFoundException("no Docketnumber found for given json: " + jsonText);
-            }
-
-            //Senate
-            if (!verdict.getDocketNumber().isEmpty()) {
-                verdict.setSenate(getSenateFromDocketNumber(verdict.getDocketNumber(), docketnumberL));
-            }
-
-            //Judges
-            if (!judgeL.isEmpty()) {
-                String[] judgeList = judgeL.toArray(new String[judgeL.size()]);
-                verdict.setJudgeList(judgeList);
-            }
-
-            //Date Verdict
-            if (!dateverdictL.isEmpty()) {
-                verdict.setDateVerdict(filterNewestDate(dateverdictL));
-            }
-
-            //Oberlandesgericht - Court
-            if (!foreDecRACcL.isEmpty()) {
-                verdict.setForeDecisionRACCourt(mostCommon(foreDecRACcL));
-            }
-
-            //Oberlandesgericht - Datum
-            if (!foreDecRACdvL.isEmpty()) {
-                verdict.setForeDecisionRACVerdictDate((filterNewestDate(foreDecRACdvL)));
-            }
-
-            //Landesgericht - Court
-            if (!foreDecRCcL.isEmpty()) {
-                verdict.setForeDecisionRCCourt(mostCommon(foreDecRCcL));
-            }
-
-            //Landesgericht - Date
-            if (!foreDecRCdvL.isEmpty()) {
-                verdict.setForeDecisionRCVerdictDate(filterNewestDate(foreDecRCdvL));
-            }
-
-            //Amtsgericht - Court
-            if (!foreDecDCcL.isEmpty()) {
-                verdict.setForeDecisionDCCourt(mostCommon(foreDecDCcL));
-            }
-
-            //Amtsgericht - Date
-            if (!foreDecDCdvL.isEmpty()) {
-                verdict.setForeDecisionDCVerdictDate(filterNewestDate((foreDecDCdvL)));
-            }
-
-            //Entscheidungssätze
-            //verdict.setDecisionSentences(null); only set array when there is really a string, otherwise null
-            return verdict;
+        //Docket Number (If not available, return null)
+        if (!docketnumberL.isEmpty()) {
+            verdict.setDocketNumber(mostCommon(docketnumberL));
+        } else {
+            throw new NoDocketnumberFoundException("no Docketnumber found for given json: " + jsonText);
         }
+
+        //Senate
+        if (!verdict.getDocketNumber().isEmpty()) {
+            verdict.setSenate(getSenateFromDocketNumber(verdict.getDocketNumber(), docketnumberL));
+        }
+
+        //Judges
+        if (!judgeL.isEmpty()) {
+            String[] judgeList = judgeL.toArray(new String[judgeL.size()]);
+            verdict.setJudgeList(judgeList);
+        }
+
+        //Date Verdict
+        if (!dateverdictL.isEmpty()) {
+            verdict.setDateVerdict(filterNewestDate(dateverdictL));
+        }
+
+        //Oberlandesgericht - Court
+        if (!foreDecRACcL.isEmpty()) {
+            verdict.setForeDecisionRACCourt(mostCommon(foreDecRACcL));
+        }
+
+        //Oberlandesgericht - Datum
+        if (!foreDecRACdvL.isEmpty()) {
+            verdict.setForeDecisionRACVerdictDate((filterNewestDate(foreDecRACdvL)));
+        }
+
+        //Landesgericht - Court
+        if (!foreDecRCcL.isEmpty()) {
+            verdict.setForeDecisionRCCourt(mostCommon(foreDecRCcL));
+        }
+
+        //Landesgericht - Date
+        if (!foreDecRCdvL.isEmpty()) {
+            verdict.setForeDecisionRCVerdictDate(filterNewestDate(foreDecRCdvL));
+        }
+
+        //Amtsgericht - Court
+        if (!foreDecDCcL.isEmpty()) {
+            verdict.setForeDecisionDCCourt(mostCommon(foreDecDCcL));
+        }
+
+        //Amtsgericht - Date
+        if (!foreDecDCdvL.isEmpty()) {
+            verdict.setForeDecisionDCVerdictDate(filterNewestDate((foreDecDCdvL)));
+        }
+
+        //Entscheidungssätze
+        //verdict.setDecisionSentences(null); only set array when there is really a string, otherwise null
+        return verdict;
+    }
 
 
     /**
@@ -206,51 +206,148 @@ public class Mapper {
 
     private void setSenates() {
         //Zivilsenate
-        senateMap.put("I", "1. Zivilsenat");
-        senateMap.put("II", "2. Zivilsenat");
-        senateMap.put("III", "3. Zivilsenat");
-        senateMap.put("IV", "4. Zivilsenat");
-        senateMap.put("V", "5. Zivilsenat");
-        senateMap.put("VI", "6. Zivilsenat");
-        senateMap.put("VII", "7. Zivilsenat");
-        senateMap.put("VIII", "8. Zivilsenat");
-        senateMap.put("IX", "9. Zivilsenat");
-        senateMap.put("X", "10. Zivilsenat");
-        senateMap.put("XI", "11. Zivilsenat");
-        senateMap.put("XII", "12. Zivilsenat");
+        senateMap.put("I", "1. ");
+        senateMap.put("II", "2. ");
+        senateMap.put("III", "3. ");
+        senateMap.put("IV", "4. ");
+        senateMap.put("V", "5. ");
+        senateMap.put("VI", "6. ");
+        senateMap.put("VII", "7. ");
+        senateMap.put("VIII", "8. ");
+        senateMap.put("IX", "9. ");
+        senateMap.put("X", "10. ");
+        senateMap.put("XI", "11. ");
+        senateMap.put("XII", "12. ");
         // Strafsenate
-        senateMap.put("1", "1. Strafsenat");
-        senateMap.put("2", "2. Strafsenat");
-        senateMap.put("3", "3. Strafsenat");
-        senateMap.put("4", "4. Strafsenat");
-        senateMap.put("5", "5. Strafsenat");
-
+        senateMap.put("1", "1. ");
+        senateMap.put("2", "2. ");
+        senateMap.put("3", "3. ");
+        senateMap.put("4", "4. ");
+        senateMap.put("5", "5. ");
         //weitere Senate
-        //TODO von Dirk die restlichen Bezeichnungen bekommen
-        senateMap.put("", "");
+        senateMap.put("AK", "3. Strafsenat");
+        senateMap.put("AnwSt", "Senat für Anwaltssachen");
+        senateMap.put("AnwSt (B)", "Senat für Anwaltssachen");
+        senateMap.put("AnwSt (R)", "Senat für Anwaltssachen");
+        senateMap.put("AnwZ", "Senat für Anwaltssachen");
+        senateMap.put("AnwZ (B)", "Senat für Anwaltssachen");
+        senateMap.put("AnwZ (Brfg)", "Senat für Anwaltssachen");
+        senateMap.put("AnwZ (P)", "Senat für Anwaltssachen");
+        senateMap.put("AR", "Allgemeine Register");
+        senateMap.put("AR (Enw)", "Generalbundesanwalt");
+        senateMap.put("AR (Kart)", "Generalbundesanwalt");
+        senateMap.put("AR (Ri)", "Dienstgericht des Bundes");
+        senateMap.put("AR (Vollz)", "5. Strafsenat");
+        senateMap.put("AR (VS)", "5. Strafsenat");
+        senateMap.put("AR (VZ)", "Zivilsenat");
+        senateMap.put("ARP", "Generalbundesanwalt");
+        senateMap.put("ARs", "Strafsenat");
+        senateMap.put("ARZ", "Zivilsenat");
+        senateMap.put("BAusl", "4. Strafsenat");
+        senateMap.put("BGns", "Generalbundesanwalt");
+        //bisher 20
+        senateMap.put("BGs", "Ermittlungsrichter");
+        senateMap.put("BJs", "Generalbundesanwalt");
+        senateMap.put("BLw", "Senat für Landwirtschaftssachen");
+        senateMap.put("EnRB", "Kartellsenat");
+        senateMap.put("EnVR", "Kartellsenat");
+        senateMap.put("EnVZ", "Kartellsenat");
+        senateMap.put("EnZA", "Kartellsenat");
+        senateMap.put("EnZB", "Kartellsenat");
+        senateMap.put("EnZR", "Kartellsenat");
+        senateMap.put("GSSt", "Großer Senat für Strafsachen");
+        senateMap.put("GSZ", "Großer Senat für Zivilsachen");
+        senateMap.put("KRB", "Kartellsenat");
+        senateMap.put("KVR", "Kartellsenat");
+        senateMap.put("KVZ", "Kartellsenat");
+        senateMap.put("KZA", "Kartellsenat");
+        senateMap.put("KZB", "Kartellsenat");
+        senateMap.put("KZR", "Kartellsenat");
+        senateMap.put("LwZA", "Senat für Landwirtschaftssachen");
+        senateMap.put("LwZB", "Senat für Landwirtschaftssachen");
+        senateMap.put("LwZR", "Senat für Landwirtschaftssachen");
+        //bisher 40
+        senateMap.put("NotSt(B)", "Senat für Notarsachen");
+        senateMap.put("NotSt(Brfg)", "Senat für Notarsachen");
+        senateMap.put("NotZ", "Senat für Notarsachen");
+        senateMap.put("NotZ(Brfg)", "Senat für Notarsachen");
+        senateMap.put("PatAnwSt(B)", "Senat für Patentanwaltssachen");
+        senateMap.put("PatAnwSt(R)", "Senat für Patentanwaltssachen");
+        senateMap.put("PatAnwZ", "Senat für Patentanwaltssachen");
+        senateMap.put("RiSt", "Dienstgericht des Bundes");
+        senateMap.put("RiSt(B)", "Dienstgericht des Bundes");
+        senateMap.put("RiSt(R)", "Dienstgericht des Bundes");
+        senateMap.put("RiZ", "Dienstgericht des Bundes");
+        senateMap.put("RiZ(B)", "Dienstgericht des Bundes");
+        senateMap.put("RiZ(R)", "Dienstgericht des Bundes");
+        senateMap.put("StB", "3. Strafsenat");
+        senateMap.put("StbSt(B)", "Senat für Steuerberater- und Steuerbevollmächtigtensachen");
+        senateMap.put("StbSt(R)", "Senat für Steuerberater- und Steuerbevollmächtigtensachen");
+        senateMap.put("StE", "Strafsenat");
+        senateMap.put("StR", "Strafsenat");
+        senateMap.put("VGS", "Vereinigte große Senate");
+        senateMap.put("VRG", "1. Zivilsenat");
+        //bisher 60
+        senateMap.put("WpSt(B)", "Senat für Wirtschaftsprüfersachen");
+        senateMap.put("WpSt(R)", "Senat für Wirtschaftsprüfersachen");
+        senateMap.put("ZA", "Zivilsenat");
+        senateMap.put("ZB", "Zivilsenat");
+        senateMap.put("ZR", "Zivilsenat");
+        senateMap.put("ZR(Ü)", "Zivilsenat");
+        //66 Stück
+
+        //senateMap.put("", "");
     }
 
     private String getSenateFromDocketNumber(String string, List<String> docketNumList) {
         // Senat ermitteln
-        Pattern civilpenalSenPat = Pattern.compile("([I+|IV|V|VI|VII|VIII|IX|X|XI|XII|1-6]+)\\s[A-Za-z()]{2,20}\\s\\d+/\\d\\d");
-        Pattern otherSenPat = Pattern.compile("(VGS|RiZ\\s?s?(R)|KZR|VRG|RiZ|EnRB|StbSt\\s?(B)|AnwZ\\s?(Brfg)|RiSt|PatAnwSt\\s?(R)|AnwZ\\s?(B)|PatAnwZ|EnVZ|AnwSt\\s?(B)|NotSt\\s?(Brfg)|KVZ|KZB|AR\\s?(Ri)|NotZ\\s?(Brfg)|RiSt\\s?(B)|AnwZ\\s?(P)|EnZB|RiSt\\s?(R)|NotSt\\s?(B)|AnwSt|WpSt\\s?(R)|KVR|AR\\s?(Kart)|EnZR|StbSt\\s?(R)|WpSt\\s?(B)|KZA|AR\\s?(Enw)|AnwSt\\s?(R)|KRB|RiZ\\s?(B)|PatAnwSt\\s?(B)|EnVR|AnwZ|NotZ|EnZA|AR)\\s\\d+/\\d+");
+        Pattern senPattern1 = Pattern.compile("([IXV|1-6]+)\\s([A-Za-z()]{2,20})\\s\\d+/\\d\\d");
+        Pattern senPattern2 = Pattern.compile("([VGS|RiZ\\s?s?(R)|KZR|VRG|AK|RiZ|EnRB|StbSt\\s?(B)|AnwZ\\s?(Brfg)|RiSt|PatAnwSt\\s?(R)|AnwZ\\s?(B)|PatAnwZ|EnVZ|AnwSt\\s?(B)|NotSt\\s?(Brfg)|KVZ|KZB|AR\\s?(Ri)|NotZ\\s?(Brfg)|RiSt\\s?(B)|AnwZ\\s?(P)|EnZB|RiSt\\s?(R)|NotSt\\s?(B)|AnwSt|WpSt\\s?(R)|KVR|AR\\s?(Kart)|EnZR|StbSt\\s?(R)|WpSt\\s?(B)|KZA|AR\\s?(Enw)|AnwSt\\s?(R)|KRB|RiZ\\s?(B)|PatAnwSt\\s?(B)|EnVR|AnwZ|NotZ|EnZA|AR]{2,20})\\s\\d+/\\d\\d");
+
 
         for (String docketstring : docketNumList) {
-            Matcher m = civilpenalSenPat.matcher(docketstring);
+            Matcher m = senPattern1.matcher(docketstring);
+            Matcher m3 = senPattern2.matcher(docketstring);
+            String senateElement1 = "";
+            String senateElement2 = "";
+            String finalElement = "";
 
             if (m.find()) {
-                String senateElement = m.group(1);
-                return senateMap.get(senateElement);
-            } else if (Pattern.matches(String.valueOf(otherSenPat), docketstring)) {
-                String senateElement = m.group(1);
-                return senateMap.get(senateElement);
-
-            } else {
-                //TODO was passiert wenn nur nicht matcht
-                return null;
+                senateElement1 = m.group(1);
             }
+            if (m3.find()) {
+                senateElement2 = m3.group(1);
+            }
+
+            if (!senateElement1.isEmpty() && !senateElement2.isEmpty()) {
+                finalElement = senateMap.get(senateElement1.trim()) + senateMap.get(senateElement2.trim());
+            } else if (senateElement1.isEmpty() && !senateElement2.isEmpty()) {
+                finalElement = senateMap.get(senateElement2.trim());
+            } else if (!senateElement1.isEmpty() && senateElement2.isEmpty()) {
+                finalElement = senateMap.get(senateElement1.trim());
+            } else if (senateElement1.isEmpty() && senateElement2.isEmpty()) {
+                //finalElement = null;
+            }
+
+            return finalElement;
         }
         return null;
+//
+//            if (m.find()) {
+//                String senateElement1 = m.group(1);
+//                String senateElement2 = m.group(2);
+//                String finalElement = senateMap.get(senateElement1) + senateMap.get(senateElement2);
+//                return finalElement;
+//
+//            } else if (m2.find()/*Pattern.matches(String.valueOf(otherSenPat), docketstring)*/) {
+//                System.out.println(m2.matches());
+//                String senateElement3 = m2.group(1);
+//                System.out.println("wuff");
+//                return senateMap.get(senateElement3);
+//
+//            } else {
+//                return null;
+//            }
     }
 
 }

@@ -202,14 +202,14 @@ function sortTableByDate(n) {
             x = rows[i].getElementsByTagName("TD")[n];
             y = rows[i + 1].getElementsByTagName("TD")[n];
             // X behandeln
-            x = x.getElementsByTagName("span")[0].innerHTML;
+            x = x.getElementsByTagName("div")[0].innerHTML;
             //console.info(x);
             x = x.substring(0, 10);
             var dayX = x.substring(0, 2);
             var monthX = x.substring(3, 5);
             var yearX = x.substring(6, 10);
             //Y behandeln
-            y = y.getElementsByTagName("span")[0].innerHTML;
+            y = y.getElementsByTagName("div")[0].innerHTML;
             y = y.substring(0, 10);
             var dayY = y.substring(0, 2);
             var monthY = y.substring(3, 5);
@@ -258,7 +258,7 @@ function sortTableByString(n) {
                     break;
                 }
             } else if (dir == "desc") {
-                if (xtoLowerCase() < ytoLowerCase()) {
+                if (x.toLowerCase() < y.toLowerCase()) {
                     shouldSwitch = true;
                     break;
                 }
