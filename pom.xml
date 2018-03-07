@@ -15,6 +15,7 @@
         <version>1.4.4.RELEASE</version>
     </parent>
 
+
     <dependencies>
         <dependency>
             <groupId>org.thymeleaf</groupId>
@@ -75,6 +76,19 @@
             <groupId>com.github.uhh-lt</groupId>
             <artifactId>LT-ABSA</artifactId>
             <version>-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.uhh-lt</groupId>
+            <artifactId>LT-ABSA</artifactId>
+            <version>-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.tudarmstadt</groupId>
+            <artifactId>lt.seg</artifactId>
+            <version>0.7.1a</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/lt.seg-0.7.1b.jar</systemPath>
         </dependency>
     </dependencies>
 
