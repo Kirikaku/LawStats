@@ -88,7 +88,7 @@
             <artifactId>lt.seg</artifactId>
             <version>0.7.1a</version>
             <scope>system</scope>
-            <systemPath>${basedir}/lib/lt.seg-0.7.1b.jar</systemPath>
+            <systemPath>${basedir}/src/main/resources/lib/lt.seg-0.7.1b.jar</systemPath>
         </dependency>
     </dependencies>
 

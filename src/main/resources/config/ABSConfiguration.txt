@@ -13,21 +13,21 @@ corpus					data/corpus/corpus.tsv
 
 
 # models
-crfModelFolder			data/model
-modelFolder             data/model
-relevanceModel		data/model/relevance
-sentimentModel		data/model/relevance
-aspectModel		data/model/relevance
-aspectCoarseModel		data/model/relevance
+crfModelFolder			../data/model
+modelFolder             ../data/model
+relevanceModel		../data/model/relevance
+sentimentModel		../data/model/relevance
+aspectModel		../data/model/relevance
+aspectCoarseModel		../data/model/relevance
 
 
 
 # features
-w2vFile					data/features/lawmodel300.bin.gz
+w2vFile					../data/features/lawmodel300.bin.gz
 
 # induced features
-idfFile					data/features/idfmap.tsv.gz				# IDF file, min freq = 100 by default
+idfFile					../data/features/idfmap.tsv.gz				# IDF file, min freq = 100 by default
 minTermFrequency		5
-maxLengthFile			data/features/max_length					# limit: 500 words
-relIdfTerms				data/features/relevance_idf_terms.tsv
+maxLengthFile			../data/features/max_length					# limit: 500 words
+relIdfTerms				../data/features/relevance_idf_terms.tsv
 

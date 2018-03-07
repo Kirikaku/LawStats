@@ -13,7 +13,7 @@ import uhh_lt.ABSA.ABSentiment.type.Result;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ABSAnalyzeDoument {
+public class ABSDocumentAnalyzer {
 
     public Verdict analyzeABSResultsAndPutItInVerdict(List<Result> resultList, Verdict verdict) {
         verdict.setRevisionSuccess(computerRevisionSuccess(resultList));
