@@ -39,7 +39,7 @@ public class FileProcessService extends Observable {
         Runnable thread = () -> {
             try {
                 verdict.set(coordinator.analyzeDocument(workfile));
-                if (verdict.get() == null) {
+                if (verdict.get() != null) {
                     verdict.get().setDocumentNumber(0);
                     verdictRepoService.save(verdict.get()); // only safe, when successfully analyze
                 }

@@ -72,7 +72,7 @@ public class ABSDocumentAnalyzer {
 
     public List<Result> retrieveResultsForDocumentString(String documentText){
         NLPLawUtils nlpLawUtils = new NLPLawUtils();
-        AbSentiment abSentiment = new AbSentiment("src/main/resources/ABSConfiguration.txt");
+        AbSentiment abSentiment = new AbSentiment("src/main/resources/config/ABSConfiguration.txt");
         List<Result> resultList = new ArrayList<>();
         List<String> sentenceList = nlpLawUtils.splitDocumentIntoSpecifiedSentences(documentText, 10);
 

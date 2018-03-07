@@ -9,7 +9,7 @@
     http://www.springframework.org/schema/data/solr/spring-solr.xsd">
 
     <solr:repositories base-package="com.acme.repositories" />
-    <solr:solr-client id="solrClient" url="http://localhost:8983/solr" />
+    <solr:solr-client id="solrClient" url="http://localhost:8983/solr/verdict" />
     <!-- Enable Solr repositories and configure repository base package -->
     <solr:repositories base-package="com.unihh.lawstats.backend.repository"/>
 

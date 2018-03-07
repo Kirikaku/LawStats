@@ -38,7 +38,7 @@ public class AnalyzingCoordinator {
         documentText = Formatter.formatText(pathTxt);
 
         //10:864de4a5-5bab-495e-8080-2f1185d1b38d
-        jsonNLUResponse = lawEntityExtractor.extractEntities("10:48045270-76aa-4341-98d0-92bd2cb7473b", documentText); //TODO model id von config holen
+        jsonNLUResponse = lawEntityExtractor.extractEntities("10:a6285191-9eae-41c0-befb-bffaf2e9e587", documentText); //TODO model id von config holen
 
         // Throws the NoDocketnumberFoundException
         Verdict verdict = verdictMapper.mapJSONStringToVerdicObject(jsonNLUResponse);

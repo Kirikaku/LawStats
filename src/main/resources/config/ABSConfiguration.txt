@@ -2,32 +2,32 @@
 
 # training and test files
 format		germeval					# either germeval or semeval16
-trainFile	data/trainingsData.tsv
-testFile	data/testData.tsv
-predictionFile	data/prediction.tsv
+trainFile	src/main/resources/data/trainingsData.tsv
+testFile	src/main/resources/data/testData.tsv
+predictionFile	src/main/resources/data/prediction.tsv
 
 language	de
 
 # the domain corpus is required for feature induction
-corpus					data/corpus/corpus.tsv
+corpus					src/main/resources/data/corpus/corpus.tsv
 
 
 # models
-crfModelFolder			../data/model
-modelFolder             ../data/model
-relevanceModel		../data/model/relevance
-sentimentModel		../data/model/relevance
-aspectModel		../data/model/relevance
-aspectCoarseModel		../data/model/relevance
+crfModelFolder			src/main/resources/data/model
+modelFolder             src/main/resources/data/model
+relevanceModel		src/main/resources/data/model/relevance
+sentimentModel		src/main/resources/data/model/relevance
+aspectModel		src/main/resources/data/model/relevance
+aspectCoarseModel		src/main/resources/data/model/relevance
 
 
 
 # features
-w2vFile					../data/features/lawmodel300.bin.gz
+w2vFile					src/main/resources/data/features/lawmodel300.bin.gz
 
 # induced features
-idfFile					../data/features/idfmap.tsv.gz				# IDF file, min freq = 100 by default
+idfFile					src/main/resources/data/features/idfmap.tsv.gz				# IDF file, min freq = 100 by default
 minTermFrequency		5
-maxLengthFile			../data/features/max_length					# limit: 500 words
-relIdfTerms				../data/features/relevance_idf_terms.tsv
+maxLengthFile			src/main/resources/data/features/max_length					# limit: 500 words
+relIdfTerms				src/main/resources/data/features/relevance_idf_terms.tsv
 
