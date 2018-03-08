@@ -17,25 +17,3 @@ werden und dann als *Spring Boot App* gestartet werden. Die Applikation steht da
 `localhost:8080` oder auf dem gewählten Port der `application.properties` zur Verfügung.
 
 Zusätzlich kann dann ein Solr Server als eigene Bibliothek eingebunden werden...
-
-
-## Benutzung (nicht in Readme)
-
-#### Filter
-Zum Filtern und Durchsuchen der Bibliothek kann über die Eingabefelder zunächst ein
-**Kriterium** und dann nach einem passendem **Schlagwort** bzw. **Datumsintervall**
-angegeben werden.
-
-Dabei kann nach **Aktenzeichen**, **Senat**, **Richter** der Revision sowie sowohl
-**Oberlandes**-, **Landes** und **Amtsgericht** der Vorentscheidung gefiltert werden.
-
-Sollte ein Datum ausgewählt worden sein, kann sowohl nach der **Entscheidungsdatum** der
-Revision, als auch nach den Zeitpunkten den genannten Vorausgennanten Entscheidungen
-gesucht werden. Durch _Hinzufügen_ kann auch eine Kombination von Filterkriterien
-gewählt werden, oder auch kein konkretes Schlagwort angegeben werden, um eine Liste aller
-in der gewählten Kategorie enthaltenen Objekte anzuzeigen.
-
-Über _Submit_ wird nun sowohl eine absolute, als auch eine relative Angebe über die
-Revisionausgänge der gewählten Filterkriterien angezeigt. Es können weiterhin weitere 
-Attribute zur Suche hinzugefügt oder über _Reset_ alle gewählten Kriterien zurückgesetzt
-werden.
