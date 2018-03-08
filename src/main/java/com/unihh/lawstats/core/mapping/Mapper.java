@@ -72,11 +72,18 @@ public class Mapper {
                     dateverdictL.add(jsonObjectEntity.getString("text"));
                     break;
                 case "Gericht":
-                    if (jsonObjectEntity.getString("text").contains("Oberlandesgericht")) {
+                    if (jsonObjectEntity.getString("text").toLowerCase().contains("oberlandesgericht") ||
+                            jsonObjectEntity.getString("text").toLowerCase().contains("oberlandsgericht") ||
+                            jsonObjectEntity.getString("text").toLowerCase().contains("olg")) {
                         foreDecRACcL.add(jsonObjectEntity.getString("text"));
-                    } else if (jsonObjectEntity.getString("text").contains("Landesgericht"))
-                        foreDecDCcL.add(jsonObjectEntity.getString("text"));
-                    else if (jsonObjectEntity.getString("text").contains("Amtsgericht")) {
+
+                    } else if (jsonObjectEntity.getString("text").toLowerCase().contains("landesgericht") ||
+                            jsonObjectEntity.getString("text").toLowerCase().contains("lg") ||
+                            jsonObjectEntity.getString("text").toLowerCase().contains("landgericht"))
+                        foreDecRCcL.add(jsonObjectEntity.getString("text"));
+
+                    else if (jsonObjectEntity.getString("text").toLowerCase().contains("amtsgericht") ||
+                            jsonObjectEntity.getString("text").toLowerCase().contains("ag")) {
                         foreDecDCcL.add(jsonObjectEntity.getString("text"));
                         // Bei else passiert hier nichts, Liste bleibt leer - wird beim verdict.set... unten aufgefangen
                         break;

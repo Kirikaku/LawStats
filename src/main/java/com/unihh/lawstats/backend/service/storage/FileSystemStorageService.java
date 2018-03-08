@@ -48,14 +48,24 @@ public class FileSystemStorageService implements StorageService, Observer {
         }
 
         File uploadedFile = null;
+        OutputStream outputStream = null;
         try {
             uploadedFile = File.createTempFile(file.getOriginalFilename().split("\\.")[0], "." + file.getOriginalFilename().split("\\.")[1]);
-            OutputStream outputStream = new FileOutputStream(uploadedFile);
+            outputStream = new FileOutputStream(uploadedFile);
             outputStream.write(file.getBytes());
         } catch (IOException e) {
             e.printStackTrace();
             return "/";
+        } finally {
+            if (outputStream != null) {
+                try {
+                    outputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
+
 
         String docketNumber = processFile(uploadedFile);
 

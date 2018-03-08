@@ -84,7 +84,7 @@ public class VerdictSiteController {
      * This method formats the given long and returns a strng
      */
     public String getStringFromDateLong(Long dateLong){
-        if(dateLong == null) {
+        if(dateLong != null) {
             VerdictDateFormatter verdictDateFormatter = new VerdictDateFormatter();
             return verdictDateFormatter.formatVerdictDateToString(dateLong);
         }

@@ -8,10 +8,8 @@ import java.util.List;
 
 import com.unihh.lawstats.bootstrap.NaturalLanguageProcessing.NLPLawUtils;
 import uhh_lt.ABSA.ABSentiment.AbSentiment;
-import uhh_lt.ABSA.ABSentiment.type.Result;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class ABSDocumentAnalyzer {
 
@@ -37,25 +35,15 @@ public class ABSDocumentAnalyzer {
     }
 
     private int computerRevisionSuccess(List<Result> resultList) {
-        final int[] cardinalityOfRevisionSuccessOver0Point6 = {0};
-        final int[] cardinalityOfRevisionNotSuccessOver0Point6 = {0};
-        final int[] cardinalityOfRevisionPartiallySuccessOver0Point6 = {0};
-
+        AtomicReference<Result> highestResult = new AtomicReference<>(new Result(""));
+        highestResult.get().setRelevanceScore(0);
         resultList.forEach(result -> {
             switch (result.getRelevance()) {
                 case "revisionsErfolg":
-                    if (result.getRelevanceScore() >= 0.4) {
-                        cardinalityOfRevisionSuccessOver0Point6[0]++;
-                    }
-                    break;
                 case "revisionsMisserfolg":
-                    if (result.getRelevanceScore() >= 0.4) {
-                        cardinalityOfRevisionNotSuccessOver0Point6[0]++;
-                    }
-                    break;
                 case "revisionsTeilerfolg":
-                    if (result.getRelevanceScore() >= 0.4) {
-                        cardinalityOfRevisionPartiallySuccessOver0Point6[0]++;
+                    if (result.getRelevanceScore() >= 0.4 && result.getRelevanceScore() > highestResult.get().getRelevanceScore()) {
+                        highestResult.set(result);
                     }
                     break;
                 default:
@@ -63,15 +51,21 @@ public class ABSDocumentAnalyzer {
             }
         });
 
-
-        if(cardinalityOfRevisionSuccessOver0Point6[0] == 0 &&
-                cardinalityOfRevisionNotSuccessOver0Point6[0] == 0 &&
-                cardinalityOfRevisionPartiallySuccessOver0Point6[0] == 0) {
+        if(highestResult.get().getText().isEmpty()){
             return -99;
         }
 
-        return Integer.compare(cardinalityOfRevisionSuccessOver0Point6[0], cardinalityOfRevisionNotSuccessOver0Point6[0]);
-    }
+        switch (highestResult.get().getRelevance()) {
+            case "revisionsErfolg":
+                return 1;
+            case "revisionsMisserfolg":
+                return -1;
+            case "revisionsTeilerfolg":
+                return 0;
+            default:
+                return -99;
+        }
+}
 
 
     public List<Result> retrieveResultsForDocumentString(String documentText){

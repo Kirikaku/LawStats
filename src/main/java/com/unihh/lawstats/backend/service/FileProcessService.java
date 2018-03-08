@@ -22,7 +22,8 @@ public class FileProcessService extends Observable {
 
     @Autowired
     VerdictRepoService verdictRepoService;
-    private AnalyzingCoordinator analyzingCoordinator = new AnalyzingCoordinator();
+    @Autowired
+    AbSentimentService abSentimentService;
     private File workfile;
     private boolean fileAnalyzed = false;
 
@@ -35,7 +36,7 @@ public class FileProcessService extends Observable {
 
     public Verdict start() {
         AtomicReference<Verdict> verdict = new AtomicReference<>();
-        AnalyzingCoordinator coordinator = new AnalyzingCoordinator();
+        AnalyzingCoordinator coordinator = new AnalyzingCoordinator(abSentimentService.getAbSentimentService());
         Runnable thread = () -> {
             try {
                 verdict.set(coordinator.analyzeDocument(workfile));
