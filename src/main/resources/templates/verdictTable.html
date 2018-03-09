@@ -7,31 +7,37 @@
     <title>LawStats - Liste der Revisionen</title>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <link rel="stylesheet" href="css/main.css"/>
+    <link rel="stylesheet" href="css/VerdictTable.min.css"/>
+    <script src="js/VerdictTable.min.js"></script>
+    <script>
+        console.info("testReady");
+        $(document).ready(function () {
+            $('#verdictTable').DataTable();
+            console.info("ready");
+        });
+    </script>
 </head>
 
 <body>
-<div th:fragment="verdictTableBlock">
-    <table class="table.default" id="verdictTable" border="1">
-        <thead>
-        <tr>
-            <th onclick="showWichTable(this)" th:each="attribute : ${@FilterController.getAttributesDisplayname()}"
-                th:text="${attribute}">
-            </th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="verdict : ${@FilterController.getSearchVerdictList()}">
-            <td th:each="attribute : ${@FilterController.getAttributesDisplayname()}">
-                <a th:href="${@ListController.getLink(verdict.getId(), attribute)}">
-                    <div th:text="${@FilterController.getValueForAttributeAndVerdict(verdict, attribute)}"></div>
-                    <div style="font-style: italic"
-                         th:text="${@FilterController.getFormattedPercentValue(verdict, attribute)}"></div>
-                </a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</div>
+<table id="verdictTable" class="display" cellspacing="0" width="100%">
+    <thead>
+    <tr>
+        <th th:each="attribute : ${@FilterController.getAttributesDisplayname()}"
+            th:text="${attribute}">
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="verdict : ${@FilterController.getSearchVerdictList()}">
+        <td th:each="attribute : ${@FilterController.getAttributesDisplayname()}">
+            <a th:href="${@ListController.getLink(verdict.getId(), attribute)}">
+                <div th:text="${@FilterController.getValueForAttributeAndVerdict(verdict, attribute)}"></div>
+                <div style="font-style: italic"
+                     th:text="${@FilterController.getFormattedPercentValue(verdict, attribute)}"></div>
+            </a>
+        </td>
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>

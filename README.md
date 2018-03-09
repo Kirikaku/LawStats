@@ -3,7 +3,7 @@
 ### Inhalt
 Diese Applikation dient zur **Suche und Analyse** einer Bibiliothek von Revisionen
 des Bundesgerichtshofs nach gewählten **Attributen und Schlagworten**, sowie zur
-automatischen einer Untersuchung selbst hochgeladenen Revisision als pdf-Dokument.
+automatischen Untersuchung von selbst hochgeladenen Revisision als pdf-Dokument.
 
 Zudem kann der **Revisionsausgang** der gesuchten oder hochgeladenen Urteile
 ausgegeben werden.
