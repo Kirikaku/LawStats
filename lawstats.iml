@@ -116,7 +116,7 @@
     <orderEntry type="module-library">
       <library name="Maven: de.tudarmstadt:lt.seg:0.7.1a">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/lt.seg-0.7.1b.jar!/" />
+          <root url="jar://$MODULE_DIR$/src/main/resources/lib/lt.seg-0.7.1b.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
