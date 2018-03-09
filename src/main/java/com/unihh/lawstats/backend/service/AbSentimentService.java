@@ -9,7 +9,7 @@ public class AbSentimentService {
     private AbSentiment abSentimentService;
 
     public AbSentimentService(){
-        this.abSentimentService = new AbSentiment("src/main/resources/config/ABSConfiguration.txt");
+        this.abSentimentService = new AbSentiment("/config/ABSConfiguration.txt");
     }
 
     public AbSentiment getAbSentimentService() {

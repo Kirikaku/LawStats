@@ -8,6 +8,7 @@
 
     <name>webapp</name>
     <description>Awesome Webapp</description>
+    <version>RELEASE</version>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -83,7 +84,7 @@
             <artifactId>lt.seg</artifactId>
             <version>0.7.1a</version>
             <scope>system</scope>
-            <systemPath>${basedir}/lib/lt.seg-0.7.1b.jar</systemPath>
+            <systemPath>${basedir}/src/main/resources/lib/lt.seg-0.7.1b.jar</systemPath>
         </dependency>
     </dependencies>
 
@@ -95,17 +96,35 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.0.2</version>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${basedir}/target</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/resources/docker</directory>
+                                    <filtering>true</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <proc>none</proc>
+                    <includeSystemScope>true</includeSystemScope>
+                    <addResources>false</addResources>
                 </configuration>
             </plugin>
-
         </plugins>
     </build>
 
