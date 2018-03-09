@@ -8,8 +8,14 @@ public class AbSentimentService {
 
     private AbSentiment abSentimentService;
 
-    public AbSentimentService(){
-        this.abSentimentService = new AbSentiment("/config/ABSConfiguration.txt");
+    public AbSentimentService() {
+
+        try {
+            this.abSentimentService = new AbSentiment("/config/ABSConfiguration.txt");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            this.abSentimentService = new AbSentiment("/config/SpringABSConfiguration.txt");
+        }
     }
 
     public AbSentiment getAbSentimentService() {
