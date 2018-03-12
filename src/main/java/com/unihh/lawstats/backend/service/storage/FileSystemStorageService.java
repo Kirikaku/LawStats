@@ -50,9 +50,11 @@ public class FileSystemStorageService implements StorageService, Observer {
         File uploadedFile = null;
         OutputStream outputStream = null;
         try {
+            System.out.println("File wird kreiert");
             uploadedFile = File.createTempFile(file.getOriginalFilename().split("\\.")[0], "." + file.getOriginalFilename().split("\\.")[1]);
             outputStream = new FileOutputStream(uploadedFile);
             outputStream.write(file.getBytes());
+            System.out.println("Wurde geschrieben");
         } catch (IOException e) {
             e.printStackTrace();
             return "/";
@@ -67,6 +69,7 @@ public class FileSystemStorageService implements StorageService, Observer {
         }
 
 
+        System.out.println(uploadedFile.exists() + " existiert ?");
         String docketNumber = processFile(uploadedFile);
 
         if (docketNumber.isEmpty()) {
