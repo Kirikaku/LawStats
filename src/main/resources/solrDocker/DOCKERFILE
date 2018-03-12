@@ -1,8 +1,7 @@
 FROM solr:7.2.1
 
-
-bin/solr create_core -c verdict
 EXPOSE 8983
-COPY managed-schema /opt/solr/server/verdict/conf/managed-schema
 
-CMD bin/solr start -d server
+COPY managed-schema /managed-schema
+COPY createSolr.sh /createSolr.sh
+CMD while true; do sleep 60; done;

@@ -2,32 +2,32 @@
 
 # training and test files
 format		germeval					# either germeval or semeval16
-trainFile	/lawstats/trainingsData.tsv
-testFile	/lawstats/testData.tsv
-predictionFile	/lawstats/prediction.tsv
+trainFile	/lawstats/data/trainingsData.tsv
+testFile	/lawstats/data/testData.tsv
+predictionFile	/lawstats/data/prediction.tsv
 
 language	de
 
 # the domain corpus is required for feature induction
-corpus					/lawstats/corpus/corpus.tsv
+corpus					/lawstats/data/corpus/corpus.tsv
 
 
 # models
-crfModelFolder			/lawstats/model
-modelFolder             /lawstats/model
-relevanceModel		/lawstats/model/relevance
-sentimentModel		/lawstats/model/relevance
-aspectModel		/lawstats/model/relevance
-aspectCoarseModel		/lawstats/model/relevance
+crfModelFolder			/lawstats/data/model
+modelFolder             /lawstats/data/model
+relevanceModel		/lawstats/data/model/relevance
+sentimentModel		/lawstats/data/model/relevance
+aspectModel		/lawstats/data/model/relevance
+aspectCoarseModel		/lawstats/data/model/relevance
 
 
 
 # features
-w2vFile					/lawstats/features/lawmodel300.bin.gz
+w2vFile					/lawstats/data/features/lawmodel300.bin.gz
 
 # induced features
-idfFile					/lawstats/features/idfmap.tsv.gz				# IDF file, min freq = 100 by default
+idfFile					/lawstats/data/features/idfmap.tsv.gz				# IDF file, min freq = 100 by default
 minTermFrequency		5
-maxLengthFile			/lawstats/features/max_length					# limit: 500 words
-relIdfTerms				/lawstats/features/relevance_idf_terms.tsv
+maxLengthFile			/lawstats/data/features/max_length					# limit: 500 words
+relIdfTerms				/lawstats/data/features/relevance_idf_terms.tsv
 
