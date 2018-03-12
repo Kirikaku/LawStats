@@ -122,7 +122,6 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <includeSystemScope>true</includeSystemScope>
-                    <addResources>false</addResources>
                 </configuration>
             </plugin>
         </plugins>
