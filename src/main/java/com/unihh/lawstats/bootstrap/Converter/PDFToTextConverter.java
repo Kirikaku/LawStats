@@ -20,10 +20,7 @@ public class PDFToTextConverter {
                 p.waitFor();
             }
 
-            /*
-            String textPath = path.replace(".pdf", ".txt");
-            String cleanPath = textPath.replace(".txt", "_clean.txt");
-               */
+
 
         } catch (IOException e) {
             e.printStackTrace();

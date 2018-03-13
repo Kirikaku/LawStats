@@ -3,7 +3,7 @@ package com.unihh.lawstats.bootstrap;
 import com.unihh.lawstats.bootstrap.Converter.Formatting.Formatter;
 import com.unihh.lawstats.bootstrap.Converter.PDFToTextConverter;
 import com.unihh.lawstats.bootstrap.NaturalLanguageProcessing.ABSClassifier.ABSDocumentAnalyzer;
-import com.unihh.lawstats.bootstrap.NaturalLanguageProcessing.Watson.NLU.LawEntityExtractor;
+import com.unihh.lawstats.bootstrap.NaturalLanguageProcessing.Watson.LawNLUCommunicator;
 import com.unihh.lawstats.core.mapping.BGHVerdictUtil;
 import com.unihh.lawstats.core.mapping.Mapper;
 import com.unihh.lawstats.core.mapping.NoDocketnumberFoundException;
@@ -36,7 +36,7 @@ public class AnalyzingCoordinator {
      */
     public Verdict analyzeDocument(File fileToAnalyze, boolean isDeployMode) throws NoDocketnumberFoundException {
         PDFToTextConverter pdfToTextConverter = new PDFToTextConverter();
-        LawEntityExtractor lawEntityExtractor = new LawEntityExtractor();
+        LawNLUCommunicator lawNLUCommunicator = new LawNLUCommunicator();
         Mapper verdictMapper = new Mapper();
         String documentText = null;
         String jsonNLUResponse = null;
@@ -53,7 +53,7 @@ public class AnalyzingCoordinator {
         }
 
         //10:864de4a5-5bab-495e-8080-2f1185d1b38d
-        jsonNLUResponse = lawEntityExtractor.extractEntities("10:a6285191-9eae-41c0-befb-bffaf2e9e587", documentText); //TODO model id von config holen
+        jsonNLUResponse = lawNLUCommunicator.retrieveEntities("10:a6285191-9eae-41c0-befb-bffaf2e9e587", documentText); //TODO model id von config holen
 
         // Throws the NoDocketnumberFoundException
         Verdict verdict = verdictMapper.mapJSONStringToVerdicObject(jsonNLUResponse);

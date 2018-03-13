@@ -16,7 +16,7 @@ public class ABSDocumentAnalyzer {
     AbSentiment _abSentiment;
 
     public Verdict analyzeABSResultsAndPutItInVerdict(List<Result> resultList, Verdict verdict) {
-        verdict.setRevisionSuccess(computerRevisionSuccess(resultList));
+        verdict.setRevisionSuccess(determineRevisionOutcome(resultList));
 
         if (verdict.getRevisionSuccess() == -99) {
             return null;
@@ -34,7 +34,8 @@ public class ABSDocumentAnalyzer {
         return verdict;
     }
 
-    private int computerRevisionSuccess(List<Result> resultList) {
+
+    private int determineRevisionOutcome(List<Result> resultList) {
         AtomicReference<Result> highestResult = new AtomicReference<>(new Result(""));
         highestResult.get().setRelevanceScore(0);
         resultList.forEach(result -> {

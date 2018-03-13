@@ -23,15 +23,15 @@ public class RandomDocumentSelector {
 
             if (counter < numberOfDocuments) {
 
-                File file = new File(sourceBasePath + path);
+
                 try {
-                    FileInputStream fileInputStream = new FileInputStream(file);
+                    FileInputStream fileInputStream = new FileInputStream(new File(sourceBasePath + path));
                     String content = IOUtils.toString(fileInputStream, "UTF-8");
                     content = Formatter.formatTextForString(content);
 
                     //This only works if the ending is .txt or 3 characters
                     String cleanPath = path.substring(0, path.length() - 4);
-                    cleanPath = cleanPath + "_cleanNeu.txt";
+                    cleanPath = cleanPath + "_clean.txt";
 
 
                     FileOutputStream fos = new FileOutputStream(targetBasePath + cleanPath);

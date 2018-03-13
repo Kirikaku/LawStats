@@ -1,4 +1,4 @@
-package com.unihh.lawstats.bootstrap.NaturalLanguageProcessing.Watson.NLU;
+package com.unihh.lawstats.bootstrap.NaturalLanguageProcessing.Watson;
 
 import com.ibm.watson.developer_cloud.natural_language_understanding.v1.NaturalLanguageUnderstanding;
 import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.AnalysisResults;
@@ -14,12 +14,12 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.util.*;
 
-public class LawEntityExtractor {
-    static String usernameNLU = "d89542b0-6000-48a2-8694-4318dc69ea54";
+public class LawNLUCommunicator {
+    static String usernameNLU = "d89542b0-6000-48a2-8694-4318dc69ea54"; //TODO properties
     static String passwordNLU = "36hBkk1G2X8Y";
 
 
-    public String extractEntities(String modelId, String text) {
+    public String retrieveEntities(String modelId, String text) {
         NaturalLanguageUnderstanding service = new NaturalLanguageUnderstanding(
                 NaturalLanguageUnderstanding.VERSION_DATE_2017_02_27,
                 usernameNLU,
@@ -51,7 +51,6 @@ public class LawEntityExtractor {
         AnalysisResults response = service.analyze(parameters).execute();
 
 
-        System.out.println(response);
 
         return response.toString();
     }
