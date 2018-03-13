@@ -1,29 +1,31 @@
 package com.unihh.lawstats.bootstrap.NaturalLanguageProcessing.ABSClassifier;
 
-import com.unihh.lawstats.bootstrap.Converter.Formatting.Formatter;
 import com.unihh.lawstats.bootstrap.NaturalLanguageProcessing.Watson.NLU.LawEntityExtractor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 
 import java.io.*;
-import java.nio.file.StandardOpenOption;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Slf4j
-public class TrainingData {
+public class TrainingDataManager {
+
+
+
 
 
     public void createTrainingsData() {
-        LawEntityExtractor lawEntityExtractor = new LawEntityExtractor();
-        String jsonAnnotation = null;
-        File folder = new File("C:\\Users\\Phillip\\Documents\\Studium\\Praktikum Sprachtechnologie\\TU Classifier\\corpus-61937530-1d90-11e8-8cb7-7100b456226f\\gt");
-        File[] allFiles = folder.listFiles();
+        TrainingsdataManagerHelper trainingsdataManagerHelper = new TrainingsdataManagerHelper();
         Map<String, String[]> _allDecisionSentences = new HashMap<>();
         List<Map.Entry<String, String[]>> _revisionsErfolgList = new ArrayList<>();
         List<Map.Entry<String, String[]>> _revisionsTeilErfolgList = new ArrayList<>();
         List<Map.Entry<String, String[]>> _revisionsMisserfolgList = new ArrayList<>();
         List<Map.Entry<String, String[]>> _revisionsIrrelevantList = new ArrayList<>();
+        String jsonAnnotation = null;
+
+        File folder = new File("C:\\Users\\Phillip\\Documents\\Studium\\Praktikum Sprachtechnologie\\TU Classifier\\corpus-61937530-1d90-11e8-8cb7-7100b456226f\\gt"); //TODO properties
+        File[] allFiles = folder.listFiles();
+
 
 
         for (int i = 0; i < allFiles.length; i++) {
@@ -39,7 +41,7 @@ public class TrainingData {
             }
 
 
-            _allDecisionSentences.putAll(lawEntityExtractor.findDecisionSentences(jsonAnnotation));
+            _allDecisionSentences.putAll(trainingsdataManagerHelper.findDecisionSentences(jsonAnnotation));
         }
 
 
@@ -68,13 +70,10 @@ public class TrainingData {
         }
 
 
-        _allDecisionSentences.forEach((s, strings) -> {
-
-            System.out.println("Key: " + s + "\n Label: " + strings[0] + "\n Dateiname:" + strings[1]);
-        });
 
 
-        String basePath = "C:\\Users\\Phillip\\Documents\\Studium\\Praktikum Sprachtechnologie\\TU Classifier\\TrainingsData2\\";
+
+        String basePath = "C:\\Users\\Phillip\\Documents\\Studium\\Praktikum Sprachtechnologie\\TU Classifier\\TrainingsData2\\"; //TODO properties
         String erfolgOutfile = "erfolg.tsv";
         String teilErfolgOutfile = "teilerfolg.tsv";
         String misserfolgOutfile = "misserfolg.tsv";
@@ -89,21 +88,29 @@ public class TrainingData {
     }
 
 
+
+
+
+
+
     public void createTrainingDataFromBaseFiles(String basePathParameter) {
-        List<String> revisionsErfolgRowList = new ArrayList<>();
-        List<String> revisionsTeilErfolgRowList = new ArrayList<>();
-        List<String> revisionsMisserfolgRowList = new ArrayList<>();
-        List<String> revisionsIrrelevantRowList = new ArrayList<>();
-        List<String[]> revisionsErfolgValuesList = new ArrayList<>();
-        List<String[]> revisionsTeilErfolgValuesList = new ArrayList<>();
-        List<String[]> revisionsMisserfolgValuesList = new ArrayList<>();
-        List<String[]> revisionsIrrelevantValuesList = new ArrayList<>();
+        List<String> revisionsErfolgRowList;
+        List<String> revisionsTeilErfolgRowList;
+        List<String> revisionsMisserfolgRowList;
+        List<String> revisionsIrrelevantRowList;
+        List<String[]> revisionsErfolgValuesList;
+        List<String[]> revisionsTeilErfolgValuesList;
+        List<String[]> revisionsMisserfolgValuesList;
+        List<String[]> revisionsIrrelevantValuesList;
 
         String basePath = basePathParameter;
-        String erfolgFilename = "erfolgClean.tsv";
+        String erfolgFilename = "erfolgClean.tsv"; //TODO properties
         String teilErfolgFilename = "teilerfolgClean.tsv";
         String misserfolgFilename = "misserfolgClean.tsv";
         String irrelevantFilename = "irrelevantClean.tsv";
+
+
+
 
         revisionsErfolgRowList = getAllRowsFromDocument(basePath + erfolgFilename);
         revisionsTeilErfolgRowList = getAllRowsFromDocument(basePath + teilErfolgFilename);
@@ -119,24 +126,26 @@ public class TrainingData {
 
         writeTrainingFileForValueLists(basePath, revisionsErfolgValuesList, revisionsTeilErfolgValuesList, revisionsMisserfolgValuesList, revisionsIrrelevantValuesList);
 
-
-
     }
+
 
 
     private void writeTrainingFileForValueLists(String basePath, List<String[]> erfolgValueList, List<String[]> teilerfolgValueList, List<String[]> misserfolgValueList, List<String[]> irrelevantValueList) {
         Set<String[]> trainingDataValues = new HashSet<>();
         int limit = erfolgValueList.size()*2;
 
+
+
         trainingDataValues.addAll(erfolgValueList);
         trainingDataValues.addAll(misserfolgValueList);
         trainingDataValues.addAll(teilerfolgValueList);
-        //trainingDataValues = addValuesToSet(misserfolgValueList, trainingDataValues, limit);
         trainingDataValues = addValuesToSet(irrelevantValueList, trainingDataValues, limit);
 
-        writeRowsForFinalData(trainingDataValues, basePath);
+
+        writeRowsForABSData(trainingDataValues, basePath);
 
     }
+
 
     private Set<String[]> addValuesToSet(List<String[]> values, Set<String[]> valueSet, int limit) {
         int counter = 0;
@@ -206,20 +215,22 @@ public class TrainingData {
     }
 
 
-    private void writeRowsForFinalData(Set<String[]> valueSet, String basePath) {
-        long trainingsDataAmount = Math.round(valueSet.size()*0.8);
-        long testDataAmount = valueSet.size()-trainingsDataAmount;
+    private void writeRowsForABSData(Set<String[]> valueSet, String basePath) {
+        long trainingsDataAmount = Math.round(valueSet.size()*0.8); //TODO properties
+
+        //only exists in order to make the required ID unique
         int ongoingIndex = 0;
+
 
         for (String[] valueArray : valueSet) {
             ongoingIndex++;
 
             if(trainingsDataAmount > 0) {
                 trainingsDataAmount--;
-               writeOneRow(valueArray, basePath+"trainingsData.tsv", ongoingIndex);
+               writeOneRow(valueArray, basePath+"trainingsData.tsv", ongoingIndex); //TODO properties
             }
             else{
-                writeOneRowTestData(valueArray, basePath+"testData.tsv", ongoingIndex);
+                writeOneRowTestData(valueArray, basePath+"testData.tsv", ongoingIndex); //TODO properties
             }
         }
     }
