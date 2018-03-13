@@ -34,7 +34,7 @@ public class AnalyzingCoordinator {
      * @return the verdict of the given file
      * @throws NoDocketnumberFoundException when no DocketNumber was found
      */
-    public Verdict analyzeDocument(File fileToAnalyze) throws NoDocketnumberFoundException {
+    public Verdict analyzeDocument(File fileToAnalyze, boolean isDeployMode) throws NoDocketnumberFoundException {
         PDFToTextConverter pdfToTextConverter = new PDFToTextConverter();
         LawEntityExtractor lawEntityExtractor = new LawEntityExtractor();
         Mapper verdictMapper = new Mapper();
@@ -46,7 +46,7 @@ public class AnalyzingCoordinator {
         String pathTxt = path.replace(".pdf", ".txt");
 
 
-        pdfToTextConverter.convertPDFToText(path);
+        pdfToTextConverter.convertPDFToText(path, isDeployMode);
         documentText = Formatter.formatText(pathTxt);
         if(documentText == null || documentText.equals("")){
             return null;

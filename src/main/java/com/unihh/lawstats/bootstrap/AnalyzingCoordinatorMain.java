@@ -28,7 +28,7 @@ public class AnalyzingCoordinatorMain {
                 Arrays.stream(file.listFiles()).forEach(file1 -> {
                     if (file1.getName().endsWith(".pdf") && counter[0] < 1000) {
                         try {
-                            Verdict verdict = analyzingCoordinator.analyzeDocument(file1);
+                            Verdict verdict = analyzingCoordinator.analyzeDocument(file1, false);
                             if(verdict != null){
                                 verdictRepoService.save(verdict);
                             }

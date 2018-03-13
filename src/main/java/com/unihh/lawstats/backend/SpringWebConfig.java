@@ -25,7 +25,7 @@ import org.thymeleaf.templateresolver.ITemplateResolver;
 
 @Configuration
 @ComponentScan
-@PropertySource("classpath:config/solr.properties")
+@PropertySource("classpath:config/lawstats.properties")
 @EnableSolrRepositories
 public class SpringWebConfig extends WebMvcConfigurerAdapter implements ApplicationContextAware {
 

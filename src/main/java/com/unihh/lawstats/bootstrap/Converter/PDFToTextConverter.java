@@ -4,14 +4,21 @@ import java.io.IOException;
 
 public class PDFToTextConverter {
 
-    public void convertPDFToText(String path) {
+    public void convertPDFToText(String path, boolean isDeployMode) {
         try {
             // PDF in Text umwandeln
 
-            ProcessBuilder pb = new ProcessBuilder("src/main/resources/preprocessing/pdftotext", "-enc", "UTF-8", path);
+            if(!isDeployMode) {
+                ProcessBuilder pb = new ProcessBuilder("src/main/resources/preprocessing/pdftotext", "-enc", "UTF-8", path);
 
-            Process p = pb.start();
-            p.waitFor();
+                Process p = pb.start();
+                p.waitFor();
+            } else {
+                ProcessBuilder pb = new ProcessBuilder("lawstats/preprocessing/pdftotext", "-enc", "UTF-8", path);
+
+                Process p = pb.start();
+                p.waitFor();
+            }
 
             /*
             String textPath = path.replace(".pdf", ".txt");

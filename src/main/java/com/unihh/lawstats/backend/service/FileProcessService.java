@@ -34,12 +34,12 @@ public class FileProcessService extends Observable {
         workfile = file;
     }
 
-    public Verdict start() {
+    public Verdict start(boolean isDeployMode) {
         AtomicReference<Verdict> verdict = new AtomicReference<>();
-        AnalyzingCoordinator coordinator = new AnalyzingCoordinator(abSentimentService.getAbSentimentService());
+        AnalyzingCoordinator coordinator = new AnalyzingCoordinator(abSentimentService.getAbSentiment());
         Runnable thread = () -> {
             try {
-                verdict.set(coordinator.analyzeDocument(workfile));
+                verdict.set(coordinator.analyzeDocument(workfile, isDeployMode));
                 if (verdict.get() != null) {
                     verdict.get().setDocumentNumber(0);
                     verdictRepoService.save(verdict.get()); // only safe, when successfully analyze

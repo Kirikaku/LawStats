@@ -3,6 +3,7 @@ package com.unihh.lawstats.backend.service.storage;
 import com.unihh.lawstats.backend.service.FileProcessService;
 import com.unihh.lawstats.core.model.Verdict;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,9 @@ public class FileSystemStorageService implements StorageService, Observer {
     private final Path rootLocation;
     @Autowired
     private FileProcessService fileProcessService;
+
+    @Autowired
+    private Environment environment;
 
     @Autowired
     public FileSystemStorageService(StorageProperties properties) {
@@ -84,7 +88,7 @@ public class FileSystemStorageService implements StorageService, Observer {
             fileProcessService.setFile(uploadedFile);
             Verdict verdict;
             if (fileProcessService.checkPDF()) {
-                verdict = fileProcessService.start();
+                verdict = fileProcessService.start(Boolean.valueOf(environment.getProperty("deploy.mode")));
             } else {
                 return "";
             }
