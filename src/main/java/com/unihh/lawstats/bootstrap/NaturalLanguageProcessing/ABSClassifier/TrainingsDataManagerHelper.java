@@ -2,15 +2,42 @@ package com.unihh.lawstats.bootstrap.NaturalLanguageProcessing.ABSClassifier;
 
 import com.unihh.lawstats.bootstrap.Converter.Formatting.Formatter;
 import com.unihh.lawstats.bootstrap.NaturalLanguageProcessing.NLPLawUtils;
+import org.apache.commons.io.IOUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.*;
 
 public class TrainingsDataManagerHelper {
 
 
-    public List<String[]> findDecisionSentences(String jsonString) {
+    public List<String[]> retrieveImportantSentencesFromAnnotations(File[] allFiles){
+        List<String[]> importantSentences = new ArrayList<>();
+
+
+        for (int i = 0; i < allFiles.length; i++) {
+
+            File file = allFiles[i];
+            String jsonAnnotation;
+
+            try {
+                FileInputStream fis = new FileInputStream(file);
+                jsonAnnotation = IOUtils.toString(fis, "UTF-8");
+                importantSentences.addAll(findDecisionSentences(jsonAnnotation));
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return importantSentences;
+    }
+
+
+
+    private List<String[]> findDecisionSentences(String jsonString) {
 
         //Declare variables
         JSONObject jsonObject;
@@ -36,6 +63,8 @@ public class TrainingsDataManagerHelper {
 
         mentionsJsonArray = jsonObject.getJSONArray("mentions");
         mentionsArrayIterator = mentionsJsonArray.iterator();
+
+
 
 
         initialDefaultFill(firstSentences, decisionSentenceList, fileName);
