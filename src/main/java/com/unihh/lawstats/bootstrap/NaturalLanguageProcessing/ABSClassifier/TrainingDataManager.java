@@ -1,6 +1,5 @@
 package com.unihh.lawstats.bootstrap.NaturalLanguageProcessing.ABSClassifier;
 
-import com.unihh.lawstats.bootstrap.NaturalLanguageProcessing.Watson.NLU.LawEntityExtractor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 
@@ -15,12 +14,12 @@ public class TrainingDataManager {
 
 
     public void createTrainingsData() {
-        TrainingsdataManagerHelper trainingsdataManagerHelper = new TrainingsdataManagerHelper();
-        Map<String, String[]> _allDecisionSentences = new HashMap<>();
-        List<Map.Entry<String, String[]>> _revisionsErfolgList = new ArrayList<>();
-        List<Map.Entry<String, String[]>> _revisionsTeilErfolgList = new ArrayList<>();
-        List<Map.Entry<String, String[]>> _revisionsMisserfolgList = new ArrayList<>();
-        List<Map.Entry<String, String[]>> _revisionsIrrelevantList = new ArrayList<>();
+        TrainingsDataManagerHelper trainingsDataManagerHelper = new TrainingsDataManagerHelper();
+        List<String[]> allDecisionSentences = new ArrayList<>();
+        List<String[]> revisionsErfolgList = new ArrayList<>();
+        List<String[]> revisionsTeilErfolgList = new ArrayList<>();
+        List<String[]> revisionsMisserfolgList = new ArrayList<>();
+        List<String[]> revisionsIrrelevantList = new ArrayList<>();
         String jsonAnnotation = null;
 
         File folder = new File("C:\\Users\\Phillip\\Documents\\Studium\\Praktikum Sprachtechnologie\\TU Classifier\\corpus-61937530-1d90-11e8-8cb7-7100b456226f\\gt"); //TODO properties
@@ -41,29 +40,28 @@ public class TrainingDataManager {
             }
 
 
-            _allDecisionSentences.putAll(trainingsdataManagerHelper.findDecisionSentences(jsonAnnotation));
+            allDecisionSentences.addAll(trainingsDataManagerHelper.findDecisionSentences(jsonAnnotation));
         }
 
 
-        for (Map.Entry<String, String[]> sentenceEntry : _allDecisionSentences.entrySet()) {
-            String[] valueArray = sentenceEntry.getValue();
-            String key = sentenceEntry.getKey();
-            if (key.length() < 26) {
+        for (String[] sentenceEntryArray : allDecisionSentences) {
+
+            if (sentenceEntryArray[0].length() < 26) {
 
             } else {
-                switch (valueArray[0].toLowerCase()) {
+                switch (sentenceEntryArray[1].toLowerCase()) {
 
                     case "irrelevant":
-                        _revisionsIrrelevantList.add(sentenceEntry);
+                        revisionsIrrelevantList.add(sentenceEntryArray);
                         break;
                     case "revisionsteilerfolg":
-                        _revisionsTeilErfolgList.add(sentenceEntry);
+                        revisionsTeilErfolgList.add(sentenceEntryArray);
                         break;
                     case "revisionserfolg":
-                        _revisionsErfolgList.add(sentenceEntry);
+                        revisionsErfolgList.add(sentenceEntryArray);
                         break;
                     case "revisionsmisserfolg":
-                        _revisionsMisserfolgList.add(sentenceEntry);
+                        revisionsMisserfolgList.add(sentenceEntryArray);
                         break;
                 }
             }
@@ -80,10 +78,10 @@ public class TrainingDataManager {
         String irrelevantOutfile = "irrelevant.tsv";
 
 
-        writeRows(_revisionsErfolgList, basePath + erfolgOutfile);
-        writeRows(_revisionsTeilErfolgList, basePath + teilErfolgOutfile);
-        writeRows(_revisionsMisserfolgList, basePath + misserfolgOutfile);
-        writeRows(_revisionsIrrelevantList, basePath + irrelevantOutfile);
+        writeRows(revisionsErfolgList, basePath + erfolgOutfile);
+        writeRows(revisionsTeilErfolgList, basePath + teilErfolgOutfile);
+        writeRows(revisionsMisserfolgList, basePath + misserfolgOutfile);
+        writeRows(revisionsIrrelevantList, basePath + irrelevantOutfile);
 
     }
 
@@ -194,15 +192,14 @@ public class TrainingDataManager {
     }
 
 
-    private void writeRows(List<Map.Entry<String, String[]>> sentenceEntryList, String fileName) {
-        for (Map.Entry<String, String[]> sentenceEntry : sentenceEntryList) {
+    private void writeRows(List<String[]> sentenceEntryList, String fileName) {
+
+        for (String[] sentenceEntryArray : sentenceEntryList) {
+
             try {
                 FileOutputStream fos = new FileOutputStream(fileName, true);
 
-                String[] valueArray = sentenceEntry.getValue();
-
-
-                String row = sentenceEntry.getKey() + "\t" + valueArray[0] + "\t" + valueArray[1] + "\n";
+                String row = sentenceEntryArray[0] + "\t" + sentenceEntryArray[1] + "\t" + sentenceEntryArray[2] + "\n";
                 IOUtils.write(row, fos, "UTF-8");
 
                 fos.close();
@@ -211,6 +208,7 @@ public class TrainingDataManager {
                 e.printStackTrace();
 
             }
+
         }
     }
 
