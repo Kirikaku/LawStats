@@ -18,13 +18,13 @@ public class ABSDocumentAnalyzer {
     public Verdict analyzeABSResultsAndPutItInVerdict(List<Result> resultList, Verdict verdict) {
         verdict.setRevisionSuccess(computerRevisionSuccess(resultList));
 
-        if(verdict.getRevisionSuccess() == -99){
+        if (verdict.getRevisionSuccess() == -99) {
             return null;
         }
 
         List<String> importantSentences = new ArrayList<>();
         resultList.forEach(result -> {
-            if(!result.getRelevance().equals("irrelevant")){
+            if (!result.getRelevance().equals("irrelevant")) {
                 importantSentences.add(result.getText());
             }
         });
@@ -51,7 +51,7 @@ public class ABSDocumentAnalyzer {
             }
         });
 
-        if(highestResult.get().getText().isEmpty()){
+        if (highestResult.get().getText().isEmpty()) {
             return -99;
         }
 
@@ -65,34 +65,39 @@ public class ABSDocumentAnalyzer {
             default:
                 return -99;
         }
-}
+    }
 
 
-    public List<Result> retrieveResultsForDocumentString(String documentText){
+    /**
+     * Classifies a document by analyzing the first 10 sentences
+     *
+     * @param documentText - The full Document Text as String
+     * @return List<Result> - A List of ABS results, where one result is the analyzes of one sentence
+     */
+    public List<Result> retrieveABSResultsForDocumentText(String documentText) {
         NLPLawUtils nlpLawUtils = new NLPLawUtils();
-        AbSentiment abSentiment;
-        if(_abSentiment != null){
-            abSentiment = _abSentiment;
-        }
-        else {
-            abSentiment = new AbSentiment("src/main/resources/config/ABSConfiguration.txt");
-        }
         List<Result> resultList = new ArrayList<>();
         List<String> sentenceList = nlpLawUtils.splitDocumentIntoSpecifiedSentences(documentText, 10);
 
 
-        for(String sentence: sentenceList){
-            if(sentence != null) {
-                Result result = abSentiment.analyzeText(sentence);
+        if (_abSentiment == null) {
+            setAbSentiment(new AbSentiment("src/main/resources/config/ABSConfiguration.txt")); //TODO properties
+        }
+
+
+        for (String sentence : sentenceList) {
+            if (sentence != null) {
+                Result result = _abSentiment.analyzeText(sentence);
                 resultList.add(result);
             }
         }
 
-       return resultList;
+
+        return resultList;
     }
 
 
-    public void setAbSentiment(AbSentiment abSentiment){
+    public void setAbSentiment(AbSentiment abSentiment) {
         _abSentiment = abSentiment;
     }
 }

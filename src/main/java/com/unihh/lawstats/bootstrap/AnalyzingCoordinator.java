@@ -60,7 +60,7 @@ public class AnalyzingCoordinator {
 
 
 
-        List<Result> classifierReults = _absDocumentAnalyzer.retrieveResultsForDocumentString(documentText);
+        List<Result> classifierReults = _absDocumentAnalyzer.retrieveABSResultsForDocumentText(documentText);
         verdict = _absDocumentAnalyzer.analyzeABSResultsAndPutItInVerdict(classifierReults, verdict);
 
         if(verdict == null){
