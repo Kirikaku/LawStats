@@ -67,6 +67,7 @@ public class AnalyzingCoordinator {
             return null;
         }
 
+        verdictMapper.setMinimumDateForLastForeDecision(verdict.getDecisionSentences()[0], verdict); //We have only on sentences
 
         BGHVerdictUtil bghVerdictUtil = new BGHVerdictUtil();
         verdict.setDocumentNumber(Integer.valueOf(bghVerdictUtil.retrieveBGHVerdictNumberForFileName(fileToAnalyze.getName())));

@@ -275,7 +275,7 @@ public class FilterController {
                     VerdictDateFormatter verdictDateFormatter = new VerdictDateFormatter();
                     if (attribute.toString().contains("Date")) {
                         DateInput dateInput = (DateInput) searchVerdict.getValueForKey(attribute);
-                        long date = verdictDateFormatter.formateStringToLong(dataAttributeVerdictService.dataAttributeToVerdictValue(attribute, verdict).get(0));
+                        long date = verdictDateFormatter.formatStringToLong(dataAttributeVerdictService.dataAttributeToVerdictValue(attribute, verdict).get(0));
                         if (date > dateInput.getEnd() || date < dateInput.getStart()) {
                             isRelated = false;
                         }

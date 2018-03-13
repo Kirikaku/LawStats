@@ -5,8 +5,8 @@ import com.unihh.lawstats.core.model.Verdict;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.text.ParseException;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -47,13 +47,10 @@ public class Mapper {
         List<String> docketnumberL = new ArrayList<>();
         //List<String> senateL = new ArrayList<>();
         Set<String> judgeL = new HashSet<>();
-        List<String> dateverdictL = new ArrayList<>();
+        List<String> dateVerdictList = new ArrayList<>();
         List<String> foreDecRACcL = new ArrayList<>();
-        List<String> foreDecRACdvL = new ArrayList<>();
         List<String> foreDecRCcL = new ArrayList<>();
-        List<String> foreDecRCdvL = new ArrayList<>();
         List<String> foreDecDCcL = new ArrayList<>();
-        List<String> foreDecDCdvL = new ArrayList<>();
 
         // Iterieren durch das JSON Array
         for (int i = 0; i < jsonArray.length(); i++) {
@@ -69,7 +66,7 @@ public class Mapper {
                     judgeL.add(jsonObjectEntity.getString("text"));
                     break;
                 case "Datum":
-                    dateverdictL.add(jsonObjectEntity.getString("text"));
+                    dateVerdictList.add(jsonObjectEntity.getString("text"));
                     break;
                 case "Gericht":
                     if (jsonObjectEntity.getString("text").toLowerCase().contains("oberlandesgericht") ||
@@ -113,8 +110,8 @@ public class Mapper {
         }
 
         //Date Verdict
-        if (!dateverdictL.isEmpty()) {
-            verdict.setDateVerdict(filterNewestDate(dateverdictL));
+        if (!dateVerdictList.isEmpty()) {
+            verdict.setDateVerdict(filterNewestDate(dateVerdictList));
         }
 
         //Oberlandesgericht - Court
@@ -122,29 +119,14 @@ public class Mapper {
             verdict.setForeDecisionRACCourt(mostCommon(foreDecRACcL));
         }
 
-        //Oberlandesgericht - Datum
-        if (!foreDecRACdvL.isEmpty()) {
-            verdict.setForeDecisionRACVerdictDate((filterNewestDate(foreDecRACdvL)));
-        }
-
         //Landesgericht - Court
         if (!foreDecRCcL.isEmpty()) {
             verdict.setForeDecisionRCCourt(mostCommon(foreDecRCcL));
         }
 
-        //Landesgericht - Date
-        if (!foreDecRCdvL.isEmpty()) {
-            verdict.setForeDecisionRCVerdictDate(filterNewestDate(foreDecRCdvL));
-        }
-
         //Amtsgericht - Court
         if (!foreDecDCcL.isEmpty()) {
             verdict.setForeDecisionDCCourt(mostCommon(foreDecDCcL));
-        }
-
-        //Amtsgericht - Date
-        if (!foreDecDCdvL.isEmpty()) {
-            verdict.setForeDecisionDCVerdictDate(filterNewestDate((foreDecDCdvL)));
         }
 
         //Entscheidungssätze
@@ -353,6 +335,29 @@ public class Mapper {
 //            } else {
 //                return null;
 //            }
+    }
+
+    public void setMinimumDateForLastForeDecision(String text, Verdict verdict){
+        if(text == null || verdict == null){
+            return; // we dont want Nullpointerexceptions
+        }
+
+        VerdictDateFormatter verdictDateFormatter = new VerdictDateFormatter();
+        AtomicLong minDate = new AtomicLong();
+        Arrays.stream(text.split(" ")).filter(s -> !s.isEmpty())
+                .map(verdictDateFormatter::formatStringToLong)
+                .filter(Objects::nonNull)
+                .min(Long::compareTo)
+                .ifPresent(minDate::set);
+
+        if(verdict.getForeDecisionRACCourt() != null){
+            verdict.setForeDecisionRACVerdictDate(minDate.get());
+        } else if(verdict.getForeDecisionRCCourt() != null) {
+            verdict.setForeDecisionRCVerdictDate(minDate.get());
+        } else if(verdict.getForeDecisionDCCourt() != null){
+            verdict.setForeDecisionRCVerdictDate(minDate.get());
+        }
+
     }
 
 }

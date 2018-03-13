@@ -16,7 +16,12 @@ public class VerdictDateFormatter {
     private DateFormat df_tod = new SimpleDateFormat("dd-M-yyyy", Locale.GERMAN);
 
 
-    public Long formateStringToLong(String string) {
+    /**
+     * This method format a string to a date (long)
+     * @param string the string for parsing
+     * @return null if there is not date in it or the long value for the date
+     */
+    public Long  formatStringToLong(String string) {
 
         Date date;
         try {
@@ -29,11 +34,14 @@ public class VerdictDateFormatter {
             } else if (Pattern.matches("(\\d{1})-(\\d{2})-(\\d{4})", string)) {
                 date = df_tod.parse(string);
             } else {
-                date = new Date(0000, 00, 00);
+                date = null; // We could not found a date
             }
         } catch (ParseException e) {
             e.printStackTrace();
-            return new Date().getTime();
+            date = null;
+        }
+        if(date == null){
+            return null;
         }
         return date.getTime();
     }
@@ -42,7 +50,7 @@ public class VerdictDateFormatter {
         // Empfängt eine Liste und gibt dabei das neueste Datum zurück.
         List<Long> dateVerdictList = new ArrayList<>();
         for (String string : stringL) {
-            Long date = formateStringToLong(string);
+            Long date = formatStringToLong(string);
             dateVerdictList.add(date);
         }
         return dateVerdictList;
