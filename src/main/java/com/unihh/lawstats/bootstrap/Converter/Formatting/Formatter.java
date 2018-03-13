@@ -60,6 +60,8 @@ public class Formatter {
 
     public static Map<String, Integer> monate = new HashMap<String, Integer>();
 
+
+    
     public static void formatText(String textPath, String cleanPath) {
 
 
@@ -330,13 +332,8 @@ public class Formatter {
     public static String replaceNewLines(String content){
 
 
-
         // Satzumbruch
         String pattern6 = "([äÄöÖüÜßa-zA-Z0-9]([\\r?\\n]+)[äÄöÖüÜßa-zA-Z0-9])";
-
-
-
-
 
 
         Pattern p = Pattern.compile(pattern6, Pattern.MULTILINE | Pattern.CANON_EQ);

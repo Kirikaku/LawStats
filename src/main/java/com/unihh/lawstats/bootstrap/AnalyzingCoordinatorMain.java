@@ -18,47 +18,37 @@ public class AnalyzingCoordinatorMain {
     public static void main(String[] args) {
         ApplicationContext context = new ClassPathXmlApplicationContext("beansDefinitionForBootstrapPhase.xml");
         VerdictRepoService verdictRepoService = new VerdictRepoService(context.getBean("verdictRepository", VerdictRepository.class));
-        AbSentiment abSentiment = new AbSentiment("src/main/resources/config/ABSConfiguration.txt");
-
+        AbSentiment abSentiment = new AbSentiment("src/main/resources/config/ABSConfiguration.txt"); //TODO properties
         AnalyzingCoordinator analyzingCoordinator = new AnalyzingCoordinator(abSentiment);
+        int limit = 1000; //TODO evtl. properties oder args
+
+
         if (args.length != 0) {
             File file = new File(args[0]);
+
             if (file.exists() && file.listFiles() != null) {
-                final int[] counter = {0};
-                Arrays.stream(file.listFiles()).forEach(file1 -> {
-                    if (file1.getName().endsWith(".pdf") && counter[0] < 1000) {
+
+                File[] listOfFiles = file.listFiles();
+
+                for(int i = 0; i < listOfFiles.length; i++){
+                    if (listOfFiles[i].getName().endsWith(".pdf")) {
                         try {
-                            Verdict verdict = analyzingCoordinator.analyzeDocument(file1, false);
+                            Verdict verdict = analyzingCoordinator.analyzeDocument(listOfFiles[i], false);
                             if(verdict != null){
                                 verdictRepoService.save(verdict);
                             }
-                            counter[0]++;
                         } catch (NoDocketnumberFoundException ex) {
                             ex.printStackTrace();
                         }
                     }
-                });
+                }
+
             } else {
                // log.error("Dir does not exists");
             }
         } else {
             //log.error("No parameter was given, pls give me a dir to all pdfs");
         }
-
     }
 }
 
-//        ApplicationContext context = new ClassPathXmlApplicationContext("beansDefinitionForBootstrapPhase.xml");
-//        VerdictRepoService verdictRepoService = new VerdictRepoService(context.getBean("verdictRepository", VerdictRepository.class));
-//
-//        AnalyzingCoordinator analyzingCoordinator = new AnalyzingCoordinator();
-//
-//        Verdict verdict = new Verdict();
-//        try {
-//            verdict = analyzingCoordinator.analyzeDocument(new File("C:\\Users\\Phillip\\Documents\\Studium\\Praktikum Sprachtechnologie\\Firsttest\\verdict70001.pdf"));
-//            verdictRepoService.save(verdict);
-//        } catch (NoDocketnumberFoundException ex){
-//            ex.printStackTrace();
-//        }
-//
-//        System.out.println(verdict);

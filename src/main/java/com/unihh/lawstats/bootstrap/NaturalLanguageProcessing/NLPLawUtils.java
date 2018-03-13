@@ -13,7 +13,6 @@ public class NLPLawUtils {
         int dotIndex = -1;
         String sentence;
 
-
         dotIndex = temporaryDocumentText.indexOf(".");
 
         if (dotIndex == -1) {
@@ -23,7 +22,6 @@ public class NLPLawUtils {
             sentence = temporaryDocumentText.substring(0, dotIndex + 1);
         }
 
-
         return sentence;
     }
 
@@ -32,8 +30,7 @@ public class NLPLawUtils {
 
     public List<String> splitDocumentIntoSentences(String documentText) {
 
-
-        return splitDocumentIntoSpecifiedSentences(documentText, 1000);
+        return splitDocumentIntoSpecifiedSentences(documentText, Integer.MAX_VALUE);
     }
 
 
@@ -45,8 +42,8 @@ public class NLPLawUtils {
         List<String> _sentenceList = new ArrayList<>();
 
         while (temporaryDocumentText != null && !temporaryDocumentText.isEmpty() && !(numberOfSentences<1)) {
-            numberOfSentences--;
 
+            numberOfSentences--;
             dotIndex = temporaryDocumentText.indexOf(".");
 
             if (dotIndex == -1) {
@@ -57,14 +54,10 @@ public class NLPLawUtils {
                 temporaryDocumentText = temporaryDocumentText.substring(dotIndex + 1);
             }
 
-
-
-
             _sentence = Formatter.replaceNewLines(_sentence);
             _sentence = _sentence.trim();
 
             _sentenceList.add(_sentence);
-
         }
 
         return _sentenceList;

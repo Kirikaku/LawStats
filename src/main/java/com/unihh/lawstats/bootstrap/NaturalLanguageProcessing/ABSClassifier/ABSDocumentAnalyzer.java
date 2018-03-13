@@ -15,7 +15,7 @@ public class ABSDocumentAnalyzer {
 
     AbSentiment _abSentiment;
 
-    public Verdict analyzeABSResultsAndPutItInVerdict(List<Result> resultList, Verdict verdict) {
+    public Verdict analyzeABSResultsAndUpdateVerdict(List<Result> resultList, Verdict verdict) {
         verdict.setRevisionSuccess(determineRevisionOutcome(resultList));
 
         if (verdict.getRevisionSuccess() == -99) {

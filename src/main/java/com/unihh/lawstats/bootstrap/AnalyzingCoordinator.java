@@ -29,48 +29,64 @@ public class AnalyzingCoordinator {
     }
 
     /**
-     * this method analyse the given files and creates a verdict of it
+     * This method analyse the given files and creates a verdict of it
      *
      * @return the verdict of the given file
      * @throws NoDocketnumberFoundException when no DocketNumber was found
      */
     public Verdict analyzeDocument(File fileToAnalyze, boolean isDeployMode) throws NoDocketnumberFoundException {
+
         PDFToTextConverter pdfToTextConverter = new PDFToTextConverter();
         LawNLUCommunicator lawNLUCommunicator = new LawNLUCommunicator();
         Mapper verdictMapper = new Mapper();
+        BGHVerdictUtil bghVerdictUtil = new BGHVerdictUtil();
         String documentText = null;
         String jsonNLUResponse = null;
+        List<Result> classifierResults;
+        Verdict verdict;
+        String path;
+        String pathTxt;
+
+        //Gets the source and target path
+        path = fileToAnalyze.getPath();
+        pathTxt = path.replace(".pdf", ".txt");
 
 
-        String path = fileToAnalyze.getPath();
-        String pathTxt = path.replace(".pdf", ".txt");
-
-
+        //Convert and format
         pdfToTextConverter.convertPDFToText(path, isDeployMode);
         documentText = Formatter.formatText(pathTxt);
+
+        //checks for formatting errors
         if(documentText == null || documentText.equals("")){
             return null;
         }
 
-        //10:864de4a5-5bab-495e-8080-2f1185d1b38d
-        jsonNLUResponse = lawNLUCommunicator.retrieveEntities("10:a6285191-9eae-41c0-befb-bffaf2e9e587", documentText); //TODO model id von config holen
 
-        // Throws the NoDocketnumberFoundException
-        Verdict verdict = verdictMapper.mapJSONStringToVerdicObject(jsonNLUResponse);
+        jsonNLUResponse = lawNLUCommunicator.retrieveEntities("10:a6285191-9eae-41c0-befb-bffaf2e9e587", documentText); //TODO properties
 
 
+        verdict = verdictMapper.mapJSONStringToVerdicObject(jsonNLUResponse);  // Throws the NoDocketnumberFoundException
 
-        List<Result> classifierReults = _absDocumentAnalyzer.retrieveABSResultsForDocumentText(documentText);
-        verdict = _absDocumentAnalyzer.analyzeABSResultsAndPutItInVerdict(classifierReults, verdict);
 
+        classifierResults = _absDocumentAnalyzer.retrieveABSResultsForDocumentText(documentText);
+        verdict = _absDocumentAnalyzer.analyzeABSResultsAndUpdateVerdict(classifierResults, verdict);
+
+        //checks if the analyzes failed
         if(verdict == null){
             return null;
         }
 
-        verdictMapper.setMinimumDateForLastForeDecision(verdict.getDecisionSentences()[0], verdict); //We have only on sentences
 
-        BGHVerdictUtil bghVerdictUtil = new BGHVerdictUtil();
-        verdict.setDocumentNumber(Integer.valueOf(bghVerdictUtil.retrieveBGHVerdictNumberForFileName(fileToAnalyze.getName())));
+        verdictMapper.setMinimumDateForLastForeDecision(verdict.getDecisionSentences()[0], verdict); //We have only one sentence
+
+
+
+        try {
+            verdict.setDocumentNumber(Integer.valueOf(bghVerdictUtil.retrieveBGHVerdictNumberForFileName(fileToAnalyze.getName())));
+        }catch(NumberFormatException nFE){
+            nFE.printStackTrace();
+        }
+
 
         return verdict;
     }
