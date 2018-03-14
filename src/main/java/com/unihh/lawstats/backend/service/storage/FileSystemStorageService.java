@@ -85,10 +85,9 @@ public class FileSystemStorageService implements StorageService, Observer {
 
     private String processFile(File uploadedFile) {
         if (uploadedFile != null) {
-            fileProcessService.setFile(uploadedFile);
             Verdict verdict;
-            if (fileProcessService.checkPDF()) {
-                verdict = fileProcessService.start(Boolean.valueOf(environment.getProperty("deploy.mode")));
+            if (fileProcessService.checkPDF(uploadedFile)) {
+                verdict = fileProcessService.start(Boolean.valueOf(environment.getProperty("deploy.mode")),uploadedFile);
             } else {
                 return "";
             }

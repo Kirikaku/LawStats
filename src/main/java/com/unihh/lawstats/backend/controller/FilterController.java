@@ -264,36 +264,36 @@ public class FilterController {
      * This methods adds all related Verdicts to the SearchVerdicts objects
      */
     private void addVerdictsToSearchVerdicts() {
-//        for (SearchVerdict searchVerdict : searchVerdictList) {
-//            searchVerdict.addAll(verdictRepoService.testVerdictThing(convertSearchVerdictCombinationMap(searchVerdict)));
-//        }
-        SearchFormatter searchFormatter = new SearchFormatter();
-        for (Verdict verdict : verdictsInUse) {
-            for (SearchVerdict searchVerdict : searchVerdictList) {
-                boolean isRelated = true;
-                for (DataModelAttributes attribute : searchVerdict.getCombinationMap().keySet()) {
-                    VerdictDateFormatter verdictDateFormatter = new VerdictDateFormatter();
-                    if (attribute.toString().contains("Date")) {
-                        DateInput dateInput = (DateInput) searchVerdict.getValueForKey(attribute);
-                        long date = verdictDateFormatter.formatStringToLong(dataAttributeVerdictService.dataAttributeToVerdictValue(attribute, verdict).get(0));
-                        if (date > dateInput.getEnd() || date < dateInput.getStart()) {
-                            isRelated = false;
-                        }
-
-                    } else {
-                        StringInput stringInput = (StringInput) searchVerdict.getValueForKey(attribute);
-                        // when there is one value of the verdict attribute, which contains all values of the searchVerdict
-                        if (!verdictContainsValueOfSearchVerdict(verdict, stringInput)) {
-                            isRelated = false;
-                        }
-                    }
-                }
-
-                if (isRelated) {
-                    searchVerdict.addVerdictToList(verdict);
-                }
-            }
+        for (SearchVerdict searchVerdict : searchVerdictList) {
+            searchVerdict.addAll(verdictRepoService.testVerdictThing(convertSearchVerdictCombinationMap(searchVerdict)));
         }
+//        SearchFormatter searchFormatter = new SearchFormatter();
+//        for (Verdict verdict : verdictsInUse) {
+//            for (SearchVerdict searchVerdict : searchVerdictList) {
+//                boolean isRelated = true;
+//                for (DataModelAttributes attribute : searchVerdict.getCombinationMap().keySet()) {
+//                    VerdictDateFormatter verdictDateFormatter = new VerdictDateFormatter();
+//                    if (attribute.toString().contains("Date")) {
+//                        DateInput dateInput = (DateInput) searchVerdict.getValueForKey(attribute);
+//                        long date = verdictDateFormatter.formatStringToLong(dataAttributeVerdictService.dataAttributeToVerdictValue(attribute, verdict).get(0));
+//                        if (date > dateInput.getEnd() || date < dateInput.getStart()) {
+//                            isRelated = false;
+//                        }
+//
+//                    } else {
+//                        StringInput stringInput = (StringInput) searchVerdict.getValueForKey(attribute);
+//                        // when there is one value of the verdict attribute, which contains all values of the searchVerdict
+//                        if (!verdictContainsValueOfSearchVerdict(verdict, stringInput)) {
+//                            isRelated = false;
+//                        }
+//                    }
+//                }
+//
+//                if (isRelated) {
+//                    searchVerdict.addVerdictToList(verdict);
+//                }
+//            }
+//        }
     }
 
     private Map<DataModelAttributes, Set<Input>> convertSearchVerdictCombinationMap(SearchVerdict searchVerdict) {
@@ -320,20 +320,20 @@ public class FilterController {
      * All Attributes are connected with an AND
      */
     private Set<Verdict> getQueriedVerdicts() {
-        //return new HashSet<>(verdictRepoService.testVerdictThing(selectedAttributesMap));
-        Set<Verdict> verdictSet = new HashSet<>(); //make set empty
-
-        // First add a list of Verdict to out Set
-        if (selectedAttributesMap.entrySet().iterator().hasNext()) {
-            Map.Entry<DataModelAttributes, Set<Input>> entry = selectedAttributesMap.entrySet().iterator().next();
-            verdictSet.addAll(verdictRepoService.getVerdictsForAttribute(entry.getKey(), entry.getValue()));
-
-            //Second for every attrbute add the verdicts to the set and create the intersection.
-            //We connect the attributes with an AND
-            selectedAttributesMap.forEach((dataModelAttributes, strings) -> verdictSet.retainAll(verdictRepoService.getVerdictsForAttribute(dataModelAttributes, strings)));
-        }
-
-        return verdictSet;
+        return new HashSet<>(verdictRepoService.testVerdictThing(selectedAttributesMap));
+//        Set<Verdict> verdictSet = new HashSet<>(); //make set empty
+//
+//        // First add a list of Verdict to out Set
+//        if (selectedAttributesMap.entrySet().iterator().hasNext()) {
+//            Map.Entry<DataModelAttributes, Set<Input>> entry = selectedAttributesMap.entrySet().iterator().next();
+//            verdictSet.addAll(verdictRepoService.getVerdictsForAttribute(entry.getKey(), entry.getValue()));
+//
+//            //Second for every attrbute add the verdicts to the set and create the intersection.
+//            //We connect the attributes with an AND
+//            selectedAttributesMap.forEach((dataModelAttributes, strings) -> verdictSet.retainAll(verdictRepoService.getVerdictsForAttribute(dataModelAttributes, strings)));
+//        }
+//
+//        return verdictSet;
     }
 
     private void addInputToMap(Input input, DataModelAttributes dataModelAttributes) {

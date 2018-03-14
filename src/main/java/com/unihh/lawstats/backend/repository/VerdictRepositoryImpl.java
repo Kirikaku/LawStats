@@ -26,10 +26,10 @@ public class VerdictRepositoryImpl implements VerdictRepositoryCustom {
 
     @Override
     public List<Verdict> findVerdictByAttributesAndValues(Map<DataModelAttributes, Set<Input>> mapForSearching) {
-        createNewMap();
+        createNewMap(); // set all to empty
 
         mapForSearching.forEach((attributes, inputs) -> {
-            switch (attributes) {
+            switch (attributes) { // for every given attribute put it in our map
                 case DocketNumber:
                     inputs.forEach(input -> putStringInputInMapForAttribute(attributes, input));
                     break;
@@ -66,9 +66,9 @@ public class VerdictRepositoryImpl implements VerdictRepositoryCustom {
         });
 
         String queryString = buildQuery().trim();
-        if(!queryString.isEmpty()) {
+        if (!queryString.isEmpty()) {
             Query query = new SimpleQuery(queryString.substring(0, queryString.length() - 4));
-            return solrTemplate.queryForPage(query, Verdict.class).getContent();
+            return solrTemplate.queryForPage(query.setRows(Integer.MAX_VALUE), Verdict.class).getContent();
         }
         return Collections.emptyList();
     }
@@ -158,12 +158,21 @@ public class VerdictRepositoryImpl implements VerdictRepositoryCustom {
     }
 
     private String createStringQueryForOneAttribute(String attribute, List<String> strings) {
+        // Create String for Strings with whitespace AND between
         if (strings.isEmpty()) {
             return "";
         }
         StringBuilder sb = new StringBuilder();
-        strings.forEach(s -> sb.append(attribute).append(":*").append(s.replace(" ", "\\ ")).append("* OR "));
+        strings.forEach(s -> sb.append("(").append(getQueryForOneString(s, attribute)).append(") OR "));
+        //strings.forEach(s -> sb.append(attribute).append(":*").append(s.replace(" ", "\\ ")).append("* OR "));
         return "(" + sb.substring(0, sb.length() - 4) + ") AND ";
+    }
+
+    private String getQueryForOneString(String s, String attribute) {
+        StringBuilder sb = new StringBuilder();
+        Arrays.stream(s.split(" ")).forEach(s1 -> sb.append(attribute).append(":*").append(s1.replace(".", "")
+        .replace("/", "* AND "+attribute+":*")).append("* AND "));
+        return sb.substring(0, sb.length() - 4);
     }
 
     private void putDateInputInMapForAttribute(DataModelAttributes attributes, Input input) {
@@ -180,11 +189,7 @@ public class VerdictRepositoryImpl implements VerdictRepositoryCustom {
     private void putStringInputInMapForAttribute(DataModelAttributes attributes, Input input) {
         if (input.getInputType().equals(InputType.String)) {
             List<String> savedList = attributesWithValuesMap.get(attributes);
-            if(attributes.equals(DataModelAttributes.Senate)){
-                savedList.add(((StringInput) input).getValue().split(" ")[0]);
-            } else {
-                savedList.add(((StringInput) input).getValue());
-            }
+            savedList.add(((StringInput) input).getValue());
         }
     }
 

@@ -20,23 +20,21 @@ import static java.lang.Thread.sleep;
 public class FileProcessService extends Observable {
 
 
-    @Autowired
-    VerdictRepoService verdictRepoService;
-    @Autowired
-    AbSentimentService abSentimentService;
-    private File workfile;
-    private boolean fileAnalyzed = false;
+    private VerdictRepoService verdictRepoService;
+    private AbSentimentService abSentimentService;
 
-    public FileProcessService() {
+    @Autowired
+    public FileProcessService(AbSentimentService abSentimentService,
+                              VerdictRepoService verdictRepoService) {
+        this.abSentimentService = abSentimentService;
+        this.verdictRepoService = verdictRepoService;
     }
 
-    public void setFile(File file) {
-        workfile = file;
-    }
-
-    public Verdict start(boolean isDeployMode) {
+    public Verdict start(boolean isDeployMode, File workfile) {
         AtomicReference<Verdict> verdict = new AtomicReference<>();
         AnalyzingCoordinator coordinator = new AnalyzingCoordinator(abSentimentService.getAbSentiment());
+        final boolean[] fileAnalyzed = {false};
+
         Runnable thread = () -> {
             try {
                 verdict.set(coordinator.analyzeDocument(workfile, isDeployMode));
@@ -47,12 +45,12 @@ public class FileProcessService extends Observable {
             } catch (NoDocketnumberFoundException ex) {
                 verdict.set(null);
             }
-            fileAnalyzed = true;
+            fileAnalyzed[0] = true;
         };
         thread.run();
 
         int counter = 0;
-        while (counter < 60 && !fileAnalyzed) {
+        while (counter < 60 && !fileAnalyzed[0]) {
             try {
                 sleep(1000);
                 counter++;
@@ -61,7 +59,7 @@ public class FileProcessService extends Observable {
             }
         }
 
-        if (fileAnalyzed) {
+        if (fileAnalyzed[0]) {
             return verdict.get();
         } else {
             return null;
@@ -69,7 +67,7 @@ public class FileProcessService extends Observable {
     }
 
 
-    public boolean checkPDF() {
-        return workfile.toString().contains(".pdf");
+    public boolean checkPDF(File workfile) {
+        return workfile.getName().endsWith(".pdf");
     }
 }

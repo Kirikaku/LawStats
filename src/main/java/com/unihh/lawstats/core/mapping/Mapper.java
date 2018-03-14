@@ -9,6 +9,7 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * Wichtig:
@@ -186,9 +187,13 @@ public class Mapper {
         VerdictDateFormatter verdictDateFormatter = new VerdictDateFormatter();
         // Empfängt eine Liste und gibt dabei das neueste Datum zurück.
         List<Long> dateVerdicts;
-        dateVerdicts = verdictDateFormatter.formateStringDateToLongList(stringL);
+        dateVerdicts = verdictDateFormatter.formateStringDateToLongList(stringL).stream().filter(Objects::nonNull).collect(Collectors.toList());
+        if(dateVerdicts.isEmpty()) {
+            return null;
+        }
         Optional<Long> optionalLong = dateVerdicts.stream().max(Long::compareTo);
         return optionalLong.orElse(0L);
+
     }
 
     private void setSenates() {
@@ -337,6 +342,11 @@ public class Mapper {
 //            }
     }
 
+    /**
+     * This method set the minimum date in the given text for the last verdict foreDecisionCourt which is available
+     * @param text the string where should be the date
+     * @param verdict the verdict which the text is related
+     */
     public void setMinimumDateForLastForeDecision(String text, Verdict verdict){
         if(text == null || verdict == null){
             return; // we dont want Nullpointerexceptions
@@ -344,11 +354,11 @@ public class Mapper {
 
         VerdictDateFormatter verdictDateFormatter = new VerdictDateFormatter();
         AtomicLong minDate = new AtomicLong();
-        Arrays.stream(text.split(" ")).filter(s -> !s.isEmpty())
-                .map(verdictDateFormatter::formatStringToLong)
-                .filter(Objects::nonNull)
-                .min(Long::compareTo)
-                .ifPresent(minDate::set);
+        Arrays.stream(text.split(" ")).filter(s -> !s.isEmpty()) //Drop all empty strings
+                .map(verdictDateFormatter::formatStringToLong) // map all strings to an date
+                .filter(Objects::nonNull) //drop all nulls (no date)
+                .min(Long::compareTo) //get minimum date
+                .ifPresent(minDate::set); //set date if present
 
         if(verdict.getForeDecisionRACCourt() != null){
             verdict.setForeDecisionRACVerdictDate(minDate.get());
