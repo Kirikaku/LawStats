@@ -11,12 +11,16 @@ public class ShortcutList {
 
     private List<String> shortcuts = new ArrayList<String>();
 
-    public ShortcutList()
-    {
+    public ShortcutList(boolean isDeployMode) {
         String line = "";
 
         try {
-            InputStream is = new FileInputStream("src/main/resources/preprocessing/shortcuts.txt");
+            InputStream is;
+            if (isDeployMode) {
+                is = new FileInputStream("/lawstats/preprocessing/shortcuts.txt");
+            } else {
+                is = new FileInputStream("src/main/resources/preprocessing/shortcuts.txt");
+            }
 
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
