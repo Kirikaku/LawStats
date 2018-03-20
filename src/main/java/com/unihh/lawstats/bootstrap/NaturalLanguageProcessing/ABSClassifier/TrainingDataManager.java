@@ -29,7 +29,7 @@ public class TrainingDataManager {
         String jsonAnnotation = null;
 
 
-        File folder = new File(PropertyManager.getLawProperty(PropertyManager.TRAINGSDATA_ANNOTATIONS)); //TODO properties DONE
+        File folder = new File(PropertyManager.getLawProperty(PropertyManager.TRAINGSDATA_ANNOTATIONS));
         File[] allFiles = folder.listFiles();
 
 
@@ -59,7 +59,7 @@ public class TrainingDataManager {
         }
 
 
-        String basePath = PropertyManager.getLawProperty(PropertyManager.TRAININGSDATA_BASEFILEPATH); //TODO properties DONE
+        String basePath = PropertyManager.getLawProperty(PropertyManager.TRAININGSDATA_BASEFILEPATH);
         String erfolgOutfile = "erfolg.tsv";
         String teilErfolgOutfile = "teilerfolg.tsv";
         String misserfolgOutfile = "misserfolg.tsv";
@@ -90,7 +90,7 @@ public class TrainingDataManager {
         List<String[]> revisionsIrrelevantValuesList;
 
         String basePath = PropertyManager.getLawProperty(PropertyManager.TRAININGSDATA_BASEFILEPATH);
-        String erfolgFilename = "erfolg.tsv"; //TODO properties ABGELEHNT
+        String erfolgFilename = "erfolg.tsv";
         String teilErfolgFilename = "teilerfolg.tsv";
         String misserfolgFilename = "misserfolg.tsv";
         String irrelevantFilename = "irrelevant.tsv";

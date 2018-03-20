@@ -16,7 +16,7 @@ import java.io.FileWriter;
 import java.util.*;
 
 public class LawNLUCommunicator {
-    static String usernameNLU = PropertyManager.getLawProperty(PropertyManager.WATSON_NLU_USERNAME); //TODO properties DONE
+    static String usernameNLU = PropertyManager.getLawProperty(PropertyManager.WATSON_NLU_USERNAME);
     static String passwordNLU = PropertyManager.getLawProperty(PropertyManager.WATSON_NLU_PASSWORD);
 
 
@@ -48,7 +48,7 @@ public class LawNLUCommunicator {
                 .build();
 
 
-        //TODO Bad Request Exception Watson is not available
+
         AnalysisResults response = service.analyze(parameters).execute();
 
 

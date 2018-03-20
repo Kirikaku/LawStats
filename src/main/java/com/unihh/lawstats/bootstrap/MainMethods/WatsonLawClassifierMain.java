@@ -9,7 +9,7 @@ public class WatsonLawClassifierMain {
 
     public static void main(String[] args) {
         WatsonLawClassifier watsonLawClassifier = new WatsonLawClassifier();
-        String classifierID = PropertyManager.getLawProperty(PropertyManager.WATSON_CLASSIFIER_MODELID); //TODO properties DONE
+        String classifierID = PropertyManager.getLawProperty(PropertyManager.WATSON_CLASSIFIER_MODELID);
 
 
         //retrieves the Status

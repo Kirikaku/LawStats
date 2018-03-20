@@ -17,13 +17,6 @@ public class FormattingManager {
     }
 
 
-    public synchronized int getCounter(){
-        return _counter;
-    }
-
-    public synchronized void setCounter(int newCounter){
-        _counter = newCounter;
-    }
 
     public synchronized  int getAndIncrementCounter(){
         _counter++;

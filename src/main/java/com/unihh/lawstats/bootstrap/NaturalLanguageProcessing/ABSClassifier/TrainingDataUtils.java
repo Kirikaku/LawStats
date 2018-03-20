@@ -89,7 +89,7 @@ public class TrainingDataUtils {
 
         double trainingsDataRatio = Double.valueOf(PropertyManager.getLawProperty(PropertyManager.RELATION_TRAINING_TO_TESTDATA));
 
-        long trainingsDataAmount = Math.round(valueSet.size()*trainingsDataRatio); //TODO properties DONE
+        long trainingsDataAmount = Math.round(valueSet.size()*trainingsDataRatio);
 
         //only exists in order to make the required ID unique
         int ongoingIndex = 0;
@@ -100,10 +100,10 @@ public class TrainingDataUtils {
 
             if(trainingsDataAmount > 0) {
                 trainingsDataAmount--;
-                writeOneRow(valueArray, basePath+"trainingsData.tsv", ongoingIndex); //TODO properties DONE
+                writeOneRow(valueArray, basePath+"trainingsData.tsv", ongoingIndex);
             }
             else{
-                writeOneRowTestData(valueArray, basePath+"testData.tsv", ongoingIndex); //TODO properties DONE
+                writeOneRowTestData(valueArray, basePath+"testData.tsv", ongoingIndex);
             }
         }
     }

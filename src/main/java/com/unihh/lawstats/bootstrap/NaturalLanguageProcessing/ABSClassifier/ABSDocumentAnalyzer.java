@@ -83,7 +83,7 @@ public class ABSDocumentAnalyzer {
 
 
         if (_abSentiment == null) {
-            setAbSentiment(new AbSentiment(PropertyManager.getLawProperty(PropertyManager.ABS_CONFIGURATION))); //TODO properties DONE
+            setAbSentiment(new AbSentiment(PropertyManager.getLawProperty(PropertyManager.ABS_CONFIGURATION)));
         }
 
 

@@ -67,7 +67,7 @@ public class AnalyzingCoordinator {
         //Watson will time out or deny requests once two many requests have been sent
         //Therefore we pause the application for 10seconds if this happens
         try {
-            jsonNLUResponse = lawNLUCommunicator.retrieveEntities(PropertyManager.getLawProperty(PropertyManager.WATSON_NLU_MODELID), documentText); //TODO properties DONE
+            jsonNLUResponse = lawNLUCommunicator.retrieveEntities(PropertyManager.getLawProperty(PropertyManager.WATSON_NLU_MODELID), documentText);
         }catch(Exception e){
             e.printStackTrace();
             try {

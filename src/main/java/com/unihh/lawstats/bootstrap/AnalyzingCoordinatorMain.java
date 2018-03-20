@@ -17,44 +17,36 @@ import java.util.Arrays;
 public class AnalyzingCoordinatorMain {
 
     public static void main(String[] args) {
-
-            ApplicationContext context = new ClassPathXmlApplicationContext("beansDefinitionForBootstrapPhase.xml");
-            VerdictRepoService verdictRepoService = new VerdictRepoService(context.getBean("verdictRepository", VerdictRepository.class));
-
-            AbSentiment abSentiment = new AbSentiment(PropertyManager.getLawProperty(PropertyManager.ABS_CONFIGURATION)); //TODO properties DONE
-            AnalyzingCoordinator analyzingCoordinator = new AnalyzingCoordinator(abSentiment);
-            int limit = 1000; //TODO evtl. properties oder args ABGELEHNT
+        //necessary for solr
+        ApplicationContext context = new ClassPathXmlApplicationContext("beansDefinitionForBootstrapPhase.xml");
+        VerdictRepoService verdictRepoService = new VerdictRepoService(context.getBean("verdictRepository", VerdictRepository.class));
 
 
-            if (args.length != 0) {
-                File file = new File(args[0]);
+        AbSentiment abSentiment = new AbSentiment(PropertyManager.getLawProperty(PropertyManager.ABS_CONFIGURATION));
+        AnalyzingCoordinator analyzingCoordinator = new AnalyzingCoordinator(abSentiment);
 
-                if (file.exists() && file.listFiles() != null) {
 
-                    File[] listOfFiles = file.listFiles();
+        File file = new File(args[0]);
 
-                    for (int i = 0; i < listOfFiles.length; i++) {
-                        if (listOfFiles[i].getName().endsWith(".pdf")) {
-                            try {
-                                Verdict verdict = analyzingCoordinator.analyzeDocument(listOfFiles[i], false);
-                                if (verdict != null) {
-                                    verdictRepoService.save(verdict);
-                                }
-                            } catch (NoDocketnumberFoundException ex) {
-                                ex.printStackTrace();
-                            }
-                        }
+
+        File[] listOfFiles = file.listFiles();
+
+        for (int i = 0; i < listOfFiles.length; i++) {
+            if (listOfFiles[i].getName().endsWith(".pdf")) {
+                try {
+                    Verdict verdict = analyzingCoordinator.analyzeDocument(listOfFiles[i], false);
+                    if (verdict != null) {
+                        verdictRepoService.save(verdict);
                     }
-
-                } else {
-                    // log.error("Dir does not exists");
+                } catch (NoDocketnumberFoundException ex) {
+                    ex.printStackTrace();
                 }
-            } else {
-                //log.error("No parameter was given, pls give me a dir to all pdfs");
             }
         }
 
-
-
+    }
 }
+
+
+
 

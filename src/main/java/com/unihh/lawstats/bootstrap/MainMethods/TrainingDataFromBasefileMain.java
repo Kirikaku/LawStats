@@ -7,7 +7,6 @@ public class TrainingDataFromBasefileMain {
 
     public static void main(String[] args){
         TrainingDataManager trainingDataManager = new TrainingDataManager();
-
-        trainingDataManager.createTrainingDataFromBaseFiles(); //TODO properties bzw. von args DONE
+        trainingDataManager.createTrainingDataFromBaseFiles();
     }
 }

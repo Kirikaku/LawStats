@@ -6,9 +6,12 @@ public class RandomSelectorMain {
 
 
     public static void main(String[] args){
-        RandomDocumentSelector randomDocumentSelector = new RandomDocumentSelector();   //TODO delete this
-        randomDocumentSelector.selectRandomDocuments(2000, 17756, 80984);
-        //TODO evtl. properties DONE
+        int numberOfDocuments = 2000;
+        int startIndex = 20000;
+        int endIndex = 50000;
+
+        RandomDocumentSelector randomDocumentSelector = new RandomDocumentSelector();
+        randomDocumentSelector.selectRandomDocuments(numberOfDocuments, startIndex, endIndex);
     }
 
 }

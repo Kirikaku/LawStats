@@ -33,11 +33,8 @@ public class VerdictDownloader implements Runnable {
 
 
     public void downloadVerdicts(int counter, String targetFolderPath) {
-
-
-
         String urlString = "http://juris.bundesgerichtshof.de/cgi-bin/rechtsprechung/document.py?Gericht=bgh&Art=en&Datum=Aktuell&nr=" + counter + "&Frame=4&.pdf";
-        String targetPath = targetFolderPath + "verdict" + counter + ".pdf"; //TODO properties DONE
+        String targetPath = targetFolderPath + "verdict" + counter + ".pdf";
 
         try {
             URL url = new URL(urlString);

@@ -6,8 +6,7 @@ public class TrainingDataMain {
 
     public static void main(String[] args) {
         TrainingDataManager trainingDataManager = new TrainingDataManager();
-
-        trainingDataManager.createTrainingsDataBaseFiles(); //TODO pfad von args bekommen DONE
+        trainingDataManager.createTrainingsDataBaseFiles();
 
 
     }

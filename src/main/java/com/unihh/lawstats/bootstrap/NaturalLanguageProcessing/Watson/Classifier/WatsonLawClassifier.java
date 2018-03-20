@@ -23,7 +23,7 @@ public class WatsonLawClassifier {
         String password = PropertyManager.getLawProperty(PropertyManager.WATSON_CLASSIFIER_USERNAME);
         String username = PropertyManager.getLawProperty(PropertyManager.WATSON_CLASSIFIER_PASSWORD);
         _service.setEndPoint("https://gateway-fra.watsonplatform.net/natural-language-classifier/api");
-        this._service.setUsernameAndPassword(username, password); //TODO properties DONE
+        this._service.setUsernameAndPassword(username, password);
     }
 
 
@@ -38,7 +38,7 @@ public class WatsonLawClassifier {
 
         File trainingsDataFile = new File(PropertyManager.getLawProperty(PropertyManager.WATSON_CLASSIFIER_TRAININGSDATAFILE));
 
-        Classifier classifier = (Classifier) this._service.createClassifier("PerformanceTestClassifier", "en", trainingsDataFile).execute(); //TODO properties DONE
+        Classifier classifier = (Classifier) this._service.createClassifier("PerformanceTestClassifier", "en", trainingsDataFile).execute();
         _classifierID = classifier.getId();
 
         return _classifierID;
