@@ -1,5 +1,6 @@
 package com.unihh.lawstats.bootstrap.NaturalLanguageProcessing.ABSClassifier;
 
+import com.unihh.lawstats.PropertyManager;
 import com.unihh.lawstats.core.model.Verdict;
 import uhh_lt.ABSA.ABSentiment.type.Result;
 
@@ -82,7 +83,7 @@ public class ABSDocumentAnalyzer {
 
 
         if (_abSentiment == null) {
-            setAbSentiment(new AbSentiment("src/main/resources/config/ABSConfiguration.txt")); //TODO properties
+            setAbSentiment(new AbSentiment(PropertyManager.getLawProperty(PropertyManager.ABS_CONFIGURATION))); //TODO properties DONE
         }
 
 

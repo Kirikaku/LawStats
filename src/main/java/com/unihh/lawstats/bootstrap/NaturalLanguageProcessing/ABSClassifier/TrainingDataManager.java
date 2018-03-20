@@ -1,5 +1,6 @@
 package com.unihh.lawstats.bootstrap.NaturalLanguageProcessing.ABSClassifier;
 
+import com.unihh.lawstats.PropertyManager;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 
@@ -28,7 +29,7 @@ public class TrainingDataManager {
         String jsonAnnotation = null;
 
 
-        File folder = new File("C:\\Users\\Phillip\\Documents\\Studium\\Praktikum Sprachtechnologie\\TU Classifier\\corpus-61937530-1d90-11e8-8cb7-7100b456226f\\gt"); //TODO properties
+        File folder = new File(PropertyManager.getLawProperty(PropertyManager.TRAINGSDATA_ANNOTATIONS)); //TODO properties DONE
         File[] allFiles = folder.listFiles();
 
 
@@ -58,7 +59,7 @@ public class TrainingDataManager {
         }
 
 
-        String basePath = "C:\\Users\\Phillip\\Documents\\Studium\\Praktikum Sprachtechnologie\\TU Classifier\\TrainingsData2\\"; //TODO properties
+        String basePath = PropertyManager.getLawProperty(PropertyManager.TRAININGSDATA_BASEFILEPATH); //TODO properties DONE
         String erfolgOutfile = "erfolg.tsv";
         String teilErfolgOutfile = "teilerfolg.tsv";
         String misserfolgOutfile = "misserfolg.tsv";
@@ -78,7 +79,7 @@ public class TrainingDataManager {
 
 
 
-    public void createTrainingDataFromBaseFiles(String basePathParameter) {
+    public void createTrainingDataFromBaseFiles() {
         List<String> revisionsErfolgRowList;
         List<String> revisionsTeilErfolgRowList;
         List<String> revisionsMisserfolgRowList;
@@ -88,8 +89,8 @@ public class TrainingDataManager {
         List<String[]> revisionsMisserfolgValuesList;
         List<String[]> revisionsIrrelevantValuesList;
 
-        String basePath = basePathParameter;
-        String erfolgFilename = "erfolg.tsv"; //TODO properties
+        String basePath = PropertyManager.getLawProperty(PropertyManager.TRAININGSDATA_BASEFILEPATH);
+        String erfolgFilename = "erfolg.tsv"; //TODO properties ABGELEHNT
         String teilErfolgFilename = "teilerfolg.tsv";
         String misserfolgFilename = "misserfolg.tsv";
         String irrelevantFilename = "irrelevant.tsv";

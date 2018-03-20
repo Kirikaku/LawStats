@@ -1,7 +1,5 @@
 package com.unihh.lawstats.bootstrap.Downloader;
 
-import com.unihh.lawstats.bootstrap.Downloader.DownloadManager;
-
 import java.io.*;
 import java.net.URL;
 import java.nio.file.Files;
@@ -12,14 +10,14 @@ public class VerdictDownloader implements Runnable {
 
     DownloadManager _downloadManager;
     int _endIndex;
-    String _filePath;
+    String _folderPath;
 
 
 
-    public VerdictDownloader(DownloadManager downloadManager, int endIndex, String filePath) {
+    public VerdictDownloader(DownloadManager downloadManager, int endIndex, String folderPath) {
         _downloadManager = downloadManager;
         _endIndex = endIndex;
-        _filePath = filePath;
+        _folderPath = folderPath;
     }
 
     public void run() {
@@ -27,7 +25,7 @@ public class VerdictDownloader implements Runnable {
         int counter = _downloadManager.getAndIncrementCounter();
         while(counter <= _endIndex) {
 
-            downloadVerdicts(counter, "ein pfad");
+            downloadVerdicts(counter, _folderPath);
             counter = _downloadManager.getAndIncrementCounter();
         }
 
@@ -36,13 +34,15 @@ public class VerdictDownloader implements Runnable {
 
     public void downloadVerdicts(int counter, String targetFolderPath) {
 
+
+
         String urlString = "http://juris.bundesgerichtshof.de/cgi-bin/rechtsprechung/document.py?Gericht=bgh&Art=en&Datum=Aktuell&nr=" + counter + "&Frame=4&.pdf";
-        String targetPath = targetFolderPath + "\\verdict" + counter + ".pdf";
+        String targetPath = targetFolderPath + "verdict" + counter + ".pdf"; //TODO properties DONE
 
         try {
             URL url = new URL(urlString);
             BufferedInputStream in = new BufferedInputStream(url.openStream());
-            Files.copy(in, Paths.get(targetFolderPath), StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(in, Paths.get(targetPath), StandardCopyOption.REPLACE_EXISTING);
             in.close();
         }catch(Exception e) {
             e.printStackTrace();

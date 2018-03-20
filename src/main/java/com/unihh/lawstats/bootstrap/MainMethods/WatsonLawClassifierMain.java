@@ -1,13 +1,15 @@
-package com.unihh.lawstats.bootstrap.NaturalLanguageProcessing.Watson.Classifier;
+package com.unihh.lawstats.bootstrap.MainMethods;
 
 import com.ibm.watson.developer_cloud.natural_language_classifier.v1.model.Classification;
+import com.unihh.lawstats.PropertyManager;
+import com.unihh.lawstats.bootstrap.NaturalLanguageProcessing.Watson.Classifier.WatsonLawClassifier;
 
 public class WatsonLawClassifierMain {
 
 
     public static void main(String[] args) {
         WatsonLawClassifier watsonLawClassifier = new WatsonLawClassifier();
-        String classifierID = "77d867x10-nlc-2";
+        String classifierID = PropertyManager.getLawProperty(PropertyManager.WATSON_CLASSIFIER_MODELID); //TODO properties DONE
 
 
         //retrieves the Status

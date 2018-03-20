@@ -1,5 +1,6 @@
 package com.unihh.lawstats.bootstrap.NaturalLanguageProcessing.ABSClassifier;
 
+import com.unihh.lawstats.PropertyManager;
 import org.apache.commons.io.IOUtils;
 
 import java.io.FileInputStream;
@@ -85,7 +86,10 @@ public class TrainingDataUtils {
 
 
     public void writeRowsForABSData(Set<String[]> valueSet, String basePath) {
-        long trainingsDataAmount = Math.round(valueSet.size()*0.8); //TODO properties
+
+        double trainingsDataRatio = Double.valueOf(PropertyManager.getLawProperty(PropertyManager.RELATION_TRAINING_TO_TESTDATA));
+
+        long trainingsDataAmount = Math.round(valueSet.size()*trainingsDataRatio); //TODO properties DONE
 
         //only exists in order to make the required ID unique
         int ongoingIndex = 0;
@@ -96,10 +100,10 @@ public class TrainingDataUtils {
 
             if(trainingsDataAmount > 0) {
                 trainingsDataAmount--;
-                writeOneRow(valueArray, basePath+"trainingsData.tsv", ongoingIndex); //TODO properties
+                writeOneRow(valueArray, basePath+"trainingsData.tsv", ongoingIndex); //TODO properties DONE
             }
             else{
-                writeOneRowTestData(valueArray, basePath+"testData.tsv", ongoingIndex); //TODO properties
+                writeOneRowTestData(valueArray, basePath+"testData.tsv", ongoingIndex); //TODO properties DONE
             }
         }
     }
