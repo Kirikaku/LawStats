@@ -122,6 +122,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <includeSystemScope>true</includeSystemScope>
+                    <mainClass>com.unihh.lawstats.backend.Application</mainClass>
                 </configuration>
             </plugin>
         </plugins>
