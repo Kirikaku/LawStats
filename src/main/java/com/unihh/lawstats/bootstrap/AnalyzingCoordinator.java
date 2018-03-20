@@ -1,5 +1,6 @@
 package com.unihh.lawstats.bootstrap;
 
+import com.unihh.lawstats.PropertyManager;
 import com.unihh.lawstats.bootstrap.Converter.Formatting.Formatter;
 import com.unihh.lawstats.bootstrap.Converter.PDFToTextConverter;
 import com.unihh.lawstats.bootstrap.NaturalLanguageProcessing.ABSClassifier.ABSDocumentAnalyzer;
@@ -62,10 +63,29 @@ public class AnalyzingCoordinator {
         }
 
 
-        jsonNLUResponse = lawNLUCommunicator.retrieveEntities("10:a6285191-9eae-41c0-befb-bffaf2e9e587", documentText); //TODO properties
+        //This try-catch block is needed in order to handle the unpredictable behaviour of Watson
+        //Watson will time out or deny requests once two many requests have been sent
+        //Therefore we pause the application for 10seconds if this happens
+        try {
+            jsonNLUResponse = lawNLUCommunicator.retrieveEntities(PropertyManager.getLawProperty(PropertyManager.WATSON_NLU_MODELID), documentText); //TODO properties DONE
+        }catch(Exception e){
+            e.printStackTrace();
+            try {
+                Thread.sleep(10000);
+            }catch(InterruptedException iE){
+                iE.printStackTrace();
+                return null;
+            }
+            return null;
+        }
 
-
-        verdict = verdictMapper.mapJSONStringToVerdicObject(jsonNLUResponse);  // Throws the NoDocketnumberFoundException
+        //Try-catch block ss needed to prevent program shutdown due to unexpected problems while mapping
+        try {
+            verdict = verdictMapper.mapJSONStringToVerdicObject(jsonNLUResponse);  // Throws the NoDocketnumberFoundException
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
 
 
         classifierResults = _absDocumentAnalyzer.retrieveABSResultsForDocumentText(documentText);

@@ -1,5 +1,6 @@
 package com.unihh.lawstats.bootstrap.Converter.Formatting;
 
+import com.unihh.lawstats.PropertyManager;
 import org.apache.commons.io.IOUtils;
 
 import java.io.FileInputStream;
@@ -124,7 +125,7 @@ public class Formatter {
 
 
 
-        List<String> shortcuts = (new ShortcutList()).getShortcuts();
+        List<String> shortcuts = (new ShortcutList(Boolean.valueOf(PropertyManager.getLawProperty(PropertyManager.DEPLOYMODE)))).getShortcuts();
 
 
 
@@ -347,7 +348,7 @@ public class Formatter {
                 content = content.replace(original, neu);
 
 
-                //TODO Temporary solution to resolve program shutdown after a special case in verdict 17801 (java.util.regex.PatternSyntaxException: Dangling meta character '?' near index 0)
+
             }catch(PatternSyntaxException pSE){
                 pSE.printStackTrace();
 

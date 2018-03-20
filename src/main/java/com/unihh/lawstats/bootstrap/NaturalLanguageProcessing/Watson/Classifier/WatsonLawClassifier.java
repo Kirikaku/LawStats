@@ -3,6 +3,7 @@ package com.unihh.lawstats.bootstrap.NaturalLanguageProcessing.Watson.Classifier
 import com.ibm.watson.developer_cloud.natural_language_classifier.v1.NaturalLanguageClassifier;
 import com.ibm.watson.developer_cloud.natural_language_classifier.v1.model.Classification;
 import com.ibm.watson.developer_cloud.natural_language_classifier.v1.model.Classifier;
+import com.unihh.lawstats.PropertyManager;
 
 import java.io.File;
 
@@ -19,8 +20,10 @@ public class WatsonLawClassifier {
      */
     public WatsonLawClassifier() {
         _service = new NaturalLanguageClassifier();
+        String password = PropertyManager.getLawProperty(PropertyManager.WATSON_CLASSIFIER_USERNAME);
+        String username = PropertyManager.getLawProperty(PropertyManager.WATSON_CLASSIFIER_PASSWORD);
         _service.setEndPoint("https://gateway-fra.watsonplatform.net/natural-language-classifier/api");
-        this._service.setUsernameAndPassword("5c91eced-33b4-4c62-b138-1a7018f2c580", "ry2vejcJG7dK");
+        this._service.setUsernameAndPassword(username, password); //TODO properties DONE
     }
 
 
@@ -33,7 +36,9 @@ public class WatsonLawClassifier {
      */
     public String trainClassifier() {
 
-        Classifier classifier = (Classifier) this._service.createClassifier("PerformanceTestClassifier", "en", new File("C:\\Users\\Phillip\\Praktikum Sprachtechnologie\\weather_data_train.csv")).execute();
+        File trainingsDataFile = new File(PropertyManager.getLawProperty(PropertyManager.WATSON_CLASSIFIER_TRAININGSDATAFILE));
+
+        Classifier classifier = (Classifier) this._service.createClassifier("PerformanceTestClassifier", "en", trainingsDataFile).execute(); //TODO properties DONE
         _classifierID = classifier.getId();
 
         return _classifierID;

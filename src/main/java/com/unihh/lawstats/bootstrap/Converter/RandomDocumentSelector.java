@@ -1,5 +1,6 @@
-package com.unihh.lawstats.bootstrap.Converter.RandomSelector;
+package com.unihh.lawstats.bootstrap.Converter;
 
+import com.unihh.lawstats.PropertyManager;
 import com.unihh.lawstats.bootstrap.Converter.Formatting.Formatter;
 
 import org.apache.commons.io.IOUtils;
@@ -9,9 +10,12 @@ import java.util.*;
 
 public class RandomDocumentSelector {
 
-    public void selectRandomDocuments(int numberOfDocuments, int startIndex, int endIndex, String sourceBasePath, String targetBasePath) {
+    public void selectRandomDocuments(int numberOfDocuments, int startIndex, int endIndex) {
 
         Set<String> pathList = new HashSet<>();
+        String sourceBasePath = PropertyManager.getLawProperty(PropertyManager.RANDOMDOCUMENT_SOURCEBASEPATH);
+        String targetBasePath = PropertyManager.getLawProperty(PropertyManager.RANDOMDOCUMENT_TARGETBASEPATH);
+
 
         for (int i = startIndex; i <= endIndex; i++) {
             pathList.add("\\verdict" + i + ".txt");

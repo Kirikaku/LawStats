@@ -59,7 +59,7 @@ public class TrainingsDataManagerHelper {
 
         fullDocumentText = jsonObject.getString("text");
         fullDocumentText = Formatter.replaceNewLines(fullDocumentText);
-        firstSentences = nlpLawUtils.splitDocumentIntoSpecifiedSentences(fullDocumentText, 5); //TODO evtl. properties
+        firstSentences = nlpLawUtils.splitDocumentIntoSpecifiedSentences(fullDocumentText, 5); //TODO evtl. properties ABGELEHNT
 
         mentionsJsonArray = jsonObject.getJSONArray("mentions");
         mentionsArrayIterator = mentionsJsonArray.iterator();
