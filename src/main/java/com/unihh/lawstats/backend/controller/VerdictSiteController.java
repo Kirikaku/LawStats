@@ -80,6 +80,30 @@ public class VerdictSiteController {
         return "";
     }
 
+
+    /**
+     * Returns a Text indicating the revision outcome based on the standardized int value.
+     * @param revisionSucces standardized int value indictaing the revision outcome
+     * @return Text indicating the revision outcome
+     */
+    public String getRevisionSuccessTextForInt(int revisionSucces){
+        String revisionSuccessText = "UNKOWN";
+
+        switch(revisionSucces){
+            case -1: revisionSuccessText = "Revision nicht erfolgreich";
+                    break;
+            case 0: revisionSuccessText = "Revision teilweise erfolgreich";
+                    break;
+            case 1: revisionSuccessText = "Revision erfolgreich";
+                    break;
+            default: revisionSuccessText = "UNKOWN";
+                    break;
+        }
+
+
+       return revisionSuccessText;
+    }
+
     /**
      * This method formats the given long and returns a strng
      */

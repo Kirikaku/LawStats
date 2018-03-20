@@ -51,7 +51,7 @@
                         <tbody>
                         <tr>
                             <td>Revisionsausgang</td>
-                            <td th:text="${verdict.getRevisionSuccess()}"></td>
+                            <th th:text="${@VerdictSiteController.getRevisionSuccessTextForInt(verdict.getRevisionSuccess())}"></th>
                         </tr>
                         <tr>
                             <td>Senat</td>
