@@ -1,7 +1,7 @@
 package com.unihh.lawstats.backend.service;
 
 import com.unihh.lawstats.backend.repository.VerdictRepoService;
-import com.unihh.lawstats.bootstrap.AnalyzingCoordinator;
+import com.unihh.lawstats.NaturalLanguageProcessing.AnalyzingCoordinator;
 import com.unihh.lawstats.core.mapping.NoDocketnumberFoundException;
 import com.unihh.lawstats.core.model.Verdict;
 import org.springframework.beans.factory.annotation.Autowired;
