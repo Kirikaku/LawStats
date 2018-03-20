@@ -9,7 +9,7 @@
     <title>LawStats</title>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="./css/main.css">
 </head>
 <body class="homepage">
 <div id="page-wrapper">
@@ -20,7 +20,7 @@
         <!-- Inner -->
         <div class="inner">
             <header>
-                <h1><a th:href="@{/}" id="logo">LawStats</a></h1>
+                <h1><a th:href="@{./}" id="logo">LawStats</a></h1>
                 <hr/>
                 <p>Statistiken und Infos zu Revisionen</p>
             </header>
@@ -29,10 +29,10 @@
         <!-- Nav -->
         <nav id="nav">
             <ul>
-                <li><a th:href="@{/}">Home</a></li>
-                <li><a th:href="@{/upload}">Upload</a></li>
-                <li><a th:href="@{/filter}">Filter</a></li>
-                <li><a th:href="@{/stats}">Stats</a></li>
+                <li><a th:href="@{./}">Home</a></li>
+                <li><a th:href="@{./upload}">Upload</a></li>
+                <li><a th:href="@{./filter}">Filter</a></li>
+                <li><a th:href="@{./stats}">Stats</a></li>
             </ul>
         </nav>
 
@@ -83,13 +83,13 @@
 
 
 <!-- Scripts -->
-<script th:src="@{/js/jquery.min.js/}"></script>
-<script th:src="@{/js/jquery.dropotron.min.js/}"></script>
-<script th:src="@{/js/jquery.scrolly.min.js/}"></script>
-<script th:src="@{/js/jquery.onvisible.min.js/}"></script>
-<script th:src="@{/js/skel.min.js/}"></script>
-<script th:src="@{/js/util.js/}"></script>
-<script th:src="@{/js/main.js/}"></script>
+<script th:src="@{./js/jquery.min.js/}"></script>
+<script th:src="@{./js/jquery.dropotron.min.js/}"></script>
+<script th:src="@{./js/jquery.scrolly.min.js/}"></script>
+<script th:src="@{./js/jquery.onvisible.min.js/}"></script>
+<script th:src="@{./js/skel.min.js/}"></script>
+<script th:src="@{./js/util.js/}"></script>
+<script th:src="@{./js/main.js/}"></script>
 
 </body>
 </html>

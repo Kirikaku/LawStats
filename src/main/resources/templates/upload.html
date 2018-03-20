@@ -10,7 +10,7 @@
     <title>Lawstats - Upload</title>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <link rel="stylesheet" href="css/main.css"/>
+    <link rel="stylesheet" href="./css/main.css"/>
 
 <body class="no-sidebar" style="text-align: center">
 <div id="page-wrapper">
@@ -21,17 +21,17 @@
         <!-- Inner -->
         <div class="inner">
             <header>
-                <h1><a th:href="@{/}" id="logo">LawStats</a></h1>
+                <h1><a th:href="@{./}" id="logo">LawStats</a></h1>
             </header>
         </div>
 
         <!-- Nav -->
         <nav id="nav">
             <ul>
-                <li><a th:href="@{/}">Home</a></li>
-                <li><a th:href="@{/upload}">Upload</a></li>
-                <li><a th:href="@{/filter}">Filter</a></li>
-                <li><a th:href="@{/stats}">Stats</a></li>
+                <li><a th:href="@{./}">Home</a></li>
+                <li><a th:href="@{./upload}">Upload</a></li>
+                <li><a th:href="@{./filter}">Filter</a></li>
+                <li><a th:href="@{./stats}">Stats</a></li>
             </ul>
         </nav>
     </div>
@@ -49,7 +49,7 @@
                 </article>
 
                 <div class="container">
-                    <form method="POST" enctype="multipart/form-data" th:action="@{/uploadFile}">
+                    <form method="POST" enctype="multipart/form-data" th:action="@{./uploadFile}">
                         <input type="file" name="file" accept="application/pdf/*">
                         <input type="submit" value="Upload"/>
                     </form>
@@ -78,13 +78,13 @@
 
 
 <!-- Scripts -->
-<script th:src="@{/js/jquery.min.js/}"></script>
-<script th:src="@{/js/jquery.dropotron.min.js/}"></script>
-<script th:src="@{/js/jquery.scrolly.min.js/}"></script>
-<script th:src="@{/js/jquery.onvisible.min.js/}"></script>
-<script th:src="@{/js/skel.min.js/}"></script>
-<script th:src="@{/js/util.js/}"></script>
-<script th:src="@{/js/main.js/}"></script>
+<script th:src="@{./js/jquery.min.js/}"></script>
+<script th:src="@{./js/jquery.dropotron.min.js/}"></script>
+<script th:src="@{./js/jquery.scrolly.min.js/}"></script>
+<script th:src="@{./js/jquery.onvisible.min.js/}"></script>
+<script th:src="@{./js/skel.min.js/}"></script>
+<script th:src="@{./js/util.js/}"></script>
+<script th:src="@{./js/main.js/}"></script>
 
 </body>
 </html>
