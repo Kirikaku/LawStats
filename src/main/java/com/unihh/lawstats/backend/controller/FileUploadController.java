@@ -79,11 +79,11 @@ public class FileUploadController {
         String docketNumber = storageService.store(file);
 
         if(docketNumber.isEmpty()){
-            return "redirect:/upload";
+            return "redirect:./upload";
         } else {
             redirectAttributes.addFlashAttribute("message",
                     "Die Datei " + file.getOriginalFilename() + " wurde nicht erfolgreich hochgeladen!");
-            return "redirect:/verdict/"+docketNumber;
+            return "redirect:./verdict/"+docketNumber;
         }
     }
 
