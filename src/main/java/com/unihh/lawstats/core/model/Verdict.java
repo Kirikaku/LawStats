@@ -1,6 +1,6 @@
 package com.unihh.lawstats.core.model;
 
-import com.sun.javafx.beans.IDProperty;
+//import com.sun.javafx.beans.IDProperty;
 import com.unihh.lawstats.core.HashService;
 import org.apache.solr.client.solrj.beans.Field;
 import org.springframework.data.annotation.Id;
