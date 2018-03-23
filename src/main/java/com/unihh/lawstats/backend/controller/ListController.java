@@ -55,7 +55,7 @@ public class ListController {
     }
 
     /**
-     * This method creates a link to a viable Verdictlist
+     * This method creates a link to a viable VerdictList
      *
      * @param id        Verdict ID
      * @param attribute Verdict attribute

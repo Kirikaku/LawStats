@@ -1,6 +1,7 @@
 package com.unihh.lawstats.core.model;
 
 //import com.sun.javafx.beans.IDProperty;
+
 import com.unihh.lawstats.core.HashService;
 import org.apache.solr.client.solrj.beans.Field;
 import org.springframework.data.annotation.Id;
@@ -26,6 +27,9 @@ public class Verdict {
     @Field("revisionSuccess")
     @Indexed(type = "long")
     private int revisionSuccess;
+    @Field("relevanceScore")
+    @Indexed(type = "double")
+    private double relevanceScore;
     @Field
     @Indexed(type = "string")
     private String senate;
@@ -80,6 +84,14 @@ public class Verdict {
 
     public void setRevisionSuccess(int revisionSuccess) {
         this.revisionSuccess = revisionSuccess;
+    }
+
+    public double getRelevanceScore() {
+        return relevanceScore;
+    }
+
+    public void setRelevanceScore(double relevanceScore) {
+        this.relevanceScore = relevanceScore;
     }
 
     public String getSenate() {
@@ -188,6 +200,5 @@ public class Verdict {
     public Long getId() {
         return id;
     }
-
 
 }

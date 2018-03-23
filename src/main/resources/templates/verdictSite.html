@@ -13,7 +13,7 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link rel="stylesheet" href="/css/main.css"/>
-
+</head>
 
 <body class="no-sidebar" style="text-align: center">
 <div id="page-wrapper">
@@ -46,12 +46,15 @@
             <article id="main" class="special" th:object="${verdict}">
                 <header>
                     <h2 th:text="${verdict.getDocketNumber().toUpperCase()}"></h2>
-                    <p>
                     <table>
                         <tbody>
                         <tr>
                             <td>Revisionsausgang</td>
                             <th th:text="${@VerdictSiteController.getRevisionSuccessTextForInt(verdict.getRevisionSuccess())}"></th>
+                        </tr>
+                        <tr>
+                            <td>Gewissheitsgrad</td>
+                            <td th:text="${@VerdictSiteController.getRelevanceScoreForDouble(verdict.getRelevanceScore())}"></td>
                         </tr>
                         <tr>
                             <td>Senat</td>
@@ -91,8 +94,10 @@
                         </tr>
                         <tr>
                             <td>URL</td>
-                            <td>  <a th:href="${@VerdictSiteController.getBGHUrlWhenAvailable(verdict.getDocumentNumber())}"
-                                     th:text="${@VerdictSiteController.getBGHUrlWhenAvailable(verdict.getDocumentNumber())}"></a> </td>
+                            <td>
+                                <a th:href="${@VerdictSiteController.getBGHUrlWhenAvailable(verdict.getDocumentNumber())}"
+                                   th:text="${@VerdictSiteController.getBGHUrlWhenAvailable(verdict.getDocumentNumber())}"></a>
+                            </td>
                         </tr>
                         <tr>
                             <td>Wichtige Sätze</td>
@@ -100,36 +105,22 @@
                         </tr>
                         </tbody>
                     </table>
-                    </p>
                 </header>
             </article>
         </div>
     </div>
-</div>
-<!-- Footer -->
-<div id="footer">
-    <div class="container">
 
-        <div class="row">
-            <div class="12u">
-
-                <!-- Copyright -->
-                <div class="copyright">
-                    <ul class="menu">
-                        <li>&copy; LawStats @ Uni Hamburg. All rights reserved.</li>
-                        <li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
-                    </ul>
-                </div>
-
-            </div>
-
+    <!-- Footer -->
+    <div id="footer">
+        <!-- Copyright -->
+        <div class="copyright">
+            <ul class="menu">
+                <li>&copy; LawStats @ Uni Hamburg. All rights reserved.</li>
+                <li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+            </ul>
         </div>
     </div>
 </div>
-
-</div>
-</div>
-
 <!-- Scripts -->
 <script th:src="@{/js/jquery.min.js/}"></script>
 <script th:src="@{/js/jquery.dropotron.min.js/}"></script>

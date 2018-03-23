@@ -15,6 +15,7 @@ import java.util.concurrent.atomic.AtomicReference;
 public class ABSDocumentAnalyzer {
 
     AbSentiment _abSentiment;
+    double relevanceScore;
 
     public Verdict analyzeABSResultsAndUpdateVerdict(List<Result> resultList, Verdict verdict) {
         verdict.setRevisionSuccess(determineRevisionOutcome(resultList));
@@ -22,6 +23,8 @@ public class ABSDocumentAnalyzer {
         if (verdict.getRevisionSuccess() == -99) {
             return null;
         }
+
+        verdict.setRelevanceScore(relevanceScore);
 
         List<String> importantSentences = new ArrayList<>();
         resultList.forEach(result -> {
@@ -46,6 +49,7 @@ public class ABSDocumentAnalyzer {
                 case "revisionsTeilerfolg":
                     if (result.getRelevanceScore() >= 0.4 && result.getRelevanceScore() > highestResult.get().getRelevanceScore()) {
                         highestResult.set(result);
+                        relevanceScore = result.getRelevanceScore();
                     }
                     break;
                 default:

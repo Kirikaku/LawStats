@@ -29,8 +29,6 @@ public class VerdictSiteController {
     @Autowired
     private VerdictRepoService verdictRepoService;
 
-    private Verdict verdict;
-
     /**
      * This method is related to url: /verdict/{docketNumber}/**
      */
@@ -58,7 +56,7 @@ public class VerdictSiteController {
         Collection<? extends Verdict> verdictList = verdictRepoService.getVerdictsForAttribute(DataModelAttributes.DocketNumber, docketValueSet);
 
         if (!verdictList.isEmpty()) {
-            verdict = verdictList.iterator().next();
+            Verdict verdict = verdictList.iterator().next();
             model.addAttribute("verdict", verdict);
         } else {
             return "/";
@@ -82,30 +80,37 @@ public class VerdictSiteController {
 
 
     /**
-     * Returns a Text indicating the revision outcome based on the standardized int value.
-     * @param revisionSucces standardized int value indictaing the revision outcome
+     * Returns a text indicating the revision outcome based on the standardized int value
+     * @param revisionSuccess standardized int value indictaing the revision outcome
      * @return Text indicating the revision outcome
      */
-    public String getRevisionSuccessTextForInt(int revisionSucces){
-        String revisionSuccessText = "UNKOWN";
+    public String getRevisionSuccessTextForInt(int revisionSuccess){
+        String revisionSuccessText;
 
-        switch(revisionSucces){
+        switch(revisionSuccess){
             case -1: revisionSuccessText = "Revision nicht erfolgreich";
                     break;
             case 0: revisionSuccessText = "Revision teilweise erfolgreich";
                     break;
             case 1: revisionSuccessText = "Revision erfolgreich";
                     break;
-            default: revisionSuccessText = "UNKOWN";
+            default: revisionSuccessText = "UNKNOWN";
                     break;
         }
-
 
        return revisionSuccessText;
     }
 
     /**
-     * This method formats the given long and returns a strng
+     * This method formats the given double and returns a string
+     */
+    public String getRelevanceScoreForDouble(double relevanceScore)
+    {
+        return String.valueOf(relevanceScore);
+    }
+
+    /**
+     * This method formats the given long and returns a string
      */
     public String getStringFromDateLong(Long dateLong){
         if(dateLong != null) {
@@ -115,8 +120,9 @@ public class VerdictSiteController {
         return "";
     }
 
+
     /**
-     * this method formats the given documentId into an url of the BGH
+     * This method formats the given documentId into an url of the BGH
      */
     public String getBGHUrlWhenAvailable(int documentIdInBGH){
         BGHVerdictUtil bghVerdictUtil = new BGHVerdictUtil();

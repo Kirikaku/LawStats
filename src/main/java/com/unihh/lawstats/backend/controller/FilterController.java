@@ -49,7 +49,7 @@ public class FilterController {
     private int nextIdForSearchVerdict = 0;
 
     /**
-     * Have to set the definitive columns in our table
+     * Sets the definitive columns in the table
      */
     public FilterController() {
         attributeList.add(RevisionSuccess.getDisplayName());
@@ -69,7 +69,7 @@ public class FilterController {
 
     /**
      * This method is related to URL /filter/reset
-     * It resets all value
+     * It resets all values
      */
     @RequestMapping(value = "/filter/reset")
     public void resetAll() {
@@ -84,7 +84,7 @@ public class FilterController {
     }
 
     /**
-     * This method will create a stringinput, its represents the search attribute of the user
+     * This method will create a string input, its represents the search attribute of the user
      */
     @PutMapping(value = "/input/string/{attribute}/{value}")
     public void inputString(@PathVariable String attribute, @PathVariable String value) {
@@ -97,7 +97,7 @@ public class FilterController {
     }
 
     /**
-     * This method will create a stringinput, but without the value.
+     * This method will create a string input, but without a value.
      * This means all combinations are wanted
      */
     @RequestMapping(value = "/input/string/{attribute}")
@@ -106,7 +106,7 @@ public class FilterController {
     }
 
     /**
-     * This method will create a dateinput, its represents the search attribute of the user
+     * This method will create a date input, its represents the search attribute of the user
      */
     @RequestMapping("/input/date/{attribute}/{dateStart}/to/{dateEnd}")
     public void inputDate(@PathVariable String attribute, @PathVariable long dateStart, @PathVariable long dateEnd) {
@@ -119,7 +119,7 @@ public class FilterController {
     }
 
     /**
-     * This method start the search of our SearchVerdicts
+     * This method start the search of the SearchVerdicts
      */
     @RequestMapping("/filter/searchVerdicts")
     public String startSearch() {
@@ -138,12 +138,15 @@ public class FilterController {
     }
 
 
+    /**
+     * This method deletes all unnecessary SearchVerdicts
+     */
     private void deleteAllUnnecessarySearchVerdicts() {
         searchVerdictList = searchVerdictList.stream().filter(searchVerdict1 -> !searchVerdict1.getRelatedVerdictsWithRevisionPartlySuccessful().isEmpty() || !searchVerdict1.getRelatedVerdictsWithRevisionNotSuccessful().isEmpty() || !searchVerdict1.getRelatedVerdictsWithRevisionSuccessful().isEmpty()).collect(Collectors.toList());
     }
 
     /**
-     * This method returns all attributes displaynames
+     * This method returns all attributes display names
      */
     public List<String> getAttributesDisplayname() {
         return attributeList;
@@ -161,7 +164,7 @@ public class FilterController {
     /**
      * This method will create a list with all SearchVerdict objects, which the user is looking for
      *
-     * @return all serachVerdict objects which are involved
+     * @return all searchVerdict objects which are involved
      */
     private List<SearchVerdict> getAllCombinationsOfSearchVerdicts() {
         List<Map<DataModelAttributes, Input>> allCombinationList = new ArrayList<>();
@@ -172,7 +175,7 @@ public class FilterController {
     }
 
     /**
-     * When an empty value exists, then this means that we want to get all all values of it
+     * When an empty value exists, all values of the given attribute are wanted
      */
     private void createInputsWhenAnEmptyExists() {
         selectedAttributesMap.forEach((dataModelAttributes, inputs) -> inputs.forEach(input -> {
@@ -186,7 +189,7 @@ public class FilterController {
     }
 
     /**
-     * This method creates all combinations of given attribute
+     * This method creates all combinations of a given attribute
      */
     private void createAllCombinationsFromEmptyStringInput(StringInput stringInput) {
        // verdictRepoService.getAllTermsOfGivenAttribute(stringInput.getAttribute()).forEach(s -> {
@@ -199,10 +202,10 @@ public class FilterController {
     }
 
     /**
-     * This method takes the map with all combinations and put them into the SearchVerdict object
+     * This method takes the map with all combinations and puts them into the SearchVerdict object
      *
-     * @param allCombinationList the List with all combinations
-     * @return a list with created SearchVerdict
+     * @param allCombinationList the list with all combinations
+     * @return a list with created SearchVerdicts
      */
     private List<SearchVerdict> createSearchVerdictsOfAllCombinations(List<Map<DataModelAttributes, Input>> allCombinationList) {
         List<SearchVerdict> searchVerdictList = new ArrayList<>();
@@ -218,7 +221,7 @@ public class FilterController {
     }
 
     /**
-     * This mehtod return the searchVerdict object for given id, otherwise you get null
+     * This method returns the searchVerdict object for a given id, otherwise returns null
      */
     public SearchVerdict getSearchVerdictForID(int id) {
         for (SearchVerdict searchVerdict : searchVerdictList)
@@ -229,9 +232,9 @@ public class FilterController {
     }
 
     /**
-     * This method creates recursively all combinations of Attributes and values
+     * This method creates recursively all combinations of attributes and values
      *
-     * @param hashMap            the with all attributes and values
+     * @param hashMap            the map which includes all attributes and values
      * @param listIterator       the iterator which will be used to create a tree
      * @param solutionMap        the map with with one combination
      * @param allCombinationlist list with all maps of combination
@@ -296,6 +299,10 @@ public class FilterController {
 //        }
     }
 
+    /**
+     * This method converts the map of a given SearchVerdicts
+     * @return the converted map
+     */
     private Map<DataModelAttributes, Set<Input>> convertSearchVerdictCombinationMap(SearchVerdict searchVerdict) {
         Map<DataModelAttributes, Set<Input>> map = new HashMap<>();
         searchVerdict.getCombinationMap().forEach((dataModelAttributes, input) -> {
@@ -316,7 +323,7 @@ public class FilterController {
     }
 
     /**
-     * This method get all Verdicts which are involved by giving attributes
+     * This method gets all verdicts which are related to given attributes
      * All Attributes are connected with an AND
      */
     private Set<Verdict> getQueriedVerdicts() {
@@ -336,6 +343,9 @@ public class FilterController {
 //        return verdictSet;
     }
 
+    /**
+     * This method adds the given input into the attributesMap
+     */
     private void addInputToMap(Input input, DataModelAttributes dataModelAttributes) {
         if (selectedAttributesMap.containsKey(dataModelAttributes)) {
             Set<Input> inputList = selectedAttributesMap.get(dataModelAttributes);
@@ -378,7 +388,6 @@ public class FilterController {
             }
         }
     }
-
 
     /**
      * This method returns the percent value for a given SearchVerdict and attribute
