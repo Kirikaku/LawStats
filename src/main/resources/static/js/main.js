@@ -98,6 +98,11 @@ function insert() {
 
 }
 
+/**
+ * Hides the not needed options on the filter site for the given category
+ * "tag" hided for the date categorys
+ * "start" and "end" hided for the text categorys
+ */
 function hideOptions() {
     var attribute = document.getElementById("attribute").value;
     //Ist es Datum? - Wann ja: if - sonst else

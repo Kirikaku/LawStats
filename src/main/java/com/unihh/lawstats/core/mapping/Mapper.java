@@ -12,14 +12,14 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
- * Wichtig:
- * Wenn von Watson keine Entitäten zurück kommt, reagiert der Mapper wie folgt:
+ * Important:
+ * If there are no Entities coming from Watson for a category, we handle this as follows:
  * <p>
- * Aktenzeichen:    "NOTFOUND" - wird später vom AnalyzingCoordinator behandelt
- * Richter:         übergibt leeres String Array
- * Datum:           übergibt leeres Datum (0) - 1970?
- * Gericht:         übergibt leeren String
- * (Gerichtsdatum): wird vorerst nicht übergeben
+ * Aktenzeichen:    gives an error
+ * Richter:         returns empty String Array
+ * Datum:           return "emtpy" Date (Date is 0 -> 1970)
+ * Gericht:         returns an empty string
+ * (Gerichtsdatum): will not be returned for now
  */
 public class Mapper {
 
@@ -44,21 +44,20 @@ public class Mapper {
         JSONObject json = new JSONObject(jsonText);
         JSONArray jsonArray = json.getJSONArray("entities");
 
-        // Listen für die einzelnen Entities
+        // List for the entities
         List<String> docketnumberL = new ArrayList<>();
-        //List<String> senateL = new ArrayList<>();
         Set<String> judgeL = new HashSet<>();
         List<String> dateVerdictList = new ArrayList<>();
         List<String> foreDecRACcL = new ArrayList<>();
         List<String> foreDecRCcL = new ArrayList<>();
         List<String> foreDecDCcL = new ArrayList<>();
 
-        // Iterieren durch das JSON Array
+        // Iterating through the JSON Array
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject jsonObjectEntity = jsonArray.getJSONObject(i);
             String type = jsonObjectEntity.getString("type");
 
-            //Abfrage des Inhalts | Einsortieren in die zugehörige Liste
+            //Entity Query | Sorting into the assigned list
             switch (type) {
                 case "Aktenzeichen":
                     docketnumberL.add(jsonObjectEntity.getString("text"));
@@ -70,21 +69,29 @@ public class Mapper {
                     dateVerdictList.add(jsonObjectEntity.getString("text"));
                     break;
                 case "Gericht":
-                    if (jsonObjectEntity.getString("text").toLowerCase().contains("oberlandesgericht") ||
-                            jsonObjectEntity.getString("text").toLowerCase().contains("oberlandsgericht") ||
-                            jsonObjectEntity.getString("text").toLowerCase().contains("olg")) {
-                        foreDecRACcL.add(jsonObjectEntity.getString("text"));
+                    // Checkes every upcoming case of foredecisions
+                    // e.g. Oberlandsgericht, Oberlandesgericht, Oberlandesgerichts, OLG
+                    String[] words = jsonObjectEntity.getString("text").toLowerCase().split("\\s");
+                    if ((words[0].contains("oberland") &&
+                            (words[0].endsWith("gericht") ||
+                                    words[0].endsWith("gerichts")))) {
+                        foreDecRACcL.add("oberlandesgericht " + words[1]);
+                    } else if (words[0].contains("olg")) {
+                        foreDecRACcL.add("oberlandesgericht " + words[1]);
 
-                    } else if (jsonObjectEntity.getString("text").toLowerCase().contains("landesgericht") ||
-                            jsonObjectEntity.getString("text").toLowerCase().contains("lg") ||
-                            jsonObjectEntity.getString("text").toLowerCase().contains("landgericht"))
-                        foreDecRCcL.add(jsonObjectEntity.getString("text"));
-
-                    else if (jsonObjectEntity.getString("text").toLowerCase().contains("amtsgericht") ||
-                            jsonObjectEntity.getString("text").toLowerCase().contains("ag")) {
-                        foreDecDCcL.add(jsonObjectEntity.getString("text"));
-                        // Bei else passiert hier nichts, Liste bleibt leer - wird beim verdict.set... unten aufgefangen
-                        break;
+                    } else if ((words[0].contains("land") &&
+                            (words[0].endsWith("gericht") ||
+                                    words[0].endsWith("gerichts")))) {
+                        foreDecRCcL.add("landesgericht " + words[1]);
+                    } else if (words[0].contains("lg")) {
+                        foreDecRACcL.add("landesgericht " + words[1]);
+                    } else if ((words[0].contains("amt") &&
+                            (words[0].endsWith("gericht") ||
+                                    words[0].endsWith("gerichts")))) {
+                        foreDecRCcL.add("amtsgericht " + words[1]);
+                    }
+                    else if(words[0].contains("ag")) {
+                        foreDecRCcL.add("amtsgericht " + words[1]);
                     }
             }
         }
@@ -137,11 +144,11 @@ public class Mapper {
 
 
     /**
-     * Hilfsmethode, sucht das Element einer Stringliste, welches am häufigsten vorkommt.
-     * Bei gleicher Kardinalität: Das letzte Element (entspricht random auswahl)
+     * Helper: searches the Element in a List of Strings, which occurs the most
+     * Case of same cardinality: selects the Last Element
      *
-     * @param typelist - Liste von Strings
-     * @return - das häugiste Element
+     * @param typelist - Liste von Strings e.g. JudgeList
+     * @return - the most common Element from the List
      */
     private String mostCommon(List<String> typelist) {
         if (!typelist.isEmpty()) {
@@ -166,10 +173,10 @@ public class Mapper {
     }
 
     /**
-     * Trimmt und setzt einen String auf lower case
+     * Trims a string and sets it to lower case
      *
-     * @param string
-     * @return
+     * @param string The string that should be normalized
+     * @return The normalized string
      */
     private String normalizeString(String string) {
         string = string.trim();
@@ -178,7 +185,7 @@ public class Mapper {
 
 
     /**
-     * filtered the newest date
+     * filter the newest date (nearest date to today)
      *
      * @param stringL dates in string
      * @return the newest date-long
@@ -188,7 +195,7 @@ public class Mapper {
         // Empfängt eine Liste und gibt dabei das neueste Datum zurück.
         List<Long> dateVerdicts;
         dateVerdicts = verdictDateFormatter.formateStringDateToLongList(stringL).stream().filter(Objects::nonNull).collect(Collectors.toList());
-        if(dateVerdicts.isEmpty()) {
+        if (dateVerdicts.isEmpty()) {
             return null;
         }
         Optional<Long> optionalLong = dateVerdicts.stream().max(Long::compareTo);
@@ -196,6 +203,10 @@ public class Mapper {
 
     }
 
+    /**
+     * Sets the relationship from DocketNumbers to Senates,
+     * because we get the Senate from our DocketNumber
+     */
     private void setSenates() {
         //Zivilsenate
         senateMap.put("I", "1. ");
@@ -291,6 +302,13 @@ public class Mapper {
         //senateMap.put("", "");
     }
 
+    /**
+     * Extracts the Senate Name out of the DocketNumber
+     *
+     * @param string        - The chosen Docketnumber of the Verdict
+     * @param docketNumList - The List of all Docketnumbers in the Verdict
+     * @return if method found a matching senate -> Senate | else: empty string
+     */
     private String getSenateFromDocketNumber(String string, List<String> docketNumList) {
         // Senat ermitteln
         Pattern senPattern1 = Pattern.compile("([IXV|1-6]+)\\s([A-Za-z()]{2,20})\\s\\d+/\\d\\d");
@@ -318,37 +336,21 @@ public class Mapper {
             } else if (!senateElement1.isEmpty() && senateElement2.isEmpty()) {
                 finalElement = senateMap.get(senateElement1.trim());
             } else if (senateElement1.isEmpty() && senateElement2.isEmpty()) {
-                //finalElement = null;
             }
 
             return finalElement;
         }
-        return null;
-//
-//            if (m.find()) {
-//                String senateElement1 = m.group(1);
-//                String senateElement2 = m.group(2);
-//                String finalElement = senateMap.get(senateElement1) + senateMap.get(senateElement2);
-//                return finalElement;
-//
-//            } else if (m2.find()/*Pattern.matches(String.valueOf(otherSenPat), docketstring)*/) {
-//                System.out.println(m2.matches());
-//                String senateElement3 = m2.group(1);
-//                System.out.println("wuff");
-//                return senateMap.get(senateElement3);
-//
-//            } else {
-//                return null;
-//            }
+        return "";
     }
 
     /**
      * This method set the minimum date in the given text for the last verdict foreDecisionCourt which is available
-     * @param text the string where should be the date
+     *
+     * @param text    the string where should be the date
      * @param verdict the verdict which the text is related
      */
-    public void setMinimumDateForLastForeDecision(String text, Verdict verdict){
-        if(text == null || verdict == null){
+    public void setMinimumDateForLastForeDecision(String text, Verdict verdict) {
+        if (text == null || verdict == null) {
             return; // we dont want Nullpointerexceptions
         }
 
@@ -360,11 +362,11 @@ public class Mapper {
                 .min(Long::compareTo) //get minimum date
                 .ifPresent(minDate::set); //set date if present
 
-        if(verdict.getForeDecisionRACCourt() != null){
+        if (verdict.getForeDecisionRACCourt() != null) {
             verdict.setForeDecisionRACVerdictDate(minDate.get());
-        } else if(verdict.getForeDecisionRCCourt() != null) {
+        } else if (verdict.getForeDecisionRCCourt() != null) {
             verdict.setForeDecisionRCVerdictDate(minDate.get());
-        } else if(verdict.getForeDecisionDCCourt() != null){
+        } else if (verdict.getForeDecisionDCCourt() != null) {
             verdict.setForeDecisionRCVerdictDate(minDate.get());
         }
 

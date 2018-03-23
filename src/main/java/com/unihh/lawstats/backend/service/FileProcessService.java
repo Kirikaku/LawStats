@@ -15,6 +15,7 @@ import static java.lang.Thread.sleep;
 
 /**
  * This service is the file process service for a uploaded file
+ * To support multi-usability the Service creates a thread for every uploaded file
  */
 @Service
 public class FileProcessService extends Observable {
@@ -30,6 +31,12 @@ public class FileProcessService extends Observable {
         this.verdictRepoService = verdictRepoService;
     }
 
+    /**
+     * Starts the thread for an uploaded file
+     * @param isDeployMode
+     * @param workfile - File that was uploaded
+     * @return
+     */
     public Verdict start(boolean isDeployMode, File workfile) {
         AtomicReference<Verdict> verdict = new AtomicReference<>();
         AnalyzingCoordinator coordinator = new AnalyzingCoordinator(abSentimentService.getAbSentiment());
@@ -67,6 +74,11 @@ public class FileProcessService extends Observable {
     }
 
 
+    /**
+     * Checks if the datatype of the inputfile is a pdf or not
+     * @param workfile - the checkfile
+     * @return pdf? true | no pdf? false
+     */
     public boolean checkPDF(File workfile) {
         return workfile.getName().endsWith(".pdf");
     }

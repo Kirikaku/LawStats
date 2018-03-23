@@ -21,9 +21,9 @@ public class MapperTest {
                 "      \"text\": \"Eve Jobs\"\n" +
                 "    },\n" +
                 "    {\n" +
-                "      \"type\": \"Richter\",\n" +
+                "      \"type\": \"Gericht\",\n" +
                 "      \"count\": 1,\n" +
-                "      \"text\": \"Prof. Dr. Gurkensalat\"\n" +
+                "      \"text\": \"Oberlandsgerichts Böblingen\"\n" +
                 "    },\n" +
                 "    {\n" +
                 "      \"type\": \"Datum\",\n" +

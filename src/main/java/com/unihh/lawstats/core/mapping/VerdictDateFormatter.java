@@ -46,8 +46,12 @@ public class VerdictDateFormatter {
         return date.getTime();
     }
 
+    /**
+     * Gets a List of Dates in String Format and converts them into a List of Dates in Long Format
+      * @param stringL - List of Dates in String format
+     * @return List of Date format
+     */
     public List<Long> formateStringDateToLongList(List<String> stringL) {
-        // Empfängt eine Liste und gibt dabei das neueste Datum zurück.
         List<Long> dateVerdictList = new ArrayList<>();
         for (String string : stringL) {
             Long date = formatStringToLong(string);
