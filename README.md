@@ -17,3 +17,7 @@ werden und dann als *Spring Boot App* gestartet werden. Die Applikation steht da
 `localhost:8080` oder auf dem gewählten Port der `application.properties` zur Verfügung.
 
 Zusätzlich kann dann ein Solr Server als eigene Bibliothek eingebunden werden...
+
+
+### Natural Language Processing Utils
+Für einige Funktionen des Programms, wie zum Beispiel das Herunterladen von Bundesgerichtshofs Urteilen oder das Trainieren des Modells, gibt es kein User- oder Commandline Interface. Zur Nutzung dieser Funktionalitäten können die entsprechenden Main-Klassen im Package Natural Language Processing genutzt werden. 
