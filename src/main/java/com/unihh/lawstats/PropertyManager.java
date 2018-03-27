@@ -5,6 +5,9 @@ import java.io.FileReader;
 import java.io.Reader;
 import java.util.Properties;
 
+/**
+ * @author Phillip
+ */
 public class PropertyManager {
 
 
