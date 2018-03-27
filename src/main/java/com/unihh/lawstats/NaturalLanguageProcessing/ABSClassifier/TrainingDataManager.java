@@ -6,6 +6,17 @@ import lombok.extern.slf4j.Slf4j;
 import java.io.*;
 import java.util.*;
 
+/**
+ * @author Phillip
+ *
+ * Trainingsdata is handled the following way when used in Java.
+ * One entry is represented by an Array of size 3.
+ * array[0] = the sentence itself
+ * array[1] = the label
+ * array[2] = the entry ID
+ *
+ * A trainingsset is a list of these entry arrays.
+ */
 @Slf4j
 public class TrainingDataManager {
 
@@ -16,8 +27,10 @@ public class TrainingDataManager {
     }
 
 
-
-
+    /**
+     * Creates four Basefiles for the four labels "irrelevant","misserfolg", "erfolg", "teilerfolg" from Watson Knowledge Studio annotations.
+     * Source and target folder is specified in the config file.
+     */
     public void createTrainingsDataBaseFiles() {
         TrainingsDataManagerHelper trainingsDataManagerHelper = new TrainingsDataManagerHelper();
         List<String[]> allDecisionSentences = new ArrayList<>();
@@ -73,11 +86,11 @@ public class TrainingDataManager {
     }
 
 
-
-
-
-
-
+    /**
+     * Creates a trainingsdata- and a testdata file for training the AbSentiment model.
+     * The data is retrieved from four basefiles (one for each label).
+     * The source and target folder is specified in the config file.
+     */
     public void createTrainingDataFromBaseFiles() {
         List<String> revisionsErfolgRowList;
         List<String> revisionsTeilErfolgRowList;
@@ -114,8 +127,16 @@ public class TrainingDataManager {
     }
 
 
-
-
+    /**
+     * Helper method to create trainingsdata- and testdata file.
+     * Handles the amount of sentences used from each label.
+     *
+     * @param basePath The path to the target folder
+     * @param erfolgValueList A list of classified sentences indicating revision success.
+     * @param teilerfolgValueList A list of classified sentences indicating partial revision success.
+     * @param misserfolgValueList A list of classified sentences indicating no revision success.
+     * @param irrelevantValueList A list of classified sentences not relevant to the revision outcome.
+     */
     private void writeTrainingFileForValueLists(String basePath, List<String[]> erfolgValueList, List<String[]> teilerfolgValueList, List<String[]> misserfolgValueList, List<String[]> irrelevantValueList) {
         Set<String[]> trainingDataValues = new HashSet<>();
         int limit = erfolgValueList.size()*2;

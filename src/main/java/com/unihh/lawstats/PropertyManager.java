@@ -25,6 +25,12 @@ public class PropertyManager {
     public static final String DEPLOYMODE = "deploy.mode";
 
 
+    /**
+     * Returns a property value for a given Key.
+     * The Constants should be used for the key.
+     * @param propertyKey The Parameter Key
+     * @return the property value
+     */
     public static String getLawProperty(String propertyKey) {
 
         String propertyString = null;

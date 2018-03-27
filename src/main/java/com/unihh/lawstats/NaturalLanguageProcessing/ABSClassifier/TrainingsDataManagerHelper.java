@@ -12,7 +12,11 @@ import java.util.*;
 
 public class TrainingsDataManagerHelper {
 
-
+    /**
+     * Helper method to retrieve the important sentences from all annotation files. (not just one)
+     * @param allFiles an Array containing all the files that shall be used.
+     * @return a List of trainingsdata entry arrays.
+     */
     public List<String[]> retrieveImportantSentencesFromAnnotations(File[] allFiles){
         List<String[]> importantSentences = new ArrayList<>();
 
@@ -36,7 +40,11 @@ public class TrainingsDataManagerHelper {
     }
 
 
-
+    /**
+     * Finds all important sentences from one annotation file.
+     * @param jsonString A Watson Knowledge Studio annotation JSON.
+     * @return A List of trainingsdata entry arrays.
+     */
     private List<String[]> findDecisionSentences(String jsonString) {
 
         //Declare variables
@@ -76,8 +84,14 @@ public class TrainingsDataManagerHelper {
     }
 
 
-
-
+    /**
+     * Helper method to get the important sentences from a WKS annotation JSON file.
+     * @param mentionsIterator An Iterator over all the mention objects in the JSON WKS annotation file.
+     * @param decisionSentenceList A List of trainingsdata entry arrays.
+     * @param fullDocumentText The corresponding plain text to the JSON annotation file that is being analyzed.
+     * @param fileName The name of the original file. (used for creating an ID later)
+     * @return a List of trainingsdata entry arrays.
+     */
     private List<String[]> analyzeMentions(Iterator<Object> mentionsIterator, List<String[]> decisionSentenceList, String fullDocumentText, String fileName){
 
         while (mentionsIterator.hasNext()) {
@@ -103,9 +117,12 @@ public class TrainingsDataManagerHelper {
     }
 
 
-
-
-
+    /**
+     * Creates trainingsdata entry arrays for all given sentences and labels them as irrelevant.
+     * @param firstSentences A List of plain text sentences.
+     * @param decisionSentenceList A list of trainingsdata entry arrays.
+     * @param fileName The name of the original file (where the sentences come from). (Used for creating the ID)
+     */
     private void initialDefaultFill(List<String> firstSentences, List<String[]> decisionSentenceList, String fileName) {
 
         for (String earlySentence : firstSentences) {
@@ -126,9 +143,13 @@ public class TrainingsDataManagerHelper {
     }
 
 
-
-
-
+    /**
+     * Helper method to relabel sentences that were labeled differently during the intial fill.
+     * @param decisionSentenceList List of trainingsdata entry arrays that shall be updated
+     * @param sentence
+     * @param revisionType
+     * @param fileName
+     */
     private void updateDecisionSentenceList(List<String[]> decisionSentenceList, String sentence, String revisionType, String fileName) {
         boolean isInList = false;
 
