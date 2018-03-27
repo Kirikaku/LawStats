@@ -1,6 +1,5 @@
 package com.unihh.lawstats.backend.controller;
 
-import com.unihh.lawstats.backend.repository.SearchFormatter;
 import com.unihh.lawstats.backend.repository.VerdictRepoService;
 import com.unihh.lawstats.backend.service.DataAttributeVerdictService;
 import com.unihh.lawstats.core.mapping.VerdictDateFormatter;
@@ -25,9 +24,7 @@ import java.text.DecimalFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.unihh.lawstats.core.model.attributes.TableAttributes.RevisionNotSuccess;
-import static com.unihh.lawstats.core.model.attributes.TableAttributes.RevisionPartlySuccess;
-import static com.unihh.lawstats.core.model.attributes.TableAttributes.RevisionSuccess;
+import static com.unihh.lawstats.core.model.attributes.TableAttributes.*;
 
 @Controller
 @Service("FilterController")
@@ -192,7 +189,6 @@ public class FilterController {
      * This method creates all combinations of a given attribute
      */
     private void createAllCombinationsFromEmptyStringInput(StringInput stringInput) {
-       // verdictRepoService.getAllTermsOfGivenAttribute(stringInput.getAttribute()).forEach(s -> {
         verdictsInUse.forEach(verdict -> dataAttributeVerdictService.dataAttributeToVerdictValue(stringInput.getAttribute(), verdict).forEach(s -> {
             StringInput verdictSpecificStringInput = new StringInput();
             verdictSpecificStringInput.setAttribute(stringInput.getAttribute());
@@ -268,39 +264,13 @@ public class FilterController {
      */
     private void addVerdictsToSearchVerdicts() {
         for (SearchVerdict searchVerdict : searchVerdictList) {
-            searchVerdict.addAll(verdictRepoService.testVerdictThing(convertSearchVerdictCombinationMap(searchVerdict)));
+            searchVerdict.addAll(verdictRepoService.findVerdictByAttributesAndValue(convertSearchVerdictCombinationMap(searchVerdict)));
         }
-//        SearchFormatter searchFormatter = new SearchFormatter();
-//        for (Verdict verdict : verdictsInUse) {
-//            for (SearchVerdict searchVerdict : searchVerdictList) {
-//                boolean isRelated = true;
-//                for (DataModelAttributes attribute : searchVerdict.getCombinationMap().keySet()) {
-//                    VerdictDateFormatter verdictDateFormatter = new VerdictDateFormatter();
-//                    if (attribute.toString().contains("Date")) {
-//                        DateInput dateInput = (DateInput) searchVerdict.getValueForKey(attribute);
-//                        long date = verdictDateFormatter.formatStringToLong(dataAttributeVerdictService.dataAttributeToVerdictValue(attribute, verdict).get(0));
-//                        if (date > dateInput.getEnd() || date < dateInput.getStart()) {
-//                            isRelated = false;
-//                        }
-//
-//                    } else {
-//                        StringInput stringInput = (StringInput) searchVerdict.getValueForKey(attribute);
-//                        // when there is one value of the verdict attribute, which contains all values of the searchVerdict
-//                        if (!verdictContainsValueOfSearchVerdict(verdict, stringInput)) {
-//                            isRelated = false;
-//                        }
-//                    }
-//                }
-//
-//                if (isRelated) {
-//                    searchVerdict.addVerdictToList(verdict);
-//                }
-//            }
-//        }
     }
 
     /**
      * This method converts the map of a given SearchVerdicts
+     *
      * @return the converted map
      */
     private Map<DataModelAttributes, Set<Input>> convertSearchVerdictCombinationMap(SearchVerdict searchVerdict) {
@@ -314,33 +284,12 @@ public class FilterController {
         return map;
     }
 
-    private boolean verdictContainsValueOfSearchVerdict(Verdict verdict, StringInput stringInput) {
-        SearchFormatter searchFormatter = new SearchFormatter();
-        String[] stringArray = searchFormatter.formatString(stringInput.getValue());
-        List<String> verdictValues = dataAttributeVerdictService.dataAttributeToVerdictValue(stringInput.getAttribute(), verdict);
-        verdictValues = verdictValues.stream().map(String::toLowerCase).collect(Collectors.toList());
-        return verdictValues.stream().anyMatch(o -> Arrays.stream(stringArray).allMatch(o::contains));
-    }
-
     /**
      * This method gets all verdicts which are related to given attributes
      * All Attributes are connected with an AND
      */
     private Set<Verdict> getQueriedVerdicts() {
-        return new HashSet<>(verdictRepoService.testVerdictThing(selectedAttributesMap));
-//        Set<Verdict> verdictSet = new HashSet<>(); //make set empty
-//
-//        // First add a list of Verdict to out Set
-//        if (selectedAttributesMap.entrySet().iterator().hasNext()) {
-//            Map.Entry<DataModelAttributes, Set<Input>> entry = selectedAttributesMap.entrySet().iterator().next();
-//            verdictSet.addAll(verdictRepoService.getVerdictsForAttribute(entry.getKey(), entry.getValue()));
-//
-//            //Second for every attrbute add the verdicts to the set and create the intersection.
-//            //We connect the attributes with an AND
-//            selectedAttributesMap.forEach((dataModelAttributes, strings) -> verdictSet.retainAll(verdictRepoService.getVerdictsForAttribute(dataModelAttributes, strings)));
-//        }
-//
-//        return verdictSet;
+        return new HashSet<>(verdictRepoService.findVerdictByAttributesAndValue(selectedAttributesMap));
     }
 
     /**
@@ -394,7 +343,7 @@ public class FilterController {
      */
     private double getPercentValue(SearchVerdict searchVerdict, String attribute) {
         double p;
-        if (searchVerdict.getAllRelatedVerdicts().size() != 0) {
+        if (!searchVerdict.getAllRelatedVerdicts().isEmpty()) {
             switch (TableAttributes.valueOfDisplayName(attribute)) {
                 case RevisionSuccess:
                     p = ((double) searchVerdict.getRelatedVerdictsWithRevisionSuccessful().size()) / searchVerdict.getAllRelatedVerdicts().size() * 100;
@@ -419,8 +368,8 @@ public class FilterController {
         DecimalFormat pct = new DecimalFormat("#.##");
 
         if (TableAttributes.valueOfDisplayName(attribute).equals(RevisionSuccess) ||
-            TableAttributes.valueOfDisplayName(attribute).equals(RevisionPartlySuccess) ||
-            TableAttributes.valueOfDisplayName(attribute).equals(RevisionNotSuccess)) {
+                TableAttributes.valueOfDisplayName(attribute).equals(RevisionPartlySuccess) ||
+                TableAttributes.valueOfDisplayName(attribute).equals(RevisionNotSuccess)) {
             double p = getPercentValue(searchVerdict, attribute);
 
             return pct.format(p) + "%";

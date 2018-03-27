@@ -3,6 +3,9 @@ package com.unihh.lawstats.core.model.input;
 
 import com.unihh.lawstats.core.model.attributes.DataModelAttributes;
 
+/**
+ * This Input represents a string input
+ */
 public class StringInput implements Input {
 
     private DataModelAttributes attribute;

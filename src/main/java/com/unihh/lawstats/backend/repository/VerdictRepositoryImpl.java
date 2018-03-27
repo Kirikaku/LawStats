@@ -171,7 +171,7 @@ public class VerdictRepositoryImpl implements VerdictRepositoryCustom {
     private String getQueryForOneString(String s, String attribute) {
         StringBuilder sb = new StringBuilder();
         Arrays.stream(s.split(" ")).forEach(s1 -> sb.append(attribute).append(":*").append(s1.replace(".", "")
-        .replace("/", "* AND "+attribute+":*")).append("* AND "));
+                .replace("/", "* AND " + attribute + ":*")).append("* AND "));
         return sb.substring(0, sb.length() - 4);
     }
 

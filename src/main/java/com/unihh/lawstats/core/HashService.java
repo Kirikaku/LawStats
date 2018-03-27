@@ -1,7 +1,13 @@
 package com.unihh.lawstats.core;
 
+/**
+ * This service generates a Hashvalue for things
+ */
 public class HashService {
 
+    /**
+     * This method create a long hash value for a string
+     */
     public static long longHash(String string) {
         long h = 98764321261L;
         int l = string.length();

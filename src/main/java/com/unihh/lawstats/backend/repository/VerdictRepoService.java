@@ -8,11 +8,13 @@ import com.unihh.lawstats.core.model.input.StringInput;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.xml.crypto.Data;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Service(value = "verdictRepoService")
+/**
+ * This service is the repository for other classes und should used for the connection to the databse
+ */
 public class VerdictRepoService {
 
     private VerdictRepository verdictRepository;
@@ -22,15 +24,27 @@ public class VerdictRepoService {
         this.verdictRepository = verdictRepository;
     }
 
-    public List<Verdict> testVerdictThing(Map<DataModelAttributes, Set<Input>> searchMap){
+    /**
+     * This method search for wanted verdicts
+     * @return a list of verdict which contains all given attributes
+     */
+    public List<Verdict> findVerdictByAttributesAndValue(Map<DataModelAttributes, Set<Input>> searchMap) {
         return verdictRepository.findVerdictByAttributesAndValues(searchMap);
     }
 
-    public List<String> getAllTermsOfGivenAttribute(DataModelAttributes attributes){
+    /**
+     * This method return all possibilities of values for given attribute
+     */
+    public List<String> getAllTermsOfGivenAttribute(DataModelAttributes attributes) {
         return verdictRepository.findAllValuesForStringAttribute(attributes);
     }
 
-    public Collection<Verdict> getVerdictsForAttributeAndValue(DataModelAttributes key, String value) {
+    /**
+     * This method returns a set of verdicts by given attribute and value
+     * @param key the attribute
+     * @param value the value of the attribute
+     */
+    private Collection<Verdict> getVerdictsForAttributeAndValue(DataModelAttributes key, String value) {
         StringInput stringInput = new StringInput();
         stringInput.setAttribute(key);
         stringInput.setValue(value);
@@ -39,6 +53,11 @@ public class VerdictRepoService {
         return getVerdictsForAttribute(key, inputSet);
     }
 
+    /**
+     * This method is the lesser dynamic variant for searching all verdict for given attributes with value
+     * @param key the attribute
+     * @param value the set of values
+     */
     public Collection<Verdict> getVerdictsForAttribute(DataModelAttributes key, Set<Input> value) {
         SearchFormatter searchFormatter = new SearchFormatter();
         Set<Verdict> verdictSetForAttribute = new HashSet<>();
@@ -88,6 +107,10 @@ public class VerdictRepoService {
         return verdictSetForAttribute;
     }
 
+    /**
+     * This method save the verdict
+     * @param verdict verdict which should saved
+     */
     public void save(Verdict verdict) {
         if (verdict != null) {
             Collection<Verdict> verdicts = getVerdictsForAttributeAndValue(DataModelAttributes.DocketNumber, verdict.getDocketNumber());

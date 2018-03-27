@@ -3,8 +3,8 @@ package com.unihh.lawstats.backend.controller;
 import com.unihh.lawstats.backend.repository.VerdictRepoService;
 import com.unihh.lawstats.core.mapping.BGHVerdictUtil;
 import com.unihh.lawstats.core.mapping.VerdictDateFormatter;
-import com.unihh.lawstats.core.model.attributes.DataModelAttributes;
 import com.unihh.lawstats.core.model.Verdict;
+import com.unihh.lawstats.core.model.attributes.DataModelAttributes;
 import com.unihh.lawstats.core.model.input.Input;
 import com.unihh.lawstats.core.model.input.StringInput;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,9 +43,9 @@ public class VerdictSiteController {
 
         String docketNumber;
         if (null != arguments && !arguments.isEmpty()) {
-           docketNumber = givenDocketNumber + '/' + arguments;
+            docketNumber = givenDocketNumber + '/' + arguments;
         } else {
-           docketNumber = givenDocketNumber;
+            docketNumber = givenDocketNumber;
         }
 
         Set<Input> docketValueSet = new HashSet<>();
@@ -68,8 +68,8 @@ public class VerdictSiteController {
     /**
      * This array returns a String with appended values of the given array
      */
-    public String getStringFromArray(String[] judgeArray){
-        if(judgeArray != null) {
+    public String getStringFromArray(String[] judgeArray) {
+        if (judgeArray != null) {
             StringBuilder sb = new StringBuilder();
             Arrays.stream(judgeArray).forEach(s -> sb.append(s).append(", "));
             sb.delete(sb.length() - 1, sb.length());
@@ -81,39 +81,43 @@ public class VerdictSiteController {
 
     /**
      * Returns a text indicating the revision outcome based on the standardized int value
+     *
      * @param revisionSuccess standardized int value indictaing the revision outcome
      * @return Text indicating the revision outcome
      */
-    public String getRevisionSuccessTextForInt(int revisionSuccess){
+    public String getRevisionSuccessTextForInt(int revisionSuccess) {
         String revisionSuccessText;
 
-        switch(revisionSuccess){
-            case -1: revisionSuccessText = "Revision nicht erfolgreich";
-                    break;
-            case 0: revisionSuccessText = "Revision teilweise erfolgreich";
-                    break;
-            case 1: revisionSuccessText = "Revision erfolgreich";
-                    break;
-            default: revisionSuccessText = "UNKNOWN";
-                    break;
+        switch (revisionSuccess) {
+            case -1:
+                revisionSuccessText = "Revision nicht erfolgreich";
+                break;
+            case 0:
+                revisionSuccessText = "Revision teilweise erfolgreich";
+                break;
+            case 1:
+                revisionSuccessText = "Revision erfolgreich";
+                break;
+            default:
+                revisionSuccessText = "UNKNOWN";
+                break;
         }
 
-       return revisionSuccessText;
+        return revisionSuccessText;
     }
 
     /**
      * This method formats the given double and returns a string
      */
-    public String getRelevanceScoreForDouble(double relevanceScore)
-    {
+    public String getRelevanceScoreForDouble(double relevanceScore) {
         return String.valueOf(relevanceScore);
     }
 
     /**
      * This method formats the given long and returns a string
      */
-    public String getStringFromDateLong(Long dateLong){
-        if(dateLong != null) {
+    public String getStringFromDateLong(Long dateLong) {
+        if (dateLong != null) {
             VerdictDateFormatter verdictDateFormatter = new VerdictDateFormatter();
             return verdictDateFormatter.formatVerdictDateToString(dateLong);
         }
@@ -124,7 +128,7 @@ public class VerdictSiteController {
     /**
      * This method formats the given documentId into an url of the BGH
      */
-    public String getBGHUrlWhenAvailable(int documentIdInBGH){
+    public String getBGHUrlWhenAvailable(int documentIdInBGH) {
         BGHVerdictUtil bghVerdictUtil = new BGHVerdictUtil();
         return bghVerdictUtil.retrieveBGHVerdictUrl(documentIdInBGH);
     }

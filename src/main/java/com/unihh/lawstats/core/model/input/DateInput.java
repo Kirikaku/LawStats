@@ -3,6 +3,9 @@ package com.unihh.lawstats.core.model.input;
 
 import com.unihh.lawstats.core.model.attributes.DataModelAttributes;
 
+/**
+ * Input for dates
+ */
 public class DateInput implements Input {
 
     private long start;

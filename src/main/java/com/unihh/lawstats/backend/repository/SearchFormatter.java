@@ -5,7 +5,10 @@ package com.unihh.lawstats.backend.repository;
  */
 public class SearchFormatter {
 
-    public String[] formatString(String string){
+    /**
+     * This method format the given string to a string array and split the string by whitespace
+     */
+    public String[] formatString(String string) {
         String editedString = string;
         //Delete all dots
         editedString = editedString.replace(".", "");
