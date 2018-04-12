@@ -14,7 +14,7 @@ import java.util.Objects;
 /**
  * This class represents one document with the extracted date from watson
  */
-@SolrDocument(solrCoreName = "verdict")
+//@SolrDocument(solrCoreName = "verdict")
 public class Verdict {
 
     @Id
