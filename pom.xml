@@ -10,10 +10,17 @@
     <description>Awesome Webapp</description>
     <version>RELEASE</version>
 
+    <properties>
+        <spring.boot.version>1.5.7.RELEASE</spring.boot.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>1.8</java.version>
+    </properties>
+
+
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.4.4.RELEASE</version>
+        <version>1.5.7.RELEASE</version>
     </parent>
 
 
@@ -36,7 +43,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <version>1.4.4.RELEASE</version>
+            <version>${spring.boot.version}</version>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>
@@ -46,7 +53,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-solr</artifactId>
-            <version>1.4.4.RELEASE</version>
+            <version>${spring.boot.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -84,14 +91,10 @@
             <artifactId>lt.seg</artifactId>
             <version>0.7.1a</version>
             <scope>system</scope>
-            <systemPath>${basedir}/src/main/resources/lib/lt.seg-0.7.1b.jar</systemPath>
+            <systemPath>${basedir}/src/main/resources/lib/lt.seg-0.7.1a.jar</systemPath>
         </dependency>
     </dependencies>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>1.8</java.version>
-    </properties>
 
     <build>
         <plugins>
