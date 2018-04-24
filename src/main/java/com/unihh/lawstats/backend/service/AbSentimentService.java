@@ -17,11 +17,7 @@ public class AbSentimentService {
     @Autowired
     public AbSentimentService(Environment environment) {
         String isDeployModus = environment.getProperty("deploy.mode");
-        if (Boolean.valueOf(isDeployModus)) {
-            this.abSentiment = new AbSentiment("/config/SpringABSConfiguration.txt");
-        } else {
-            this.abSentiment = new AbSentiment("/config/ABSConfiguration.txt");
-        }
+        this.abSentiment = new AbSentiment("/config/ABSConfiguration.txt");
     }
 
     public AbSentiment getAbSentiment() {

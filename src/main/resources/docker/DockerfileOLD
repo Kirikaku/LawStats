@@ -1,8 +1,0 @@
-FROM openjdk:8-jre
-
-RUN mkdir /lawstats
-COPY lawstats-RELEASE.jar /lawstats
-COPY classes/data /lawstats/data
-COPY classes/preprocessing /lawstats/preprocessing
-EXPOSE 8080
-CMD java -jar lawstats/lawstats-RELEASE.jar
