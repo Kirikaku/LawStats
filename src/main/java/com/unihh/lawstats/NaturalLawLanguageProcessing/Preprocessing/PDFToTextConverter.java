@@ -17,17 +17,12 @@ public class PDFToTextConverter {
         try {
             // PDF in Text umwandeln
 
-            if(!isDeployMode) {
+
                 ProcessBuilder pb = new ProcessBuilder("src/main/resources/preprocessing/pdftotext", "-enc", "UTF-8", path);
 
                 Process p = pb.start();
                 p.waitFor();
-            } else {
-                ProcessBuilder pb = new ProcessBuilder("lawstats/preprocessing/pdftotext", "-enc", "UTF-8", path);
 
-                Process p = pb.start();
-                p.waitFor();
-            }
 
 
 
