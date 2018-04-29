@@ -16,11 +16,9 @@ public class ShortcutList {
 
         try {
             InputStream is;
-            if (isDeployMode) {
-                is = new FileInputStream("/lawstats/preprocessing/shortcuts.txt");
-            } else {
+
                 is = new FileInputStream("src/main/resources/preprocessing/shortcuts.txt");
-            }
+
 
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
