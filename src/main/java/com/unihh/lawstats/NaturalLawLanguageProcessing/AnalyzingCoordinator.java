@@ -1,17 +1,16 @@
 package com.unihh.lawstats.NaturalLawLanguageProcessing;
 
-import com.unihh.lawstats.PropertyManager;
+import com.unihh.lawstats.NaturalLawLanguageProcessing.ABSClassifier.ABSDocumentAnalyzer;
 import com.unihh.lawstats.NaturalLawLanguageProcessing.Preprocessing.Formatting.Formatter;
 import com.unihh.lawstats.NaturalLawLanguageProcessing.Preprocessing.PDFToTextConverter;
-import com.unihh.lawstats.NaturalLawLanguageProcessing.ABSClassifier.ABSDocumentAnalyzer;
 import com.unihh.lawstats.NaturalLawLanguageProcessing.Watson.LawNLUCommunicator;
+import com.unihh.lawstats.PropertyManager;
 import com.unihh.lawstats.core.mapping.BGHVerdictUtil;
 import com.unihh.lawstats.core.mapping.Mapper;
 import com.unihh.lawstats.core.mapping.NoDocketnumberFoundException;
 import com.unihh.lawstats.core.model.Verdict;
 import uhh_lt.ABSA.ABSentiment.AbSentiment;
 import uhh_lt.ABSA.ABSentiment.type.Result;
-
 
 import java.io.File;
 import java.util.List;
@@ -23,11 +22,11 @@ public class AnalyzingCoordinator {
 
     ABSDocumentAnalyzer _absDocumentAnalyzer;
 
-    public AnalyzingCoordinator(){
+    public AnalyzingCoordinator() {
         _absDocumentAnalyzer = new ABSDocumentAnalyzer();
     }
 
-    public AnalyzingCoordinator(AbSentiment abSentiment){
+    public AnalyzingCoordinator(AbSentiment abSentiment) {
         _absDocumentAnalyzer = new ABSDocumentAnalyzer();
         _absDocumentAnalyzer.setAbSentiment(abSentiment);
     }
@@ -61,7 +60,7 @@ public class AnalyzingCoordinator {
         documentText = Formatter.formatText(pathTxt);
 
         //checks for formatting errors
-        if(documentText == null || documentText.equals("")){
+        if (documentText == null || documentText.equals("")) {
             return null;
         }
 
@@ -71,11 +70,11 @@ public class AnalyzingCoordinator {
         //Therefore we pause the application for 10seconds if this happens
         try {
             jsonNLUResponse = lawNLUCommunicator.retrieveEntities(PropertyManager.getLawProperty(PropertyManager.WATSON_NLU_MODELID), documentText);
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             try {
                 Thread.sleep(10000);
-            }catch(InterruptedException iE){
+            } catch (InterruptedException iE) {
                 iE.printStackTrace();
                 return null;
             }
@@ -85,31 +84,26 @@ public class AnalyzingCoordinator {
         //Try-catch block ss needed to prevent program shutdown due to unexpected problems while mapping
         try {
             verdict = verdictMapper.mapJSONStringToVerdicObject(jsonNLUResponse);  // Throws the NoDocketnumberFoundException
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
-
 
         classifierResults = _absDocumentAnalyzer.retrieveABSResultsForDocumentText(documentText);
         verdict = _absDocumentAnalyzer.analyzeABSResultsAndUpdateVerdict(classifierResults, verdict);
 
         //checks if the analyzes failed
-        if(verdict == null){
+        if (verdict == null) {
             return null;
         }
 
-
         verdictMapper.setMinimumDateForLastForeDecision(verdict.getDecisionSentences()[0], verdict); //We have only one sentence
-
-
 
         try {
             verdict.setDocumentNumber(Integer.valueOf(bghVerdictUtil.retrieveBGHVerdictNumberForFileName(fileToAnalyze.getName())));
-        }catch(NumberFormatException nFE){
-            nFE.printStackTrace();
+        } catch (final NumberFormatException nFE) {
+            //nFE.printStackTrace();
         }
-
 
         return verdict;
     }
