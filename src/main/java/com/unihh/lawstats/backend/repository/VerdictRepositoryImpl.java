@@ -26,7 +26,10 @@ public class VerdictRepositoryImpl implements VerdictRepositoryCustom {
     @Autowired
     Environment environment;
 
-    Map<DataModelAttributes, List<String>> attributesWithValuesMap;
+    @Autowired
+    SolrOperations solrTemplateSpring;
+
+    private Map<DataModelAttributes, List<String>> attributesWithValuesMap;
 
     @Override
     public List<Verdict> findVerdictByAttributesAndValues(Map<DataModelAttributes, Set<Input>> mapForSearching) {
@@ -72,9 +75,9 @@ public class VerdictRepositoryImpl implements VerdictRepositoryCustom {
         String queryString = buildQuery().trim();
         if (!queryString.isEmpty()) {
             Query query = new SimpleQuery(queryString.substring(0, queryString.length() - 4));
-            SolrClient solrclient = new HttpSolrClient(environment.getProperty("solr.address.two"));
-            SolrOperations solrTemplate = new SolrTemplate(solrclient);
-            return solrTemplate.queryForPage("verdict", query.setRows(Integer.MAX_VALUE), Verdict.class).getContent();
+//            SolrClient solrclient = new HttpSolrClient(environment.getProperty("solr.address.two"));
+//            SolrOperations solrTemplate = new SolrTemplate(solrclient);
+            return solrTemplateSpring.queryForPage(query.setRows(Integer.MAX_VALUE), Verdict.class).getContent();
         }
         return Collections.emptyList();
     }
@@ -108,7 +111,7 @@ public class VerdictRepositoryImpl implements VerdictRepositoryCustom {
         List<String> arrayList = new ArrayList<>();
         SolrClient solrclient = new HttpSolrClient(environment.getProperty("solr.address.two"));
         SolrOperations solrTemplate = new SolrTemplate(solrclient);
-        solrTemplate.queryForTermsPage("verdict", query).getContent().forEach(termsFieldEntry -> arrayList.add(termsFieldEntry.getValue()));
+        solrTemplate.queryForTermsPage(query).getContent().forEach(termsFieldEntry -> arrayList.add(termsFieldEntry.getValue()));
         return arrayList;
     }
 
