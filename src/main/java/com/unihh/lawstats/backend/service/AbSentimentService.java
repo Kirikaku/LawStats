@@ -16,7 +16,6 @@ public class AbSentimentService {
 
     @Autowired
     public AbSentimentService(Environment environment) {
-        String isDeployModus = environment.getProperty("deploy.mode");
         this.abSentiment = new AbSentiment("/config/ABSConfiguration.txt");
     }
 

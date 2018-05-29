@@ -4,6 +4,7 @@ import com.unihh.lawstats.backend.repository.VerdictRepoService;
 import com.unihh.lawstats.NaturalLawLanguageProcessing.AnalyzingCoordinator;
 import com.unihh.lawstats.core.mapping.NoDocketnumberFoundException;
 import com.unihh.lawstats.core.model.Verdict;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,7 @@ import static java.lang.Thread.sleep;
  * To support multi-usability the Service creates a thread for every uploaded file
  */
 @Service
+@Slf4j
 public class FileProcessService extends Observable {
 
 
@@ -38,15 +40,19 @@ public class FileProcessService extends Observable {
      * @return
      */
     public Verdict start(boolean isDeployMode, File workfile) {
+        log.info("Start with file processing");
         AtomicReference<Verdict> verdict = new AtomicReference<>();
         AnalyzingCoordinator coordinator = new AnalyzingCoordinator(abSentimentService.getAbSentiment());
         final boolean[] fileAnalyzed = {false};
 
         Runnable thread = () -> {
             try {
+                log.info("Create Thread for analying document");
                 verdict.set(coordinator.analyzeDocument(workfile, isDeployMode));
                 if (verdict.get() != null) {
+                    log.info("Got finished verdict");
                     verdict.get().setDocumentNumber(0);
+                    log.info("Try to save verdict");
                     verdictRepoService.save(verdict.get()); // only safe, when successfully analyze
                 }
             } catch (NoDocketnumberFoundException ex) {

@@ -2,6 +2,7 @@ package com.unihh.lawstats.backend.controller;
 
 import com.unihh.lawstats.backend.service.storage.StorageFileNotFoundException;
 import com.unihh.lawstats.backend.service.storage.StorageService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
  * it manage the workflow for the uploading
  */
 @Controller
+@Slf4j
 public class FileUploadController {
 
     private final StorageService storageService;
@@ -37,7 +39,7 @@ public class FileUploadController {
      */
     @GetMapping("/uploadFile")
     public String listUploadedFiles(Model model) {
-
+        log.info("UploadFile - Site requestet");
         model.addAttribute("files", storageService.loadAll().map(
                 path -> MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
                         "serveFile", path.getFileName().toString()).build().toString())
@@ -55,7 +57,7 @@ public class FileUploadController {
     @GetMapping("/files/{filename:.+}")
     @ResponseBody
     public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
-
+        log.info("FileChoose-Window will be opened for choosing a file");
         Resource file = storageService.loadAsResource(filename);
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
                 "attachment; filename=\"" + file.getFilename() + "\"").body(file);

@@ -9,6 +9,7 @@ import com.unihh.lawstats.core.mapping.BGHVerdictUtil;
 import com.unihh.lawstats.core.mapping.Mapper;
 import com.unihh.lawstats.core.mapping.NoDocketnumberFoundException;
 import com.unihh.lawstats.core.model.Verdict;
+import lombok.extern.slf4j.Slf4j;
 import uhh_lt.ABSA.ABSentiment.AbSentiment;
 import uhh_lt.ABSA.ABSentiment.type.Result;
 
@@ -19,6 +20,7 @@ import java.util.List;
 /**
  * @author Phillip
  */
+@Slf4j
 public class AnalyzingCoordinator {
 
     ABSDocumentAnalyzer _absDocumentAnalyzer;
@@ -39,6 +41,7 @@ public class AnalyzingCoordinator {
      * @throws NoDocketnumberFoundException when no DocketNumber was found
      */
     public Verdict analyzeDocument(File fileToAnalyze, boolean isDeployMode) throws NoDocketnumberFoundException {
+        log.info("Start with analyzing of document");
 
         PDFToTextConverter pdfToTextConverter = new PDFToTextConverter();
         LawNLUCommunicator lawNLUCommunicator = new LawNLUCommunicator();
@@ -57,6 +60,7 @@ public class AnalyzingCoordinator {
 
 
         //Convert and format
+        log.info("Try to start pdfToTextConverter");
         pdfToTextConverter.convertPDFToText(path, isDeployMode);
         documentText = Formatter.formatText(pathTxt);
 
@@ -70,6 +74,7 @@ public class AnalyzingCoordinator {
         //Watson will time out or deny requests once two many requests have been sent
         //Therefore we pause the application for 10seconds if this happens
         try {
+            log.info("Try to get analyzed json from watson");
             jsonNLUResponse = lawNLUCommunicator.retrieveEntities(PropertyManager.getLawProperty(PropertyManager.WATSON_NLU_MODELID), documentText);
         }catch(Exception e){
             e.printStackTrace();
@@ -84,13 +89,14 @@ public class AnalyzingCoordinator {
 
         //Try-catch block ss needed to prevent program shutdown due to unexpected problems while mapping
         try {
+            log.info("Try to map verdict json to verdict object");
             verdict = verdictMapper.mapJSONStringToVerdicObject(jsonNLUResponse);  // Throws the NoDocketnumberFoundException
         }catch(Exception e){
             e.printStackTrace();
             return null;
         }
 
-
+        log.info("analyze important sentence");
         classifierResults = _absDocumentAnalyzer.retrieveABSResultsForDocumentText(documentText);
         verdict = _absDocumentAnalyzer.analyzeABSResultsAndUpdateVerdict(classifierResults, verdict);
 
@@ -99,18 +105,17 @@ public class AnalyzingCoordinator {
             return null;
         }
 
-
+        log.info("set minimum date for our verdict");
         verdictMapper.setMinimumDateForLastForeDecision(verdict.getDecisionSentences()[0], verdict); //We have only one sentence
 
 
 
         try {
+            log.info("set documentnumber in verdict");
             verdict.setDocumentNumber(Integer.valueOf(bghVerdictUtil.retrieveBGHVerdictNumberForFileName(fileToAnalyze.getName())));
         }catch(NumberFormatException nFE){
             nFE.printStackTrace();
         }
-
-
         return verdict;
     }
 
