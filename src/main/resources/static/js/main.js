@@ -1,5 +1,5 @@
 function getQueriedVerdicts() {
-    var url = '/filter/searchVerdicts';
+    var url = './filter/searchVerdicts';
 
     console.info('In GetQueriedVerdicts');
 
@@ -38,7 +38,7 @@ function reset() {
     table.appendChild(row);
 
     var xhttpp = new XMLHttpRequest();
-    xhttpp.open("PUT", "/filter/reset", true);
+    xhttpp.open("PUT", "./filter/reset", true);
     xhttpp.send('')
 }
 

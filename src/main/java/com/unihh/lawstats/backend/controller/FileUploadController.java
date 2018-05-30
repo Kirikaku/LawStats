@@ -71,6 +71,7 @@ public class FileUploadController {
     public String handleFileUpload(@RequestParam("file") MultipartFile file,
                                    RedirectAttributes redirectAttributes) {
 
+
         String docketNumber = storageService.store(file);
 
         if (docketNumber.isEmpty()) {
