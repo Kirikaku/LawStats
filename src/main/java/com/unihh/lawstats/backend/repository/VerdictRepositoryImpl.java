@@ -74,7 +74,7 @@ public class VerdictRepositoryImpl implements VerdictRepositoryCustom {
             Query query = new SimpleQuery(queryString.substring(0, queryString.length() - 4));
             SolrClient solrclient = new HttpSolrClient(environment.getProperty("solr.address.two"));
             SolrOperations solrTemplate = new SolrTemplate(solrclient);
-            return solrTemplate.queryForPage("verdict", query.setRows(Integer.MAX_VALUE), Verdict.class).getContent();
+            return solrTemplate.queryForPage(query.setRows(Integer.MAX_VALUE), Verdict.class).getContent();
         }
         return Collections.emptyList();
     }
@@ -108,7 +108,7 @@ public class VerdictRepositoryImpl implements VerdictRepositoryCustom {
         List<String> arrayList = new ArrayList<>();
         SolrClient solrclient = new HttpSolrClient(environment.getProperty("solr.address.two"));
         SolrOperations solrTemplate = new SolrTemplate(solrclient);
-        solrTemplate.queryForTermsPage("verdict", query).getContent().forEach(termsFieldEntry -> arrayList.add(termsFieldEntry.getValue()));
+        solrTemplate.queryForTermsPage(query).getContent().forEach(termsFieldEntry -> arrayList.add(termsFieldEntry.getValue()));
         return arrayList;
     }
 

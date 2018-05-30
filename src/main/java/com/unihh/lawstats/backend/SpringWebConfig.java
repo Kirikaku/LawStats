@@ -15,7 +15,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.data.solr.core.SolrOperations;
 import org.springframework.data.solr.core.SolrTemplate;
 import org.springframework.data.solr.repository.config.EnableSolrRepositories;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.spring4.SpringTemplateEngine;
@@ -28,14 +27,16 @@ import org.thymeleaf.templateresolver.ITemplateResolver;
 @ComponentScan
 @PropertySource("classpath:config/lawstats.properties")
 @EnableSolrRepositories
-public class SpringWebConfig implements WebMvcConfigurer, ApplicationContextAware {
+public class SpringWebConfig extends WebMvcConfigurerAdapter implements ApplicationContextAware {
 
     private ApplicationContext applicationContext;
 
     @Autowired
     Environment environment;
 
-    public SpringWebConfig() {}
+    public SpringWebConfig() {
+        super();
+    }
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
@@ -44,8 +45,7 @@ public class SpringWebConfig implements WebMvcConfigurer, ApplicationContextAwar
 
     @Bean
     public SolrClient solrClient() {
-        return new HttpSolrClient.Builder().withBaseSolrUrl(environment.getProperty("solr.address"))
-                .build();
+        return new HttpSolrClient(environment.getProperty("solr.address"));
     }
 
     @Bean
