@@ -12,13 +12,14 @@ language	de
 corpus					src/main/resources/data/corpus/corpus.tsv
 
 
+
 # models
 crfModelFolder			src/main/resources/data/model
 modelFolder             src/main/resources/data/model
 relevanceModel		src/main/resources/data/model/relevance
-#sentimentModel		src/main/resources/data/model/relevance
-#aspectModel		src/main/resources/data/model/relevance
-#aspectCoarseModel		src/main/resources/data/model/relevance
+sentimentModel		src/main/resources/data/model/relevance
+aspectModel		src/main/resources/data/model/relevance
+aspectCoarseModel		src/main/resources/data/model/relevance
 
 
 
