@@ -1,5 +1,6 @@
 package com.unihh.lawstats.backend;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.springframework.beans.BeansException;
@@ -27,6 +28,7 @@ import org.thymeleaf.templateresolver.ITemplateResolver;
 @ComponentScan
 @PropertySource("classpath:config/lawstats.properties")
 @EnableSolrRepositories
+@Slf4j
 public class SpringWebConfig extends WebMvcConfigurerAdapter implements ApplicationContextAware {
 
     private ApplicationContext applicationContext;
@@ -45,11 +47,13 @@ public class SpringWebConfig extends WebMvcConfigurerAdapter implements Applicat
 
     @Bean
     public SolrClient solrClient() {
+        log.info("Create HttpSolrClient with following URL {}", environment.getProperty("solr.address"));
         return new HttpSolrClient(environment.getProperty("solr.address"));
     }
 
     @Bean
     public SolrOperations solrTemplate() {
+        log.info("Put SolrClient into the SolrTemplte Object");
         return new SolrTemplate(solrClient());
     }
 
