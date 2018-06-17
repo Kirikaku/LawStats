@@ -104,6 +104,17 @@
                 <scope>system</scope>
                 <systemPath>${basedir}/src/main/resources/lib/ABSA-1.0.1-SNAPSHOT.jar</systemPath>
             </dependency>
+            <dependency>
+                <groupId>org.eclipse</groupId>
+                <artifactId>yasson</artifactId>
+                <version>1.0.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish</groupId>
+                <artifactId>javax.json</artifactId>
+                <version>1.0.4</version>
+            </dependency>
+
         </dependencies>
 
 
