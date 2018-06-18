@@ -7,12 +7,9 @@ import com.unihh.lawstats.core.model.input.Input;
 import com.unihh.lawstats.core.model.input.InputType;
 import com.unihh.lawstats.core.model.input.StringInput;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.solr.client.solrj.SolrClient;
-import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.solr.core.SolrOperations;
-import org.springframework.data.solr.core.SolrTemplate;
 import org.springframework.data.solr.core.query.Query;
 import org.springframework.data.solr.core.query.SimpleQuery;
 import org.springframework.data.solr.core.query.SimpleTermsQuery;
@@ -24,9 +21,6 @@ import static com.unihh.lawstats.core.model.attributes.DataModelAttributes.*;
 
 @Slf4j
 public class VerdictRepositoryImpl implements VerdictRepositoryCustom {
-
-    @Autowired
-    Environment environment;
 
     @Autowired
     SolrOperations solrTemplate;
