@@ -17,10 +17,10 @@ public class StatisticsCreator {
     private List<Verdict> _allVerdicts;
 
     public StatisticsCreator(VerdictRepoService verdictRepoService){
-        System.out.println("Huhu");
+
         SolrResultPage resultsPage = (SolrResultPage) verdictRepoService.findAll().iterator().next();
         _allVerdicts = resultsPage.getContent();
-        System.out.println("Hallo");
+
     }
 
 
@@ -29,9 +29,21 @@ public class StatisticsCreator {
         Map<String, CourtAggregation> aggrValues = new HashMap<>();
 
         for(Verdict verdict: _allVerdicts){
-            String court = verdict.getForeDecisionDCCourt();
+            String court = verdict.getForeDecisionRACCourt();
 
-            if(court != null && !court.equals("")){
+            boolean isVerdictRelevant = court != null && !court.equals("") &&
+                    (court.contains("olg") || court.contains("oberlandesgericht") || court.contains("oberlandesgerichts"));
+
+            if(isVerdictRelevant){
+
+                if(court.contains("oberlandesgericht")){
+                    court = court.replace("oberlandesgericht", "olg");
+                }
+                else if(court.contains("oberlandesgerichts")){
+                    court = court.replace("oberlandesgerichts", "olg");
+                }
+
+
                 CourtAggregation courtAggr = aggrValues.get(court);
 
                 if(courtAggr == null){
@@ -49,7 +61,20 @@ public class StatisticsCreator {
             }
         }
 
-        return new ArrayList<CourtAggregation>(aggrValues.values());
+        List<CourtAggregation> courtAggregations = new ArrayList<CourtAggregation>(aggrValues.values());
+
+        for(CourtAggregation courtAggregation: courtAggregations){
+            if(courtAggregation.getUnsuccesfullRevisions() != 0){
+                double unsuccesfullRevisions = (double) courtAggregation.getUnsuccesfullRevisions();
+                double ratio = courtAggregation.getSuccesfullRevisions()/unsuccesfullRevisions;
+                courtAggregation.setOutcomeRatio(ratio);
+            }
+            else{
+                courtAggregation.setOutcomeRatio(courtAggregation.getSuccesfullRevisions());
+            }
+        }
+
+        return courtAggregations;
     }
 
 
@@ -60,12 +85,14 @@ public class StatisticsCreator {
         String[] labels = courtStatistic.getLabels();
         int[] succesfullRevisions = courtStatistic.getSuccesfullRevisions();
         int[] unsuccesfullRevisions = courtStatistic.getUnsuccesfullRevisions();
+        double[] outcomeRatio = courtStatistic.getOutcomeRatio();
 
 
         for(CourtAggregation courtAggr: aggregatedCourts){
             labels[counter] = courtAggr.getCourt();
             succesfullRevisions[counter] = courtAggr.getSuccesfullRevisions();
             unsuccesfullRevisions[counter] = courtAggr.getUnsuccesfullRevisions();
+            outcomeRatio[counter] = courtAggr.getOutcomeRatio();
 
             counter++;
         }

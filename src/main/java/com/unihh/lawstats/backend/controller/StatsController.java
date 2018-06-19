@@ -20,15 +20,18 @@ public class StatsController {
     @Autowired
     private VerdictRepoService verdictRepoService;
 
+    private StatisticsCreator statisticsCreator;
 
 
 
 
     @RequestMapping("/stats/aggrcourts")
     public CourtStatistic requestStats() {
+        if(statisticsCreator == null){
+           statisticsCreator = new StatisticsCreator(verdictRepoService);
+        }
 
-
-        CourtStatistic courtStatistic = new StatisticsCreator(verdictRepoService).createCourtStatistic();
+        CourtStatistic courtStatistic = statisticsCreator.createCourtStatistic();
 
         return courtStatistic;
     }

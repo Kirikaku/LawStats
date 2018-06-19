@@ -6,6 +6,7 @@ public class CourtAggregation {
     private String court;
     private int succesfullRevisions;
     private int unsuccesfullRevisions;
+    private double outcomeRatio;
 
     public CourtAggregation(String court){
         this.court = court;
@@ -43,6 +44,14 @@ public class CourtAggregation {
 
     public void setUnsuccesfullRevisions(int unsuccesfullRevisions) {
         this.unsuccesfullRevisions = unsuccesfullRevisions;
+    }
+
+    public double getOutcomeRatio() {
+        return outcomeRatio;
+    }
+
+    public void setOutcomeRatio(double outcomeRatio) {
+        this.outcomeRatio = outcomeRatio;
     }
 
 }

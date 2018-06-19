@@ -5,12 +5,14 @@ public class CourtStatistic {
     private String[] labels;
     private int[] succesfullRevisions;
     private int[] unsuccesfullRevisions;
+    private double[] outcomeRatio;
 
 
     public CourtStatistic(int arraySize){
         labels = new String[arraySize];
         succesfullRevisions = new int[arraySize];
         unsuccesfullRevisions = new int[arraySize];
+        outcomeRatio = new double[arraySize];
     }
 
     public CourtStatistic(){}
@@ -42,6 +44,16 @@ public class CourtStatistic {
     public void setUnsuccesfullRevisions(int[] unsuccesfullRevisions) {
         this.unsuccesfullRevisions = unsuccesfullRevisions;
     }
+
+    public double[] getOutcomeRatio() {
+        return outcomeRatio;
+    }
+
+    public void setOutcomeRatio(double[] outcomeRatio) {
+        this.outcomeRatio = outcomeRatio;
+    }
+
+
 
 
 }
