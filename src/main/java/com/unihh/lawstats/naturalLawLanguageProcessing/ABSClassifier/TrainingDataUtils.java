@@ -1,4 +1,4 @@
-package com.unihh.lawstats.NaturalLawLanguageProcessing.ABSClassifier;
+package com.unihh.lawstats.naturalLawLanguageProcessing.ABSClassifier;
 
 import com.unihh.lawstats.PropertyManager;
 import org.apache.commons.io.IOUtils;

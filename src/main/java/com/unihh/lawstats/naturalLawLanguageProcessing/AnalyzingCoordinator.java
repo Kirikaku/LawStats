@@ -1,10 +1,10 @@
-package com.unihh.lawstats.NaturalLawLanguageProcessing;
+package com.unihh.lawstats.naturalLawLanguageProcessing;
 
 import com.unihh.lawstats.PropertyManager;
-import com.unihh.lawstats.NaturalLawLanguageProcessing.Preprocessing.Formatting.Formatter;
-import com.unihh.lawstats.NaturalLawLanguageProcessing.Preprocessing.PDFToTextConverter;
-import com.unihh.lawstats.NaturalLawLanguageProcessing.ABSClassifier.ABSDocumentAnalyzer;
-import com.unihh.lawstats.NaturalLawLanguageProcessing.Watson.LawNLUCommunicator;
+import com.unihh.lawstats.naturalLawLanguageProcessing.Preprocessing.Formatting.Formatter;
+import com.unihh.lawstats.naturalLawLanguageProcessing.Preprocessing.PDFToTextConverter;
+import com.unihh.lawstats.naturalLawLanguageProcessing.ABSClassifier.ABSDocumentAnalyzer;
+import com.unihh.lawstats.naturalLawLanguageProcessing.Watson.LawNLUCommunicator;
 import com.unihh.lawstats.core.mapping.BGHVerdictUtil;
 import com.unihh.lawstats.core.mapping.Mapper;
 import com.unihh.lawstats.core.mapping.NoDocketnumberFoundException;
