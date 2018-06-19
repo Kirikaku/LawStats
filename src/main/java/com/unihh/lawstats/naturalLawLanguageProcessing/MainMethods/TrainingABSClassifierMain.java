@@ -1,4 +1,4 @@
-package com.unihh.lawstats.NaturalLawLanguageProcessing.MainMethods;
+package com.unihh.lawstats.naturalLawLanguageProcessing.MainMethods;
 
 import com.unihh.lawstats.PropertyManager;
 

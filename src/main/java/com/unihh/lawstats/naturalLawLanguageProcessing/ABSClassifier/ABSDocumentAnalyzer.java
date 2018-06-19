@@ -1,4 +1,4 @@
-package com.unihh.lawstats.NaturalLawLanguageProcessing.ABSClassifier;
+package com.unihh.lawstats.naturalLawLanguageProcessing.ABSClassifier;
 
 import com.unihh.lawstats.PropertyManager;
 import com.unihh.lawstats.core.model.Verdict;
@@ -7,7 +7,7 @@ import uhh_lt.ABSA.ABSentiment.type.Result;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.unihh.lawstats.NaturalLawLanguageProcessing.NLPLawUtils;
+import com.unihh.lawstats.naturalLawLanguageProcessing.NLPLawUtils;
 import uhh_lt.ABSA.ABSentiment.AbSentiment;
 
 import java.util.concurrent.atomic.AtomicReference;

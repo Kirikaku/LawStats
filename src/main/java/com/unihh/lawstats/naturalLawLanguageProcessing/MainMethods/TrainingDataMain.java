@@ -1,6 +1,6 @@
-package com.unihh.lawstats.NaturalLawLanguageProcessing.MainMethods;
+package com.unihh.lawstats.naturalLawLanguageProcessing.MainMethods;
 
-import com.unihh.lawstats.NaturalLawLanguageProcessing.ABSClassifier.TrainingDataManager;
+import com.unihh.lawstats.naturalLawLanguageProcessing.ABSClassifier.TrainingDataManager;
 
 /**
  * @author Phillip

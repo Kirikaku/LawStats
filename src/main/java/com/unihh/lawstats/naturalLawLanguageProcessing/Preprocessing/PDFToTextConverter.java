@@ -1,4 +1,4 @@
-package com.unihh.lawstats.NaturalLawLanguageProcessing.Preprocessing;
+package com.unihh.lawstats.naturalLawLanguageProcessing.Preprocessing;
 
 import java.io.IOException;
 

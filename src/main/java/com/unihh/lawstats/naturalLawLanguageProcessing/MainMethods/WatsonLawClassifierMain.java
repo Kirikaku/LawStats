@@ -1,8 +1,8 @@
-package com.unihh.lawstats.NaturalLawLanguageProcessing.MainMethods;
+package com.unihh.lawstats.naturalLawLanguageProcessing.MainMethods;
 
 import com.ibm.watson.developer_cloud.natural_language_classifier.v1.model.Classification;
 import com.unihh.lawstats.PropertyManager;
-import com.unihh.lawstats.NaturalLawLanguageProcessing.Watson.Classifier.WatsonLawClassifier;
+import com.unihh.lawstats.naturalLawLanguageProcessing.Watson.Classifier.WatsonLawClassifier;
 
 /**
  * @author Phillip

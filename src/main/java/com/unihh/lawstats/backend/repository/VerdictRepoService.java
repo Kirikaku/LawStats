@@ -107,6 +107,12 @@ public class VerdictRepoService {
         return verdictSetForAttribute;
     }
 
+
+    public List<Verdict> findAll(){
+        return verdictRepository.findAll();
+    }
+
+
     /**
      * This method save the verdict
      * @param verdict verdict which should saved

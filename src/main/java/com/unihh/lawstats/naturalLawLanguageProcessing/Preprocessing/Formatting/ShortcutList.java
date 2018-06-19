@@ -1,4 +1,4 @@
-package com.unihh.lawstats.NaturalLawLanguageProcessing.Preprocessing.Formatting;
+package com.unihh.lawstats.naturalLawLanguageProcessing.Preprocessing.Formatting;
 
 import java.io.*;
 import java.util.ArrayList;

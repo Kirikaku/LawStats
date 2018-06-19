@@ -1,6 +1,6 @@
-package com.unihh.lawstats.NaturalLawLanguageProcessing.MainMethods;
+package com.unihh.lawstats.naturalLawLanguageProcessing.MainMethods;
 
-import com.unihh.lawstats.NaturalLawLanguageProcessing.Preprocessing.RandomDocumentSelector;
+import com.unihh.lawstats.naturalLawLanguageProcessing.Preprocessing.RandomDocumentSelector;
 
 /**
  * @author Phillip

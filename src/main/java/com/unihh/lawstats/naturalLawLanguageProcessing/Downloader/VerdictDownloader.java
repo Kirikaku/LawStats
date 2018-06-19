@@ -1,4 +1,4 @@
-package com.unihh.lawstats.NaturalLawLanguageProcessing.Downloader;
+package com.unihh.lawstats.naturalLawLanguageProcessing.Downloader;
 
 import java.io.*;
 import java.net.URL;

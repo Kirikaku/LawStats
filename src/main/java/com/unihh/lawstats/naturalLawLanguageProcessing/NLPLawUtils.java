@@ -1,7 +1,7 @@
-package com.unihh.lawstats.NaturalLawLanguageProcessing;
+package com.unihh.lawstats.naturalLawLanguageProcessing;
 
 
-import com.unihh.lawstats.NaturalLawLanguageProcessing.Preprocessing.Formatting.Formatter;
+import com.unihh.lawstats.naturalLawLanguageProcessing.Preprocessing.Formatting.Formatter;
 
 import java.util.*;
 

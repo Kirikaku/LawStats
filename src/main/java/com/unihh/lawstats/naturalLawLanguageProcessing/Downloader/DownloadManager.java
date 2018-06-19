@@ -1,4 +1,4 @@
-package com.unihh.lawstats.NaturalLawLanguageProcessing.Downloader;
+package com.unihh.lawstats.naturalLawLanguageProcessing.Downloader;
 
 import com.unihh.lawstats.PropertyManager;
 

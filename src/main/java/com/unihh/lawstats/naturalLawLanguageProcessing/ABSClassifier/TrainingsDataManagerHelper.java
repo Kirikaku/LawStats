@@ -1,7 +1,7 @@
-package com.unihh.lawstats.NaturalLawLanguageProcessing.ABSClassifier;
+package com.unihh.lawstats.naturalLawLanguageProcessing.ABSClassifier;
 
-import com.unihh.lawstats.NaturalLawLanguageProcessing.Preprocessing.Formatting.Formatter;
-import com.unihh.lawstats.NaturalLawLanguageProcessing.NLPLawUtils;
+import com.unihh.lawstats.naturalLawLanguageProcessing.Preprocessing.Formatting.Formatter;
+import com.unihh.lawstats.naturalLawLanguageProcessing.NLPLawUtils;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;

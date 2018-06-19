@@ -1,4 +1,4 @@
-package com.unihh.lawstats.NaturalLawLanguageProcessing;
+package com.unihh.lawstats.naturalLawLanguageProcessing;
 
 import com.unihh.lawstats.PropertyManager;
 import com.unihh.lawstats.backend.repository.VerdictRepoService;

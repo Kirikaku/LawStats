@@ -1,4 +1,4 @@
-package com.unihh.lawstats.NaturalLawLanguageProcessing.Preprocessing.Formatting;
+package com.unihh.lawstats.naturalLawLanguageProcessing.Preprocessing.Formatting;
 
 /**
  * Created by tim on 21.02.2017.

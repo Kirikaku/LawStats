@@ -1,6 +1,6 @@
-package com.unihh.lawstats.NaturalLawLanguageProcessing.MainMethods;
+package com.unihh.lawstats.naturalLawLanguageProcessing.MainMethods;
 
-import com.unihh.lawstats.NaturalLawLanguageProcessing.Preprocessing.Formatting.FormattingManager;
+import com.unihh.lawstats.naturalLawLanguageProcessing.Preprocessing.Formatting.FormattingManager;
 
 /**
  * @author Phillip

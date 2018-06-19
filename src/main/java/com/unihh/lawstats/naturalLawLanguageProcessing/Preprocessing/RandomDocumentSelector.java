@@ -1,7 +1,7 @@
-package com.unihh.lawstats.NaturalLawLanguageProcessing.Preprocessing;
+package com.unihh.lawstats.naturalLawLanguageProcessing.Preprocessing;
 
 import com.unihh.lawstats.PropertyManager;
-import com.unihh.lawstats.NaturalLawLanguageProcessing.Preprocessing.Formatting.Formatter;
+import com.unihh.lawstats.naturalLawLanguageProcessing.Preprocessing.Formatting.Formatter;
 
 import org.apache.commons.io.IOUtils;
 
