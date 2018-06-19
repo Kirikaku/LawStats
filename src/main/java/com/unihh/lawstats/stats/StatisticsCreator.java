@@ -18,7 +18,8 @@ public class StatisticsCreator {
 
     public StatisticsCreator(VerdictRepoService verdictRepoService){
         System.out.println("Huhu");
-        //SolrResultPage resultsPage = (SolrResultPage) verdictRepoService.findAll().get(0);
+        SolrResultPage resultsPage = (SolrResultPage) verdictRepoService.findAll().iterator().next();
+        _allVerdicts = resultsPage.getContent();
         System.out.println("Hallo");
     }
 

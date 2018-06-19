@@ -108,7 +108,7 @@ public class VerdictRepoService {
     }
 
 
-    public List<Verdict> findAll(){
+    public Iterable findAll(){
         return verdictRepository.findAll();
     }
 

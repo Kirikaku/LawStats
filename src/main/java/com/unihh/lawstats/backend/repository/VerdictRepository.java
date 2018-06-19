@@ -31,5 +31,8 @@ public interface VerdictRepository extends CrudRepository<Verdict, Long>, Verdic
 
     List<Verdict> findAllByForeDecisionDCVerdictDateBetween(Long date1, Long date2);
 
+    @Override
     List<Verdict> findAll();
+
+
 }
