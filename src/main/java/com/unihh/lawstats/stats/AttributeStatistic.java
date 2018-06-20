@@ -1,6 +1,6 @@
 package com.unihh.lawstats.stats;
 
-public class CourtStatistic {
+public class AttributeStatistic {
 
     private String[] labels;
     private int[] succesfullRevisions;
@@ -8,14 +8,14 @@ public class CourtStatistic {
     private double[] outcomeRatio;
 
 
-    public CourtStatistic(int arraySize){
+    public AttributeStatistic(int arraySize){
         labels = new String[arraySize];
         succesfullRevisions = new int[arraySize];
         unsuccesfullRevisions = new int[arraySize];
         outcomeRatio = new double[arraySize];
     }
 
-    public CourtStatistic(){}
+    public AttributeStatistic(){}
 
 
 

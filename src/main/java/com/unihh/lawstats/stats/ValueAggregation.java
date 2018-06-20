@@ -1,25 +1,25 @@
 package com.unihh.lawstats.stats;
 
-public class CourtAggregation {
+public class ValueAggregation {
 
 
-    private String court;
+    private String value;
     private int succesfullRevisions;
     private int unsuccesfullRevisions;
     private double outcomeRatio;
 
-    public CourtAggregation(String court){
-        this.court = court;
+    public ValueAggregation(String value){
+        this.value = value;
     }
 
 
 
-    public String getCourt() {
-        return court;
+    public String getValue() {
+        return value;
     }
 
-    public void setCourt(String court) {
-        this.court = court;
+    public void setValue(String value) {
+        this.value = value;
     }
 
     public void incrementSuccesfullRevisions(){
