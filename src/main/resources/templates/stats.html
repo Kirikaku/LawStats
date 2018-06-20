@@ -55,36 +55,36 @@
         data.addColumn('number', 'Revision erfolgreich');
         data.addColumn('number', 'Revision nicht erfolgreich');
         data.addRows([
-          ['Brandenburg', 50, 50],
-          ['Bremen', 40, 60],
-          ['Berlin', 86, 14],
-          ['Bamberg', 33, 67],
-          ['Braunschweig', 12, 86],
-          ['Celle', 47, 53],
-          ['Dresden',100,0],
-          ['Düsseldorf',0,100],
-          ['Frankfurt a. M.',50,50],
-          ['Hamburg',50,50],
-          ['Hamm',50,50],
-          ['Thüringen',50,50],
-          ['Karlsruhe',50,50],
-          ['Koblenz',50,50],
-          ['Köln',50,50],
-          ['München',50,50],
-          ['Naumburg',50,50],
-          ['Nürnberg',50,50],
-          ['Oldenburg',50,50],
-          ['Rostock',50,50],
-          ['Stuttgart',50,50],
-          ['Saarland',50,50],
-          ['Schleswig-Holstein',50,50],
-          ['Pfalz-Zweibrücken',50,50]
+          ['Brandenburg', 0.5, 0.5],
+          ['Bremen', 0.4, 0.6],
+          ['Berlin', 0.86, 0.14],
+          ['Bamberg', 0.33, 0.67],
+          ['Braunschweig', 0.12, 0.86],
+          ['Celle', 0.47, 0.53],
+          ['Dresden',1,0],
+          ['Düsseldorf',0,1],
+          ['Frankfurt a. M.',0.5,0.5],
+          ['Hamburg',0.50,0.50],
+          ['Hamm',0.50,0.50],
+          ['Thüringen',0.50,0.50],
+          ['Karlsruhe',0.50,0.50],
+          ['Koblenz',0.50,0.50],
+          ['Köln',0.50,0.50],
+          ['München',0.50,0.50],
+          ['Naumburg',0.50,0.50],
+          ['Nürnberg',0.50,0.50],
+          ['Oldenburg',0.50,0.50],
+          ['Rostock',0.50,0.50],
+          ['Stuttgart',0.50,0.50],
+          ['Saarland',0.50,0.50],
+          ['Schleswig-Holstein',0.50,0.50],
+          ['Zweibrücken',0.50,0.50]
         ]);
 
-        var options = {'title':'Revisionserfolg der Oberlandesgerichte',
-                       width:'100%',
-                       height:'300',
-                       vAxis: {format:'#*'}
+        var options = {'title':'Revisionserfolg der Oberlandesgerichte der Bundesrepublik Deutschland',
+                       width:'90%',
+                       height:'450',
+                       vAxis: {format:'percent'}
                        };
 
         var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
