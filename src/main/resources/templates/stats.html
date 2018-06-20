@@ -55,17 +55,37 @@
         data.addColumn('number', 'Revision erfolgreich');
         data.addColumn('number', 'Revision nicht erfolgreich');
         data.addRows([
-          ['Hamburg', 50, 50],
-          ['NRW', 40, 60],
+          ['Brandenburg', 50, 50],
+          ['Bremen', 40, 60],
           ['Berlin', 86, 14],
-          ['Bremen', 33, 67],
-          ['Bayern', 12, 86],
-          ['Schleswig Holstein', 47, 53]
+          ['Bamberg', 33, 67],
+          ['Braunschweig', 12, 86],
+          ['Celle', 47, 53],
+          ['Dresden',100,0],
+          ['Düsseldorf',0,100],
+          ['Frankfurt a. M.',50,50],
+          ['Hamburg',50,50],
+          ['Hamm',50,50],
+          ['Thüringen',50,50],
+          ['Karlsruhe',50,50],
+          ['Koblenz',50,50],
+          ['Köln',50,50],
+          ['München',50,50],
+          ['Naumburg',50,50],
+          ['Nürnberg',50,50],
+          ['Oldenburg',50,50],
+          ['Rostock',50,50],
+          ['Stuttgart',50,50],
+          ['Saarland',50,50],
+          ['Schleswig-Holstein',50,50],
+          ['Pfalz-Zweibrücken',50,50]
         ]);
 
         var options = {'title':'Revisionserfolg der Oberlandesgerichte',
-                       'width':900,
-                       'height':300};
+                       width:'100%',
+                       height:'300',
+                       vAxis: {format:'#*'}
+                       };
 
         var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
         chart.draw(data, options);
