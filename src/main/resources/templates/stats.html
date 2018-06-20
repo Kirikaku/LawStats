@@ -41,6 +41,41 @@
 <div class="wrapper style1">
 
     <div class="container">
+        <head>
+            <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+            <script type="text/javascript">
+
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Gericht');
+        data.addColumn('number', 'Revision erfolgreich');
+        data.addColumn('number', 'Revision nicht erfolgreich');
+        data.addRows([
+          ['Hamburg', 50, 50],
+          ['NRW', 40, 60],
+          ['Berlin', 86, 14],
+          ['Bremen', 33, 67],
+          ['Bayern', 12, 86],
+          ['Schleswig Holstein', 47, 53]
+        ]);
+
+        var options = {'title':'Revisionserfolg der Oberlandesgerichte',
+                       'width':900,
+                       'height':300};
+
+        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+      }
+    </script>
+        </head>
+
+        <body>
+        <div id="chart_div"></div>
+        </body>
     </div>
 </div>
 
