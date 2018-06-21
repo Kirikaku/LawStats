@@ -98,6 +98,21 @@ function insert() {
 
 }
 
+function getStats() {
+        var xhtttpp = new XMLHttpRequest();
+            xhtttpp.open("GET","./stats/aggrcourts?attribute=olgs", true);
+            xhtttpp.setRequestHeader("Content-type", "application/json");
+            xhtttpp.send('')
+
+            var response = xhtttpp.responseText;
+            var parsedresponse = JSON.parse(response);
+            console.log(parsedresponse);
+            console.log(parsedresponse.labels);
+            console.log(parsedresponse.labels[0]);
+            console.log("Hello world!");
+
+}
+
 /**
  * Hides the not needed options on the filter site for the given category
  * "tag" hided for the date categorys

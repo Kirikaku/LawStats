@@ -46,55 +46,92 @@
             <script type="text/javascript">
 
       google.charts.load('current', {'packages':['corechart']});
-      google.charts.setOnLoadCallback(drawChart);
+      google.charts.setOnLoadCallback(drawCharts);
 
-      function drawChart() {
+      function drawCharts() {
 
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'Gericht');
         data.addColumn('number', 'Revision erfolgreich');
         data.addColumn('number', 'Revision nicht erfolgreich');
         data.addRows([
-          ['Brandenburg', 0.5, 0.5],
-          ['Bremen', 0.4, 0.6],
-          ['Berlin', 0.86, 0.14],
-          ['Bamberg', 0.33, 0.67],
-          ['Braunschweig', 0.12, 0.86],
-          ['Celle', 0.47, 0.53],
-          ['Dresden',1,0],
-          ['Düsseldorf',0,1],
-          ['Frankfurt a. M.',0.5,0.5],
-          ['Hamburg',0.50,0.50],
-          ['Hamm',0.50,0.50],
-          ['Thüringen',0.50,0.50],
-          ['Karlsruhe',0.50,0.50],
-          ['Koblenz',0.50,0.50],
-          ['Köln',0.50,0.50],
-          ['München',0.50,0.50],
-          ['Naumburg',0.50,0.50],
-          ['Nürnberg',0.50,0.50],
-          ['Oldenburg',0.50,0.50],
-          ['Rostock',0.50,0.50],
-          ['Stuttgart',0.50,0.50],
-          ['Saarland',0.50,0.50],
-          ['Schleswig-Holstein',0.50,0.50],
-          ['Zweibrücken',0.50,0.50]
+          ['Brandenburg',62,53],
+          ['Bremen',8,37],
+          ['Berlin',0,0],
+          ['Bamberg',20,39],
+          ['Braunschweig',24,35],
+          ['Celle',149,175],
+          ['Dresden',52,104],
+          ['Düsseldorf',161,184],
+          ['Frankfurt a. M.',177,228],
+          ['Hamburg',148,168],
+          ['Hamm',62,148],
+          ['Karlsruhe',148,187],
+          ['Koblenz',50,52],
+          ['Köln',208,247],
+          ['München',181,231],
+          ['Naumburg',63,68],
+          ['Nürnberg',36,39],
+          ['Oldenburg',94,66],
+          ['Rostock',38,59],
+          ['Stuttgart',63,109],
+          ['Saarland',3,13],
+          ['Schleswig-Holstein',76,99],
+          ['Thüringen',49,78],
+          ['Zweibrücken',30,48]
         ]);
 
-        var options = {'title':'Revisionserfolg der Oberlandesgerichte der Bundesrepublik Deutschland',
-                       width:'90%',
+        var options = {'title':'Anzahl der Revisionserfolge/-misserfolge aller Oberlandesgerichte der Bundesrepublik Deutschland',
+                       width:'100%',
                        height:'450',
-                       vAxis: {format:'percent'}
+                       vAxis: {format:'decimal'}
                        };
 
         var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
         chart.draw(data, options);
-      }
+
+        var dataY = new google.visualization.DataTable();
+        dataY.addColumn('string', 'Jahr');
+        dataY.addColumn('number', 'Revision erfolgreich');
+        dataY.addColumn('number', 'Revision nicht erfolgreich');
+        dataY.addRows([
+          ['2000',697,529],
+          ['2001',715,657],
+          ['2002',571,713],
+          ['2003',930,1074],
+          ['2004',22,26],
+          ['2005',627,755],
+          ['2006',1004,1176],
+          ['2007',521,705],
+          ['2008',7,4],
+          ['2009',197,241],
+          ['2010',733,1080],
+          ['2011',244,298],
+          ['2012',310,314],
+          ['2013',4,6],
+          ['2014',58,41],
+          ['2015',842,813],
+          ['2016',983,974],
+          ['2017',762,954],
+          ['2018',10,9]
+        ]);
+
+        var optionsY = {'title':'Anzahl der erfolgreichen/ nicht erfolgreichen Revisionen pro Jahr (2000-2018)',
+                       width:'100%',
+                       height:'450',
+                       vAxis: {format:'decimal'}
+                       };
+
+        var chartY = new google.visualization.LineChart(document.getElementById('chart_div2'));
+        chartY.draw(dataY, optionsY);
+        }
     </script>
         </head>
 
         <body>
         <div id="chart_div"></div>
+        <div id="chart_div2"></div>
+        <div id="chart_div3"></div>
         </body>
     </div>
 </div>
