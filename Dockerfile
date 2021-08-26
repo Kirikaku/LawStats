@@ -1,4 +1,4 @@
-FROM openjdk:8-jdk
+FROM openjdk:16.0.2-jdk
 
 RUN set -ex \
       && DEBIAN_FRONTEND=noninteractive \
