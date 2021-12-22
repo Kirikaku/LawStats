@@ -1,8 +1,8 @@
 package com.unihh.lawstats.backend;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -15,11 +15,9 @@ import org.springframework.core.env.Environment;
 import org.springframework.data.solr.core.SolrOperations;
 import org.springframework.data.solr.core.SolrTemplate;
 import org.springframework.data.solr.repository.config.EnableSolrRepositories;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.spring4.SpringTemplateEngine;
-import org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver;
-import org.thymeleaf.spring4.view.ThymeleafViewResolver;
+import org.thymeleaf.spring5.SpringTemplateEngine;
+import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
+import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ITemplateResolver;
 
@@ -27,29 +25,35 @@ import org.thymeleaf.templateresolver.ITemplateResolver;
 @ComponentScan
 @PropertySource("classpath:config/lawstats.properties")
 @EnableSolrRepositories
-public class SpringWebConfig extends WebMvcConfigurerAdapter implements ApplicationContextAware {
+@Slf4j
 
+public class SpringWebConfig implements ApplicationContextAware {
+
+    private final Environment environment;
     private ApplicationContext applicationContext;
 
     @Autowired
-    Environment environment;
-
-    public SpringWebConfig() {
-        super();
+    public SpringWebConfig(Environment environment) {
+        this.environment = environment;
     }
 
     @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+
+    public void setApplicationContext(ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
     }
 
     @Bean
     public SolrClient solrClient() {
-        return new HttpSolrClient(environment.getProperty("solr.address"));
+        log.info("Create HttpSolrClient with following URL {}", environment.getProperty("solr.address"));
+        return new HttpSolrClient.Builder()
+                .withBaseSolrUrl(environment.getProperty("solr.address"))
+                .build();
     }
 
     @Bean
     public SolrOperations solrTemplate() {
+        log.info("Put SolrClient into the SolrTemplte Object");
         return new SolrTemplate(solrClient());
     }
 
@@ -59,6 +63,7 @@ public class SpringWebConfig extends WebMvcConfigurerAdapter implements Applicat
         messageSource.setBasename("Messages");
         return messageSource;
     }
+
     // View Resolver
     @Bean
     public ThymeleafViewResolver htmlViewResolver() {
@@ -91,7 +96,7 @@ public class SpringWebConfig extends WebMvcConfigurerAdapter implements Applicat
 
 
     //Template Engine
-    private TemplateEngine templateEngine(ITemplateResolver templateResolver) {
+    private SpringTemplateEngine templateEngine(ITemplateResolver templateResolver) {
         SpringTemplateEngine engine = new SpringTemplateEngine();
         engine.setTemplateResolver(templateResolver);
         engine.setEnableSpringELCompiler(true);

@@ -30,4 +30,9 @@ public interface VerdictRepository extends CrudRepository<Verdict, Long>, Verdic
     List<Verdict> findAllByForeDecisionDCCourtStartingWith(String[] court);
 
     List<Verdict> findAllByForeDecisionDCVerdictDateBetween(Long date1, Long date2);
+
+    @Override
+    List<Verdict> findAll();
+
+
 }

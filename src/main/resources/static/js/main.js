@@ -1,5 +1,5 @@
 function getQueriedVerdicts() {
-    var url = '/filter/searchVerdicts';
+    var url = './filter/searchVerdicts';
 
     console.info('In GetQueriedVerdicts');
 
@@ -38,7 +38,7 @@ function reset() {
     table.appendChild(row);
 
     var xhttpp = new XMLHttpRequest();
-    xhttpp.open("PUT", "/filter/reset", true);
+    xhttpp.open("PUT", "./filter/reset", true);
     xhttpp.send('')
 }
 
@@ -61,11 +61,11 @@ function insert() {
             dateEndLong = 8640000000000000;
         }
         console.log("ist ein Date");
-        xhttpp.open("PUT", "/input/date/" + attribute + "/" + dateStartLong + "/to/" + dateEndLong, true);
+        xhttpp.open("PUT", "./input/date/" + attribute + "/" + dateStartLong + "/to/" + dateEndLong, true);
         xhttpp.send('')
     } else {
         var xhttp = new XMLHttpRequest();
-        xhttp.open("PUT", "/input/string/" + attribute + "/" + value.replace('.', '__'), true);
+        xhttp.open("PUT", "./input/string/" + attribute + "/" + value.replace('.', '__'), true);
         xhttp.send('')
     }
 
@@ -95,6 +95,21 @@ function insert() {
     row.appendChild(td4);
 
     table.children[0].appendChild(row);
+
+}
+
+function getStats() {
+        var xhtttpp = new XMLHttpRequest();
+            xhtttpp.open("GET","./stats/aggrcourts?attribute=olgs", true);
+            xhtttpp.setRequestHeader("Content-type", "application/json");
+            xhtttpp.send('')
+
+            var response = xhtttpp.responseText;
+            var parsedresponse = JSON.parse(response);
+            console.log(parsedresponse);
+            console.log(parsedresponse.labels);
+            console.log(parsedresponse.labels[0]);
+            console.log("Hello world!");
 
 }
 

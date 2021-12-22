@@ -41,6 +41,139 @@
 <div class="wrapper style1">
 
     <div class="container">
+        <head>
+            <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+            <script type="text/javascript">
+
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawCharts);
+
+      function drawCharts() {
+
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Gericht');
+        data.addColumn('number', 'Revision erfolgreich');
+        data.addColumn('number', 'Revision nicht erfolgreich');
+        data.addRows([
+          ['Brandenburg',62,53],
+          ['Bremen',8,37],
+          ['Berlin',0,0],
+          ['Bamberg',20,39],
+          ['Braunschweig',24,35],
+          ['Celle',149,175],
+          ['Dresden',52,104],
+          ['Düsseldorf',161,184],
+          ['Frankfurt a. M.',177,228],
+          ['Hamburg',148,168],
+          ['Hamm',62,148],
+          ['Karlsruhe',148,187],
+          ['Koblenz',50,52],
+          ['Köln',208,247],
+          ['München',181,231],
+          ['Naumburg',63,68],
+          ['Nürnberg',36,39],
+          ['Oldenburg',94,66],
+          ['Rostock',38,59],
+          ['Stuttgart',63,109],
+          ['Saarland',3,13],
+          ['Schleswig-Holstein',76,99],
+          ['Thüringen',49,78],
+          ['Zweibrücken',30,48]
+        ]);
+
+        var options = {'title':'Anzahl der Revisionserfolge/-misserfolge aller Oberlandesgerichte der Bundesrepublik Deutschland',
+                       width:'100%',
+                       height:'450',
+                       vAxis: {format:'decimal'}
+                       };
+
+        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+
+        var dataY = new google.visualization.DataTable();
+        dataY.addColumn('string', 'Jahr');
+        dataY.addColumn('number', 'Revision erfolgreich');
+        dataY.addColumn('number', 'Revision nicht erfolgreich');
+        dataY.addRows([
+          ['2000',697,529],
+          ['2001',715,657],
+          ['2002',571,713],
+          ['2003',930,1074],
+          ['2004',22,26],
+          ['2005',627,755],
+          ['2006',1004,1176],
+          ['2007',521,705],
+          ['2008',7,4],
+          ['2009',197,241],
+          ['2010',733,1080],
+          ['2011',244,298],
+          ['2012',310,314],
+          ['2013',4,6],
+          ['2014',58,41],
+          ['2015',842,813],
+          ['2016',983,974],
+          ['2017',762,954],
+          ['2018',10,9]
+        ]);
+
+        var optionsY = {'title':'Anzahl der erfolgreichen/ nicht erfolgreichen Revisionen pro Jahr (2000-2018)',
+                       width:'100%',
+                       height:'450',
+                       vAxis: {format:'decimal'}
+                       };
+
+        var chartY = new google.visualization.LineChart(document.getElementById('chart_div2'));
+        chartY.draw(dataY, optionsY);
+
+        var data3 = new google.visualization.DataTable();
+        data3.addColumn('string', 'Jahr');
+        data3.addColumn('number', 'Verhältnis');
+        data3.addRows([
+          ['Brandenburg',				1.169811],
+          ['Bremen',					0.2162162162162162],
+          ['Berlin',					0.0],
+          ['Bamberg',					0.5128205128205128],
+          ['Braunschweig',		    	0.6857142857142857],
+          ['Celle',						0.8514285714285714],
+          ['Dresden',					0.5],
+          ['Düsseldorf',				0.875],
+          ['Frankfurt a. M.',		    0.7763157894736842],
+          ['Hamburg',					0.8809523809523809],
+          ['Hamm',						0.4189189189189189],
+          ['Karlsruhe',					0.7914438502673797],
+          ['Koblenz',					0.9615384615384616],
+          ['Köln',						0.8421052631578947],
+          ['München',					0.7835497835497836],
+          ['Naumburg',					0.9264705882352942],
+          ['Nürnberg',					0.6101694915254238],
+          ['Oldenburg',					1.4242424242424243],
+          ['Rostock',					0.6440677966101694],
+          ['Stuttgart',					0.5779816513761468],
+          ['Saarland',					0.2307692307692307],
+          ['Schleswig-Holstein',       0.7676767676767676],
+          ['Thüringen',					0.6282051282051282],
+          ['Zweibrücken',				0.625]
+        ]);
+
+        var options3 = {'title':'Verhältnis zwischen den erfolgreichen und nicht erfolgreichen Revisionen der OLG in der Bundesrepublik Deutschland',
+                       width:'100%',
+                       height:'450',
+                       colors: ['#f4511e'],
+                       vAxis: {format:'percent'}};
+
+        var chart3 = new google.visualization.ColumnChart(document.getElementById('chart_div3'));
+        chart3.draw(data3, options3);
+        }
+    </script>
+        </head>
+
+        <body>
+        <div id="chart_div"></div>
+        <div id="chart_div2"></div>
+        <div id="chart_div3"></div>
+
+
+        </body>
     </div>
 </div>
 
